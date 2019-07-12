@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14835.7" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14835.7"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="DatePickerPopoverViewController" customModule="BuildTimes" customModuleProvider="target">
+            <connections>
+                <outlet property="endDatePicker" destination="ekD-xi-8Iy" id="rhX-cl-SML"/>
+                <outlet property="startDatePicker" destination="g4Y-iR-L16" id="CQA-Q8-554"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="car-Cr-3OU">
+                    <rect key="frame" x="57" y="137" width="66" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Start Date" id="HCm-Ck-I4M">
+                        <font key="font" usesAppearanceFont="YES"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="g4Y-iR-L16">
+                    <rect key="frame" x="20" y="106" width="144" height="27"/>
+                    <datePickerCell key="cell" borderStyle="bezel" alignment="left" id="L7w-n3-QJO">
+                        <font key="font" metaFont="system"/>
+                        <date key="date" timeIntervalSinceReferenceDate="-595929600">
+                            <!--1982-02-12 16:00:00 +0000-->
+                        </date>
+                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <datePickerElements key="datePickerElements" year="YES" month="YES" day="YES" hour="YES" minute="YES"/>
+                    </datePickerCell>
+                </datePicker>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4uX-8F-yPC">
+                    <rect key="frame" x="60" y="82" width="60" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="End Date" id="Egw-6f-wmD">
+                        <font key="font" usesAppearanceFont="YES"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ekD-xi-8Iy">
+                    <rect key="frame" x="20" y="51" width="144" height="27"/>
+                    <datePickerCell key="cell" borderStyle="bezel" alignment="left" id="cgp-bQ-8ia">
+                        <font key="font" metaFont="system"/>
+                        <date key="date" timeIntervalSinceReferenceDate="-595929600">
+                            <!--1982-02-12 16:00:00 +0000-->
+                        </date>
+                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <datePickerElements key="datePickerElements" year="YES" month="YES" day="YES" hour="YES" minute="YES"/>
+                    </datePickerCell>
+                </datePicker>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LxE-JX-e8O">
+                    <rect key="frame" x="55" y="1" width="70" height="32"/>
+                    <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pGL-GL-aB7">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="didTapSave:" target="-2" id="LRu-bq-d7H"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="4uX-8F-yPC" firstAttribute="top" secondItem="g4Y-iR-L16" secondAttribute="bottom" constant="8" id="0Jz-rw-CVu"/>
+                <constraint firstItem="g4Y-iR-L16" firstAttribute="top" secondItem="car-Cr-3OU" secondAttribute="bottom" constant="8" id="0oG-JC-joI"/>
+                <constraint firstItem="4uX-8F-yPC" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="9ZI-QE-XNr"/>
+                <constraint firstItem="LxE-JX-e8O" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="Dbz-4A-Mzc"/>
+                <constraint firstItem="ekD-xi-8Iy" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="DjW-lv-Lfy"/>
+                <constraint firstItem="g4Y-iR-L16" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="fHU-IY-inm"/>
+                <constraint firstItem="car-Cr-3OU" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="gL3-4p-zEK"/>
+                <constraint firstAttribute="bottom" secondItem="LxE-JX-e8O" secondAttribute="bottom" constant="8" id="oXN-c7-svp"/>
+                <constraint firstItem="ekD-xi-8Iy" firstAttribute="top" secondItem="4uX-8F-yPC" secondAttribute="bottom" constant="8" id="tfZ-5u-nu4"/>
+                <constraint firstItem="4uX-8F-yPC" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="uGd-ky-x2e"/>
+            </constraints>
+            <point key="canvasLocation" x="69" y="105"/>
+        </customView>
+    </objects>
+</document>

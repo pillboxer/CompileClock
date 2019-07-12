@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14835.7" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14835.7"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindowController" customModule="BuildTimes" customModuleProvider="target">
+            <connections>
+                <outlet property="menuContainerView" destination="gx0-Kn-XzO" id="Huy-Qe-hS5"/>
+                <outlet property="tabView" destination="uTq-Kx-osT" id="qa0-qV-vyR"/>
+                <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="320" height="432"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
+            <view key="contentView" id="se5-gp-TjO">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="432"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <tabView appearanceType="aqua" initialItem="gZc-25-SOU" translatesAutoresizingMaskIntoConstraints="NO" id="uTq-Kx-osT">
+                        <rect key="frame" x="9" y="6" width="302" height="416"/>
+                        <font key="font" metaFont="system"/>
+                        <tabViewItems>
+                            <tabViewItem label="Menu" identifier="Menu" image="NSAdvanced" id="gZc-25-SOU">
+                                <view key="view" id="Bap-Zo-S5s">
+                                    <rect key="frame" x="10" y="33" width="282" height="370"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="gx0-Kn-XzO" userLabel="MenuContainerView">
+                                            <rect key="frame" x="0.0" y="0.0" width="282" height="370"/>
+                                        </customView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="gx0-Kn-XzO" secondAttribute="trailing" id="1g2-6Z-Ylj"/>
+                                        <constraint firstItem="gx0-Kn-XzO" firstAttribute="leading" secondItem="Bap-Zo-S5s" secondAttribute="leading" id="CTt-Pd-tJr"/>
+                                        <constraint firstItem="gx0-Kn-XzO" firstAttribute="top" secondItem="Bap-Zo-S5s" secondAttribute="top" id="HJo-ho-lbH"/>
+                                        <constraint firstAttribute="bottom" secondItem="gx0-Kn-XzO" secondAttribute="bottom" id="RiV-nH-xvd"/>
+                                    </constraints>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="Advanced" identifier="" image="failure" id="KZd-Jw-jNz">
+                                <view key="view" id="fiF-Em-s4a">
+                                    <rect key="frame" x="10" y="33" width="254" height="315"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="vDu-gK-Nuo" userLabel="AdvancedContainerView">
+                                            <rect key="frame" x="0.0" y="0.0" width="254" height="315"/>
+                                        </customView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="vDu-gK-Nuo" firstAttribute="top" secondItem="fiF-Em-s4a" secondAttribute="top" id="ETl-pZ-uvc"/>
+                                        <constraint firstItem="vDu-gK-Nuo" firstAttribute="leading" secondItem="fiF-Em-s4a" secondAttribute="leading" id="Ud1-fK-Y8x"/>
+                                        <constraint firstAttribute="trailing" secondItem="vDu-gK-Nuo" secondAttribute="trailing" id="h6n-Mq-ScN"/>
+                                        <constraint firstAttribute="bottom" secondItem="vDu-gK-Nuo" secondAttribute="bottom" id="lwU-DG-eZE"/>
+                                    </constraints>
+                                </view>
+                            </tabViewItem>
+                        </tabViewItems>
+                        <connections>
+                            <outlet property="delegate" destination="-2" id="aVh-DD-TCQ"/>
+                        </connections>
+                    </tabView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="uTq-Kx-osT" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="16" id="2yq-RU-p1a"/>
+                    <constraint firstItem="uTq-Kx-osT" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="16" id="AJW-kZ-PnV"/>
+                    <constraint firstAttribute="bottom" secondItem="uTq-Kx-osT" secondAttribute="bottom" constant="16" id="Hhy-PN-zs0"/>
+                    <constraint firstAttribute="trailing" secondItem="uTq-Kx-osT" secondAttribute="trailing" constant="16" id="tVH-JB-Adz"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
+            </connections>
+            <point key="canvasLocation" x="160" y="128"/>
+        </window>
+    </objects>
+    <resources>
+        <image name="NSAdvanced" width="32" height="32"/>
+        <image name="failure" width="64" height="64"/>
+    </resources>
+</document>
