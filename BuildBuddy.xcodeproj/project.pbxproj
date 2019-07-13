@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BA51957A22D8DB0600947899 /* Gzip in Frameworks */ = {isa = PBXBuildFile; productRef = BA51957922D8DB0600947899 /* Gzip */; };
+		BA743AFD22DA1D18009A6748 /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA743AFC22DA1D18009A6748 /* FileManager+Extensions.swift */; };
 		BABD831722D8D91F0072A263 /* BuildBuddy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BABD831522D8D91F0072A263 /* BuildBuddy.xcdatamodeld */; };
 		BABD832822D8D9200072A263 /* BuildBuddyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD832722D8D9200072A263 /* BuildBuddyTests.swift */; };
 		BABD833B22D8D9480072A263 /* XcodeProjectMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD833622D8D9480072A263 /* XcodeProjectMenuItem.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA743AFC22DA1D18009A6748 /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
 		BABD831022D8D91F0072A263 /* BuildBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuildBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BABD831622D8D91F0072A263 /* BuildBuddy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BuildBuddy.xcdatamodel; sourceTree = "<group>"; };
 		BABD831D22D8D9200072A263 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				BABD834C22D8D95E0072A263 /* String+Extensions.swift */,
 				BABD834D22D8D95E0072A263 /* UserDefaults+Extensions.swift */,
 				BABD834E22D8D95E0072A263 /* Double+Extensions.swift */,
+				BA743AFC22DA1D18009A6748 /* FileManager+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				BABD836322D8D96F0072A263 /* BuildListWindowController.swift in Sources */,
 				BABD834422D8D94F0072A263 /* XcodeProjectMenuItemHelper.swift in Sources */,
 				BABD835022D8D95E0072A263 /* UserDefaults+Extensions.swift in Sources */,
+				BA743AFD22DA1D18009A6748 /* FileManager+Extensions.swift in Sources */,
 				BABD836522D8D96F0072A263 /* PreferencesWindowController.swift in Sources */,
 				BABD834722D8D94F0072A263 /* PreferencesManager.swift in Sources */,
 				BABD836822D8D9800072A263 /* AppDelegate.swift in Sources */,

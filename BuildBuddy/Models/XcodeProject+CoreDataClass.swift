@@ -70,6 +70,11 @@ public class XcodeProject: NSManagedObject {
         return earliest?.buildDate ?? Date()
     }
     
+    private var logStoreHasBeenUpdated: Bool {
+            let logUpdateTime = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
+            return logUpdateTime > lastModificationDate
+    }
+    
     private var lastBuild: XcodeBuild? {
         return (builds?.sorted() { $0.buildDate < $1.buildDate })?.last
     }
@@ -97,31 +102,35 @@ public class XcodeProject: NSManagedObject {
     
     // MARK: - Exposed
     func fetchBuilds() {
+            
+        // If the log store has not been updated, don't do this expensive task
         guard let folderName = folderName,
-            let logs = logs else {
+            let logs = logs, logStoreHasBeenUpdated else {
                 return
         }
         
-        // When going through the log keys, check if there is an activity log associated with it,
-        // if there is, have method that can check whether the build was successful/
-        // newBuild.wasSuccessful = ...
-        
+
         for (buildKey, buildDict) in logs {
+            // If the buildDict's end time is before the lastModificationDate, stop!
             if let buildDict = buildDict as? [String : Any],
-                let newBuild = XcodeBuild(buildDict),
-                buildIsUnique(newBuild) {
+                buildDictIsNew(buildDict),
+                let newBuild = XcodeBuild(buildDict) {
                 let typeAndSuccessTuple = XcodeProjectManager.buildTypeAndSuccessTuple(buildKey, fromFolder: folderName)
                 newBuild.wasSuccessful = typeAndSuccessTuple.success
                 newBuild.buildType = typeAndSuccessTuple.type
                 addToXcodeBuilds(newBuild)
             }
         }
+        lastModificationDate = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
         CoreDataManager.save()
     }
     
-    func buildStringForPeriod(_ period: String.BuildTimePeriod) -> String {
-        let time = totalBuildTimeForPeriod(period)
-        return String.formattedTime(time, forPeriod: period)
+    
+    private func buildDictIsNew(_ dict: [String : Any]) -> Bool {
+        guard let timeStarted = dict["timeStartedRecording"] as? Double else {
+            return true
+        }
+        return timeStarted > lastModificationDate
     }
     
     func buildsForPeriod(_ period: String.BuildTimePeriod) -> [XcodeBuild]? {
@@ -168,21 +177,5 @@ public class XcodeProject: NSManagedObject {
         return buildsForPeriod(period)?.count ?? 0
     }
     
-    // MARK: - Hidden
-    private func totalBuildTimeForPeriod(_ period: String.BuildTimePeriod) -> Double {
-        guard let buildsForPeriod = buildsForPeriod(period) else {
-            return 0.0
-        }
-        
-        let times = buildsForPeriod.compactMap() { $0.timeStopped - $0.timeStarted }
-        return times.reduce(0, +)
-    }
-    
-    private func buildIsUnique(_ build: XcodeBuild) -> Bool {
-        guard let sameBuilds = (builds?.filter() { $0.timeStarted == build.timeStarted }) else {
-            return false
-        }
-        return sameBuilds.isEmpty
-    }
     
 }

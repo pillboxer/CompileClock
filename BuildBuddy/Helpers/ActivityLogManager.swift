@@ -17,20 +17,21 @@ class ActivityLogManager {
             let activityLogString = String(data: gzipped, encoding: .utf8) else {
             return (.run, false)
         }
-        
-        let type: XcodeBuild.BuildType
+        let type: XcodeBuild.BuildType = .run
         let lastCharacters = activityLogString.suffix(20)
-        if activityLogString.contains("libXCTestSwiftSupport") {
-            type = .test
-        }
-        else if lastCharacters.lowercased().contains("clean") {
-            type = .clean
-        }
-        else {
-            type = .run
-        }
+        print(lastCharacters)
+//        if activityLogString.contains("libXCTestSwiftSupport") {
+//            type = .test
+//        }
+//        else if lastCharacters.lowercased().contains("clean") {
+//            type = .clean
+//        }
+//        else {
+//            type = .run
+//        }
         
-        return (type, lastCharacters.lowercased().contains("succeeded"))
+        let success = lastCharacters.contains("succeeded") || lastCharacters.contains("stopped")
+        return (type, success)
     }
     
     

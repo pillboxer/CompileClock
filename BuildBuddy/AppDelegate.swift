@@ -14,13 +14,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @IBOutlet weak var window: NSWindow!
     
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-    let projects = XcodeProjectManager.projects
     let menu = NSMenu()
+    var projects = [XcodeProject]()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         registerDefaults()
+        let image = NSImage(named: "hammer")
+        image?.size = NSMakeSize(18.0, 18.0)
+        statusItem.button?.image = image
         ValueTransformer.setValueTransformer(IsAutomaticValueTransformer(), forName: IsAutomaticValueTransformer.name)
-
         constructMenu()
     }
     
@@ -36,9 +38,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func constructMenu() {
-        let image = NSImage(named: "hammer")
-        image?.size = NSMakeSize(18.0, 18.0)
-        statusItem.button?.image = image
         menu.delegate = self
         statusItem.menu = menu
         menu.items = XcodeProjectMenuItemHelper.menuItemsForProjects(projects)
@@ -58,6 +57,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     
     private func constructSubmenus() {
+        let date = Date().timeIntervalSinceReferenceDate
+
         menu.items.forEach() { item in
             if let item = item as? XcodeProjectMenuItem, item.title != "" {
                 let submenu = XcodeProjectMenuItemHelper.submenuForMenuItem(item)
@@ -67,14 +68,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     func menuWillOpen(_ menu: NSMenu) {
-        for project in projects {
-            project.fetchBuilds()
-        }
+        fetchProjects()
         constructMenu()
     }
     
     @objc func openPreferences() {
         PreferencesManager.shared.showPreferences()
+    }
+    
+    private func fetchProjects() {
+        projects = XcodeProjectManager.projects
+        for project in XcodeProjectManager.projects {
+            project.fetchBuilds()
+        }
     }
     
     

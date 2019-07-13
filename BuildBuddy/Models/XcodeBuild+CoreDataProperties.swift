@@ -19,6 +19,7 @@ extension XcodeBuild {
 
     @NSManaged public var name: String?
     @NSManaged public var timeStarted: Double
+    @NSManaged public var buildKey: String?
     @NSManaged public var timeStopped: Double
     @NSManaged public var type: NSNumber?
     @NSManaged public var wasSuccessful: Bool

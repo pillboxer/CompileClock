@@ -28,24 +28,25 @@ class XcodeProjectMenuItemHelper {
         let submenu = NSMenu()
         let items = String.BuildTimePeriod.allCases.flatMap() { itemsForTimePeriod($0, project: item.project) }
         submenu.items = items
+
         return submenu
     }
     
     static func itemsForTimePeriod(_ period: String.BuildTimePeriod, project: XcodeProject) -> [NSMenuItem] {
         guard UserDefaults.get(period) == true else { return [] }
-        let numberOfBuilds = project.numberOfBuildsForPeriod(period)
-        
-        let timePeriodTitle = String.menuItemTitleFormatter(withPeriod: period, numberOfBuilds: numberOfBuilds)
+        let buildsForPeriod = project.buildsForPeriod(period) ?? []
+        let timePeriodTitle = String.menuItemTitleFormatter(withPeriod: period, numberOfBuilds: buildsForPeriod.count)
         let periodItem = NSMenuItem(title: timePeriodTitle, action: nil, keyEquivalent: "")
-        
         let timeItem = XcodeProjectMenuItem(project)
-        let selector = numberOfBuilds > 0 ? #selector(showBuildListControllerForProject(_:)) : nil
-        timeItem.title = project.buildStringForPeriod(period)
+        let selector = buildsForPeriod.count > 0 ? #selector(showBuildListControllerForProject(_:)) : nil
+        let buildTimes = buildsForPeriod.compactMap() { $0.totalBuildTime }
+        let total = buildTimes.reduce(0, +)
+        timeItem.title = String.formattedTime(total, forPeriod: period)
         timeItem.target = self
         timeItem.period = period
         timeItem.action = selector
         let separator = NSMenuItem.separator()
-        
+
         return [periodItem, timeItem, separator]
     }
     

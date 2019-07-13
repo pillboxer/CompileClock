@@ -10,14 +10,15 @@ import Foundation
 
 class XcodeProjectManager {
     
-    static var projects: [XcodeProject] = {
+    static var projects: [XcodeProject] {
         return retrieveProjects()
-    }()
+    }
     
     static var earliestBuildDate: Date {
         let dates = projects.map() { $0.earliestBuildDate }
         return dates.sorted() { $0 < $1 }.first ?? Date()
     }
+    
     
     private static func retrieveProjects() -> [XcodeProject] {
         
@@ -26,8 +27,6 @@ class XcodeProjectManager {
         let savedProjectNames = savedProjects.compactMap() { $0.folderName }
         // Filter out the saved projects from derivedData
         let newProjectNames = foldersAtDerivedDataLocation.filter() { folderName in
-            
-            // Dont need this here
             
             if folderName.contains("ModuleCache") {
                 return false
@@ -60,11 +59,7 @@ class XcodeProjectManager {
         
         // Get the build folder here
     
-        return enumerator.map() { url in
-            print(url)
-            return (url as! URL).buildFolder.path
-            
-        }
+        return enumerator.map() { ($0 as! URL).buildFolder.path }
     }
     
 }
