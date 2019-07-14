@@ -20,7 +20,6 @@ class MenuPreferencesViewController: NSViewController {
     
     var dateButton = NSButton()
     let popover = DatePickerPopoverViewController()
-    let transformer = IsAutomaticValueTransformer()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {

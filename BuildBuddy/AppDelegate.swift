@@ -14,16 +14,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @IBOutlet weak var window: NSWindow!
     
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-    let menu = NSMenu()
-    var projects = [XcodeProject]()
+    var menu = NSMenu()
+    var lastMenuItems = [NSMenuItem]()
+    let preferences = NSMenuItem(title: "Preferences...", action: #selector(openPreferences), keyEquivalent: "")
+    
+    var projects = XcodeProjectManager.projects
+    var defaultsHaveChanged = false
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         registerDefaults()
         let image = NSImage(named: "hammer")
         image?.size = NSMakeSize(18.0, 18.0)
         statusItem.button?.image = image
-        ValueTransformer.setValueTransformer(IsAutomaticValueTransformer(), forName: IsAutomaticValueTransformer.name)
-        constructMenu()
+        menu.delegate = self
+        statusItem.menu = menu
+        lastMenuItems = [preferences]
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -31,15 +36,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     private func registerDefaults() {
-        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
         if !UserDefaults.hasLaunchedBefore {
             UserDefaults.setInitialDefaults()
         }
+
     }
 
     private func constructMenu() {
-        menu.delegate = self
-        statusItem.menu = menu
         menu.items = XcodeProjectMenuItemHelper.menuItemsForProjects(projects)
         constructSubmenus()
         let separator = NSMenuItem.separator()
@@ -47,18 +50,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if UserDefaults.allPeriodsDisabled {
             menu.items.forEach() { $0.isHidden = true }
         }
-        constructPreferences()
-    }
-    
-    private func constructPreferences() {
-        let preferences = NSMenuItem(title: "Preferences...", action: #selector(openPreferences), keyEquivalent: "")
         menu.addItem(preferences)
+        lastMenuItems = menu.items
     }
 
-    
     private func constructSubmenus() {
-        let date = Date().timeIntervalSinceReferenceDate
-
         menu.items.forEach() { item in
             if let item = item as? XcodeProjectMenuItem, item.title != "" {
                 let submenu = XcodeProjectMenuItemHelper.submenuForMenuItem(item)
@@ -68,17 +64,40 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     func menuWillOpen(_ menu: NSMenu) {
-        fetchProjects()
-        constructMenu()
+        loadMenu()
+    }
+    
+    private func showLoadingItem() {
+        let item = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        let controller = FetchingMenuItemViewController()
+        item.view = controller.view
+        menu.items = [item]
     }
     
     @objc func openPreferences() {
         PreferencesManager.shared.showPreferences()
     }
     
+    private func loadMenu() {
+        // If we don't have new builds, just show the last ones
+        guard XcodeProjectManager.needsUpdating else {
+            print("No need")
+            menu.items = lastMenuItems
+            return
+        }
+        // We have new builds, so show the loading indicator and reset the defaults
+        showLoadingItem()
+        Listener.shared.resetDefaults()
+        
+        // fetch the builds and once that's done construct the menu (all the while we are showing the indicator)
+        fetchProjects()
+        DispatchQueue.main.async {
+            self.constructMenu()
+        }
+    }
+    
     private func fetchProjects() {
-        projects = XcodeProjectManager.projects
-        for project in XcodeProjectManager.projects {
+        for project in projects {
             project.fetchBuilds()
         }
     }

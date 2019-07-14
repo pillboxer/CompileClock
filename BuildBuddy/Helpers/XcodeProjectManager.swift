@@ -10,6 +10,8 @@ import Foundation
 
 class XcodeProjectManager {
     
+    static let listener = Listener.shared
+    
     static var projects: [XcodeProject] {
         return retrieveProjects()
     }
@@ -19,9 +21,13 @@ class XcodeProjectManager {
         return dates.sorted() { $0 < $1 }.first ?? Date()
     }
     
+    static var needsUpdating: Bool {
+        let projectsWithUpdates = projects.filter() { $0.logStoreHasBeenUpdated == true }
+        return !projectsWithUpdates.isEmpty || listener.defaultsChanged
+    }
     
     private static func retrieveProjects() -> [XcodeProject] {
-        
+                
         // First, get all the saved projects
         let savedProjects = XcodeProject.fetchAll() ?? []
         let savedProjectNames = savedProjects.compactMap() { $0.folderName }

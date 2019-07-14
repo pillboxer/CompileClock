@@ -70,7 +70,7 @@ public class XcodeProject: NSManagedObject {
         return earliest?.buildDate ?? Date()
     }
     
-    private var logStoreHasBeenUpdated: Bool {
+     var logStoreHasBeenUpdated: Bool {
             let logUpdateTime = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
             return logUpdateTime > lastModificationDate
     }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA4E630422DB6B0C00F54E20 /* Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E630322DB6B0C00F54E20 /* Listener.swift */; };
 		BA51957A22D8DB0600947899 /* Gzip in Frameworks */ = {isa = PBXBuildFile; productRef = BA51957922D8DB0600947899 /* Gzip */; };
 		BA743AFD22DA1D18009A6748 /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA743AFC22DA1D18009A6748 /* FileManager+Extensions.swift */; };
 		BABD831722D8D91F0072A263 /* BuildBuddy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BABD831522D8D91F0072A263 /* BuildBuddy.xcdatamodeld */; };
@@ -14,7 +15,6 @@
 		BABD833B22D8D9480072A263 /* XcodeProjectMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD833622D8D9480072A263 /* XcodeProjectMenuItem.swift */; };
 		BABD834322D8D94F0072A263 /* ActivityLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD833E22D8D94F0072A263 /* ActivityLogManager.swift */; };
 		BABD834422D8D94F0072A263 /* XcodeProjectMenuItemHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD833F22D8D94F0072A263 /* XcodeProjectMenuItemHelper.swift */; };
-		BABD834522D8D94F0072A263 /* IsAutomaticValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD834022D8D94F0072A263 /* IsAutomaticValueTransformer.swift */; };
 		BABD834622D8D94F0072A263 /* XcodeProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD834122D8D94F0072A263 /* XcodeProjectManager.swift */; };
 		BABD834722D8D94F0072A263 /* PreferencesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD834222D8D94F0072A263 /* PreferencesManager.swift */; };
 		BABD834A22D8D9580072A263 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD834922D8D9580072A263 /* CoreDataManager.swift */; };
@@ -32,6 +32,8 @@
 		BABD836622D8D96F0072A263 /* MenuPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD836222D8D96F0072A263 /* MenuPreferencesViewController.swift */; };
 		BABD836822D8D9800072A263 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD836722D8D9800072A263 /* AppDelegate.swift */; };
 		BABD836A22D8D98B0072A263 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BABD836922D8D98B0072A263 /* Assets.xcassets */; };
+		BABF851A22DB25550032FF16 /* FetchingMenuItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BABF851922DB25550032FF16 /* FetchingMenuItemView.xib */; };
+		BAD6584922DB38600004DF1F /* FetchingMenuItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD6584822DB38600004DF1F /* FetchingMenuItemViewController.swift */; };
 		BAE9EDD322D8E2D600DFFA7D /* XcodeBuild+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE9EDCF22D8E2D600DFFA7D /* XcodeBuild+CoreDataClass.swift */; };
 		BAE9EDD422D8E2D600DFFA7D /* XcodeBuild+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE9EDD022D8E2D600DFFA7D /* XcodeBuild+CoreDataProperties.swift */; };
 		BAE9EDD522D8E2D600DFFA7D /* XcodeProject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE9EDD122D8E2D600DFFA7D /* XcodeProject+CoreDataClass.swift */; };
@@ -49,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA4E630322DB6B0C00F54E20 /* Listener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Listener.swift; sourceTree = "<group>"; };
 		BA743AFC22DA1D18009A6748 /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
 		BABD831022D8D91F0072A263 /* BuildBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuildBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BABD831622D8D91F0072A263 /* BuildBuddy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BuildBuddy.xcdatamodel; sourceTree = "<group>"; };
@@ -60,7 +63,6 @@
 		BABD833622D8D9480072A263 /* XcodeProjectMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XcodeProjectMenuItem.swift; sourceTree = "<group>"; };
 		BABD833E22D8D94F0072A263 /* ActivityLogManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityLogManager.swift; sourceTree = "<group>"; };
 		BABD833F22D8D94F0072A263 /* XcodeProjectMenuItemHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XcodeProjectMenuItemHelper.swift; sourceTree = "<group>"; };
-		BABD834022D8D94F0072A263 /* IsAutomaticValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IsAutomaticValueTransformer.swift; sourceTree = "<group>"; };
 		BABD834122D8D94F0072A263 /* XcodeProjectManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XcodeProjectManager.swift; sourceTree = "<group>"; };
 		BABD834222D8D94F0072A263 /* PreferencesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesManager.swift; sourceTree = "<group>"; };
 		BABD834922D8D9580072A263 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -78,6 +80,8 @@
 		BABD836222D8D96F0072A263 /* MenuPreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuPreferencesViewController.swift; sourceTree = "<group>"; };
 		BABD836722D8D9800072A263 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BABD836922D8D98B0072A263 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BABF851922DB25550032FF16 /* FetchingMenuItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FetchingMenuItemView.xib; sourceTree = "<group>"; };
+		BAD6584822DB38600004DF1F /* FetchingMenuItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FetchingMenuItemViewController.swift; path = BuildBuddy/Controllers/FetchingMenuItemViewController.swift; sourceTree = SOURCE_ROOT; };
 		BAE9EDCF22D8E2D600DFFA7D /* XcodeBuild+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XcodeBuild+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BAE9EDD022D8E2D600DFFA7D /* XcodeBuild+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XcodeBuild+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BAE9EDD122D8E2D600DFFA7D /* XcodeProject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XcodeProject+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -163,9 +167,9 @@
 		BABD833D22D8D94F0072A263 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BA4E630322DB6B0C00F54E20 /* Listener.swift */,
 				BABD833E22D8D94F0072A263 /* ActivityLogManager.swift */,
 				BABD833F22D8D94F0072A263 /* XcodeProjectMenuItemHelper.swift */,
-				BABD834022D8D94F0072A263 /* IsAutomaticValueTransformer.swift */,
 				BABD834122D8D94F0072A263 /* XcodeProjectManager.swift */,
 				BABD834222D8D94F0072A263 /* PreferencesManager.swift */,
 			);
@@ -196,6 +200,7 @@
 			children = (
 				BABD835322D8D9680072A263 /* DatePickerPopoverViewController.xib */,
 				BABD835422D8D9680072A263 /* MainMenu.xib */,
+				BABF851922DB25550032FF16 /* FetchingMenuItemView.xib */,
 				BABD835622D8D9680072A263 /* MenuPreferencesViewController.xib */,
 				BABD835722D8D9680072A263 /* BuildListWindowController.xib */,
 				BABD835822D8D9680072A263 /* PreferencesWindowController.xib */,
@@ -209,6 +214,7 @@
 				BABD835F22D8D96F0072A263 /* BuildListWindowController.swift */,
 				BABD836022D8D96F0072A263 /* DatePickerPopoverViewController.swift */,
 				BABD836122D8D96F0072A263 /* PreferencesWindowController.swift */,
+				BAD6584822DB38600004DF1F /* FetchingMenuItemViewController.swift */,
 				BABD836222D8D96F0072A263 /* MenuPreferencesViewController.swift */,
 			);
 			path = Controllers;
@@ -307,6 +313,7 @@
 				BABD835D22D8D9680072A263 /* PreferencesWindowController.xib in Resources */,
 				BABD836A22D8D98B0072A263 /* Assets.xcassets in Resources */,
 				BABD835B22D8D9680072A263 /* MenuPreferencesViewController.xib in Resources */,
+				BABF851A22DB25550032FF16 /* FetchingMenuItemView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +339,7 @@
 				BABD836322D8D96F0072A263 /* BuildListWindowController.swift in Sources */,
 				BABD834422D8D94F0072A263 /* XcodeProjectMenuItemHelper.swift in Sources */,
 				BABD835022D8D95E0072A263 /* UserDefaults+Extensions.swift in Sources */,
+				BAD6584922DB38600004DF1F /* FetchingMenuItemViewController.swift in Sources */,
 				BA743AFD22DA1D18009A6748 /* FileManager+Extensions.swift in Sources */,
 				BABD836522D8D96F0072A263 /* PreferencesWindowController.swift in Sources */,
 				BABD834722D8D94F0072A263 /* PreferencesManager.swift in Sources */,
@@ -344,7 +352,7 @@
 				BABD834622D8D94F0072A263 /* XcodeProjectManager.swift in Sources */,
 				BABD834322D8D94F0072A263 /* ActivityLogManager.swift in Sources */,
 				BABD833B22D8D9480072A263 /* XcodeProjectMenuItem.swift in Sources */,
-				BABD834522D8D94F0072A263 /* IsAutomaticValueTransformer.swift in Sources */,
+				BA4E630422DB6B0C00F54E20 /* Listener.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
