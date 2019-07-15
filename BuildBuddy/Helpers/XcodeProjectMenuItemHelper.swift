@@ -51,7 +51,7 @@ class XcodeProjectMenuItemHelper {
     }
     
     @objc static func showBuildListControllerForProject(_ sender: XcodeProjectMenuItem) {
-        
+        NSApp.activate(ignoringOtherApps: true)
         let project = sender.project
         controller?.close()
         guard let period = sender.period,

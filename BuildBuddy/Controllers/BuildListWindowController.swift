@@ -45,7 +45,6 @@ class BuildListWindowController: NSWindowController, NSTableViewDataSource, NSTa
         super.windowDidLoad()
         window?.center()
         window?.title = builds.first?.name ?? "Build"
-        
     }
     
     func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {

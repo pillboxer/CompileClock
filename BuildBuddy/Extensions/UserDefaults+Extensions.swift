@@ -25,10 +25,12 @@ extension UserDefaults {
         case showsBuilds
     }
     
-    enum DefaultsDateKey: String {
+    private enum DefaultsDateKey: String, CaseIterable {
         case customStartDate
         case customEndDate
     }
+    
+    
     
     // MARK: - Private
     
@@ -90,6 +92,13 @@ extension UserDefaults {
         case true:
             return UserDefaults.standard.bool(forKey: DefaultsBoolKey.showsSucceeded.rawValue)
         }
+    }
+    
+    static var allKeys: [String] {
+        let periodKeys = (String.BuildTimePeriod.allCases).map() { $0.rawValue }
+        let boolKeys = (DefaultsBoolKey.allCases).map() { $0.rawValue }
+        let dateKeys = (DefaultsDateKey.allCases).map() { $0.rawValue }
+        return periodKeys + boolKeys + dateKeys
     }
 
     

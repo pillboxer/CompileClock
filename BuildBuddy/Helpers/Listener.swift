@@ -22,8 +22,8 @@ class Listener: NSObject {
     }
     
     private func observeDefaults() {
-        for key in UserDefaults.DefaultsBoolKey.allCases {
-            UserDefaults.standard.addObserver(self, forKeyPath: key.rawValue, options: [NSKeyValueObservingOptions.new], context: nil)
+        for key in UserDefaults.allKeys {
+            UserDefaults.standard.addObserver(self, forKeyPath: key, options: [NSKeyValueObservingOptions.new], context: nil)
         }
     }
     

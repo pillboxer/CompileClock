@@ -17,33 +17,42 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var menu = NSMenu()
     var lastMenuItems = [NSMenuItem]()
     let preferences = NSMenuItem(title: "Preferences...", action: #selector(openPreferences), keyEquivalent: "")
-    
-    var projects = XcodeProjectManager.projects
+    let stats = NSMenuItem(title: "Stats", action: nil, keyEquivalent: "")
     var defaultsHaveChanged = false
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         registerDefaults()
-        let image = NSImage(named: "hammer")
-        image?.size = NSMakeSize(18.0, 18.0)
-        statusItem.button?.image = image
+        configureStatusItem()
         menu.delegate = self
-        statusItem.menu = menu
-        lastMenuItems = [preferences]
+        lastMenuItems = launchingMenuItems
+        loadMenu()
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
     
+    lazy var launchingMenuItems: [NSMenuItem] = {
+       return [preferences]
+    }()
+    
+    private func configureStatusItem() {
+        let image = NSImage(named: "hammer")
+        image?.size = NSMakeSize(18.0, 18.0)
+        statusItem.button?.image = image
+        statusItem.menu = menu
+    }
+    
     private func registerDefaults() {
         if !UserDefaults.hasLaunchedBefore {
             UserDefaults.setInitialDefaults()
         }
-
+        
     }
 
     private func constructMenu() {
-        menu.items = XcodeProjectMenuItemHelper.menuItemsForProjects(projects)
+        let items = XcodeProjectMenuItemHelper.menuItemsForProjects(XcodeProjectManager.projects)
+        menu.items = items
         constructSubmenus()
         let separator = NSMenuItem.separator()
         menu.addItem(separator)
@@ -51,6 +60,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             menu.items.forEach() { $0.isHidden = true }
         }
         menu.addItem(preferences)
+        if items.count > 0 {
+            menu.addItem(stats)
+        }
         lastMenuItems = menu.items
     }
 
@@ -64,6 +76,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     func menuWillOpen(_ menu: NSMenu) {
+        // If we don't have new builds, just show the last ones
+        guard XcodeProjectManager.needsUpdating else {
+            print("No need")
+            menu.items = lastMenuItems
+            return
+        }
+        // we have new builds so load the menu
         loadMenu()
     }
     
@@ -79,16 +98,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     private func loadMenu() {
-        // If we don't have new builds, just show the last ones
-        guard XcodeProjectManager.needsUpdating else {
-            print("No need")
-            menu.items = lastMenuItems
-            return
-        }
-        // We have new builds, so show the loading indicator and reset the defaults
         showLoadingItem()
         Listener.shared.resetDefaults()
-        
         // fetch the builds and once that's done construct the menu (all the while we are showing the indicator)
         fetchProjects()
         DispatchQueue.main.async {
@@ -97,7 +108,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     private func fetchProjects() {
-        for project in projects {
+        for project in XcodeProjectManager.projects {
             project.fetchBuilds()
         }
     }

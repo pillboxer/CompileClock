@@ -32,7 +32,6 @@ public class XcodeProject: NSManagedObject {
             project = newProject
             CoreDataManager.save()
         }
-        project.fetchBuilds()
         return project
     }
     
@@ -70,9 +69,14 @@ public class XcodeProject: NSManagedObject {
         return earliest?.buildDate ?? Date()
     }
     
-     var logStoreHasBeenUpdated: Bool {
-            let logUpdateTime = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
-            return logUpdateTime > lastModificationDate
+    var logStoreHasBeenUpdated: Bool {
+        print(name)
+        let logUpdateTime = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
+        print("The log was last updated at: \(Date(timeIntervalSinceReferenceDate: logUpdateTime))")
+        print("Our last modified date was at: \(Date(timeIntervalSinceReferenceDate: lastModificationDate))")
+        print("Thus Returning \(logUpdateTime > lastModificationDate)")
+        print("-----------")
+        return logUpdateTime > lastModificationDate
     }
     
     private var lastBuild: XcodeBuild? {
@@ -102,14 +106,13 @@ public class XcodeProject: NSManagedObject {
     
     // MARK: - Exposed
     func fetchBuilds() {
-            
+        
         // If the log store has not been updated, don't do this expensive task
         guard let folderName = folderName,
-            let logs = logs, logStoreHasBeenUpdated else {
+            let logs = logs else {
                 return
         }
-        
-
+      
         for (buildKey, buildDict) in logs {
             // If the buildDict's end time is before the lastModificationDate, stop!
             if let buildDict = buildDict as? [String : Any],

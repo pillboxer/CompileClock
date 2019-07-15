@@ -23,6 +23,7 @@ class XcodeProjectManager {
     
     static var needsUpdating: Bool {
         let projectsWithUpdates = projects.filter() { $0.logStoreHasBeenUpdated == true }
+        print("Projects are empty: \(projectsWithUpdates.isEmpty)")
         return !projectsWithUpdates.isEmpty || listener.defaultsChanged
     }
     
@@ -34,7 +35,7 @@ class XcodeProjectManager {
         // Filter out the saved projects from derivedData
         let newProjectNames = foldersAtDerivedDataLocation.filter() { folderName in
             
-            if folderName.contains("ModuleCache") {
+            if folderName.contains("ModuleCache") || folderName.contains("BuildBuddy") {
                 return false
             }
             return !savedProjectNames.contains(folderName)
