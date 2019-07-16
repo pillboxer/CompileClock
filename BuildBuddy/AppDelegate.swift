@@ -17,7 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var menu = NSMenu()
     var lastMenuItems = [NSMenuItem]()
     let preferences = NSMenuItem(title: "Preferences...", action: #selector(openPreferences), keyEquivalent: "")
-    let stats = NSMenuItem(title: "Stats", action: nil, keyEquivalent: "")
+    let stats = NSMenuItem(title: "Stats", action: #selector(openStats), keyEquivalent: "")
     var defaultsHaveChanged = false
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -94,7 +94,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     @objc func openPreferences() {
-        PreferencesManager.shared.showPreferences()
+        PreferencesManager.showPreferences()
+    }
+    
+    @objc func openStats() {
+        StatsManager.showStats()
     }
     
     private func loadMenu() {

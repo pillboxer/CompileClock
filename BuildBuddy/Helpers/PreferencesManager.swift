@@ -11,11 +11,9 @@ import Cocoa
 class PreferencesManager {
     
     static let shared = PreferencesManager()
-    let controller = PreferencesWindowController()
+    static let controller = PreferencesWindowController()
     
-    private init() {}
-    
-    func showPreferences() {
+    static func showPreferences() {
         NSApp.activate(ignoringOtherApps: true)
         controller.showWindow(nil)
     }

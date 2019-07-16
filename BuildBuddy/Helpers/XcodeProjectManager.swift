@@ -16,9 +16,19 @@ class XcodeProjectManager {
         return retrieveProjects()
     }
     
+    static var namedProjects: [XcodeProject] {
+        return projects.filter() { $0.name != nil }
+    }
+    
     static var earliestBuildDate: Date {
         let dates = projects.map() { $0.earliestBuildDate }
         return dates.sorted() { $0 < $1 }.first ?? Date()
+    }
+    
+    static var averageBuildTimeForAllProjects: Double {
+        let averageBuildTimesForProjects = projects.map() { $0.averageBuildTime }
+        let totalAverage = averageBuildTimesForProjects.reduce(0, +)
+        return totalAverage / Double(projects.count)
     }
     
     static var needsUpdating: Bool {

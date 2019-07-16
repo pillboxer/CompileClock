@@ -53,20 +53,34 @@ public class XcodeProject: NSManagedObject {
     
     
     // MARK: - Properties
-    var builds: [XcodeBuild]? {
-        return xcodeBuilds?.allObjects as? [XcodeBuild]
+    var builds: [XcodeBuild] {
+        return xcodeBuilds?.allObjects as? [XcodeBuild] ?? []
     }
     
     var name: String? {
-        return builds?.first?.name
+        return builds.first?.name
     }
     
     var earliestBuildDate: Date {
-        guard let builds = builds else {
-            return Date()
-        }
         let earliest = builds.sorted() { $0.buildDate < $1.buildDate }.first
         return earliest?.buildDate ?? Date()
+    }
+    
+    var longestBuild: XcodeBuild? {
+        return builds.sorted() { $0.totalBuildTime > $1.totalBuildTime }.first
+    }
+    
+    var averageBuildTime: Double {
+        return totalBuildTime / numberOfBuilds
+    }
+    
+    private var numberOfBuilds: Double {
+        return Double(builds.count)
+    }
+    
+    private var totalBuildTime: Double {
+        let allBuilds = builds.map() { $0.totalBuildTime }
+        return allBuilds.reduce(0, +)
     }
     
     var logStoreHasBeenUpdated: Bool {
@@ -80,7 +94,7 @@ public class XcodeProject: NSManagedObject {
     }
     
     private var lastBuild: XcodeBuild? {
-        return (builds?.sorted() { $0.buildDate < $1.buildDate })?.last
+        return builds.sorted() { $0.buildDate < $1.buildDate }.last
     }
     
     private var lastBuildTime: Double {
@@ -137,7 +151,7 @@ public class XcodeProject: NSManagedObject {
     }
     
     func buildsForPeriod(_ period: String.BuildTimePeriod) -> [XcodeBuild]? {
-        guard let builds = builds,
+        guard
             let lastBuild = lastBuild else {
                 return nil
         }
