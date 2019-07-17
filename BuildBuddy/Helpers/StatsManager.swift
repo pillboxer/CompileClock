@@ -8,13 +8,25 @@
 
 import Cocoa
 
-class StatsManager {
+class StatsManager: NSObject, NSWindowDelegate {
     
-    static let controller = StatsWindowController(projects: XcodeProjectManager.namedProjects)
+    static let shared = StatsManager()
+    var statsWindowController: StatsWindowController?
     
-    static func showStats() {
+    func showStats() {
+        let controller = StatsWindowController(XcodeProjectManager.projects)
+        controller.window?.delegate = self
         NSApp.activate(ignoringOtherApps: true)
-        controller.showWindow(nil)
+        statsWindowController = controller
+        statsWindowController?.showWindow(nil)
+    }
+    
+    func windowWillClose(_ notification: Notification) {
+        statsWindowController = nil
+    }
+    
+    func windowDidResignKey(_ notification: Notification) {
+        statsWindowController?.window?.close()
     }
     
 }

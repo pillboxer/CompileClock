@@ -16,8 +16,8 @@ class XcodeProjectManager {
         return retrieveProjects()
     }
     
-    static var namedProjects: [XcodeProject] {
-        return projects.filter() { $0.name != nil }
+    static var projectsWithBuilds: [XcodeProject] {
+        return projects.filter() { $0.builds.count > 0 }
     }
     
     static var earliestBuildDate: Date {
@@ -26,14 +26,13 @@ class XcodeProjectManager {
     }
     
     static var averageBuildTimeForAllProjects: Double {
-        let averageBuildTimesForProjects = projects.map() { $0.averageBuildTime }
+        let averageBuildTimesForProjects = projects.map() { $0.totalAverageBuildTime }
         let totalAverage = averageBuildTimesForProjects.reduce(0, +)
         return totalAverage / Double(projects.count)
     }
     
     static var needsUpdating: Bool {
         let projectsWithUpdates = projects.filter() { $0.logStoreHasBeenUpdated == true }
-        print("Projects are empty: \(projectsWithUpdates.isEmpty)")
         return !projectsWithUpdates.isEmpty || listener.defaultsChanged
     }
     
@@ -56,7 +55,7 @@ class XcodeProjectManager {
         return savedProjects + newProjects
     }
     
-    static func buildTypeAndSuccessTuple(_ buildKey: String, fromFolder folder: String) -> (type: XcodeBuild.BuildType, success: Bool) {
+    static func buildTypeAndSuccessTuple(_ buildKey: String, fromFolder folder: String) -> (type: XcodeBuild.BuildType, success: Bool)? {
         let folderURL = URL(fileURLWithPath: folder)
         let activityLogURL = folderURL.appendingPathComponent("\(buildKey).xcactivitylog")
         let rawLog = try? Data(contentsOf: activityLogURL)

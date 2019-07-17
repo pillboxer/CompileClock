@@ -10,7 +10,6 @@ import Cocoa
 
 class PreferencesManager {
     
-    static let shared = PreferencesManager()
     static let controller = PreferencesWindowController()
     
     static func showPreferences() {

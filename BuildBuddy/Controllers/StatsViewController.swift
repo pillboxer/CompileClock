@@ -12,12 +12,16 @@ class StatsViewController: NSViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var titleLabel: NSTextField!
+    @IBOutlet weak var averageBuildTimeLabel: NSTextField!
     @IBOutlet weak var longestBuildTimeLabel: NSTextField!
+    @IBOutlet weak var mostBuildsLabel: NSTextField!
+    @IBOutlet weak var dailyAverageLabel: NSTextField!
     
     // MARK: - Properties
     override var nibName: NSNib.Name? {
         return "StatsViewController"
     }
+    var currentProject: XcodeProject!
     
     lazy var formatter: DateFormatter = {
        let formatter = DateFormatter()
@@ -36,14 +40,49 @@ class StatsViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do view setup here.
+    }
+    
+    deinit {
+        print("Stats gone")
     }
     
     func loadWithProject(_ project: XcodeProject) {
-        titleLabel.stringValue = project.name!
-        if let longestBuild = project.longestBuild {
+        currentProject = project
+        reloadUI()
+    }
+    
+    private func reloadUI() {
+        titleLabel.stringValue = currentProject.name
+        configureLongestBuildLabel()
+        configureAverageBuildTimeLabels()
+        configureMostBuildsLabel()
+        
+    }
+    
+    private func configureLongestBuildLabel() {
+        if let longestBuild = currentProject.longestBuild {
             longestBuildTimeLabel.stringValue = "\(String.prettyTime(longestBuild.totalBuildTime)) - \(formatter.string(from: longestBuild.buildDate))"
         }
+    }
+    
+    private func configureAverageBuildTimeLabels() {
+        guard currentProject.builds.count > 20 else {
+            // FIXME: -
+            dailyAverageLabel.stringValue = "Awaiting More Data"
+            averageBuildTimeLabel.stringValue = "Awaiting More Data"
+            return
+        }
+        let dailyAverage = currentProject.dailyAverageNumberOfBuilds
+        dailyAverageLabel.stringValue = "\(dailyAverage) builds per day"
+        averageBuildTimeLabel.stringValue = String.prettyTime(currentProject.totalAverageBuildTime)
+    }
+    
+    private func configureMostBuildsLabel() {
+        guard let mostBuilds = currentProject.mostBuildsInADay else {
+            mostBuildsLabel.isHidden = true
+            return
+        }
+        mostBuildsLabel.stringValue = "\(mostBuilds.recurrances) - \(formatter.string(from: mostBuilds.date))"
     }
     
 }

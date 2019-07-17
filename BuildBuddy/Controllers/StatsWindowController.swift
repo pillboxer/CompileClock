@@ -19,20 +19,32 @@ class StatsWindowController: NSWindowController {
     let projects: [XcodeProject]
     let statsViewController = StatsViewController()
     
-    init(projects: [XcodeProject]) {
+    init(_ projects: [XcodeProject]) {
         self.projects = projects
         super.init(window: nil)
     }
     
+    
     override func windowDidLoad() {
         super.windowDidLoad()
+        window?.center()
+        window?.styleMask.remove(.resizable)
         outlineView.dataSource = self
         outlineView.delegate = self
         statsContainerView.addSubview(statsViewController.view)
+        configureOutlineView()
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureOutlineView() {
+        guard projects.count > 0 else {
+            return
+        }
+        outlineView.selectRowIndexes(IndexSet(integer: 1), byExtendingSelection: false)
     }
     
     
@@ -55,9 +67,7 @@ extension StatsWindowController: NSOutlineViewDataSource, NSOutlineViewDelegate 
         return false
     }
 
-    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        print(item)
-        
+    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {        
         if item as? String == "PROJECTS" {
             if let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier("HeaderCell"), owner: nil) as? NSTableCellView {
                 cell.textField?.stringValue = "PROJECTS"
@@ -65,8 +75,8 @@ extension StatsWindowController: NSOutlineViewDataSource, NSOutlineViewDelegate 
             }
         }
 
-        if let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier("DataCell"), owner: nil) as? NSTableCellView, let item = item as? XcodeProject, let name = item.name {
-            cell.textField?.stringValue = name
+        if let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier("DataCell"), owner: nil) as? NSTableCellView, let item = item as? XcodeProject {
+            cell.textField?.stringValue = item.name
             return cell
         }
         return nil
@@ -81,7 +91,9 @@ extension StatsWindowController: NSOutlineViewDataSource, NSOutlineViewDelegate 
     
     func outlineViewSelectionDidChange(_ notification: Notification) {
         let row = outlineView.selectedRow
-        statsViewController.loadWithProject(projects[row - 1])
+        let project = projects[row - 1]
+        window?.title = project.name
+        statsViewController.loadWithProject(project)
     }
     
 }

@@ -11,14 +11,19 @@ import Gzip
 
 class ActivityLogManager {
     
-    static func buildTypeAndSuccessTuple(fromLog activityLog: Data?) -> (XcodeBuild.BuildType, Bool) {
+    static func buildTypeAndSuccessTuple(fromLog activityLog: Data?) -> (XcodeBuild.BuildType, Bool)? {
         guard let activityLog = activityLog,
         let gzipped = try? activityLog.gunzipped(),
             let activityLogString = String(data: gzipped, encoding: .utf8) else {
-            return (.run, false)
+            return nil
         }
         let type: XcodeBuild.BuildType
         let lastCharacters = activityLogString.suffix(20)
+        
+        if lastCharacters.contains("stopped") {
+            return nil
+        }
+        
         if activityLogString.contains("libXCTestSwiftSupport") {
             type = .test
         }

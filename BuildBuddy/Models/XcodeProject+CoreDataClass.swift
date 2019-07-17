@@ -57,8 +57,14 @@ public class XcodeProject: NSManagedObject {
         return xcodeBuilds?.allObjects as? [XcodeBuild] ?? []
     }
     
-    var name: String? {
-        return builds.first?.name
+    private lazy var formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter
+    }()
+    
+    var name: String {
+        return builds.first?.name ?? "Name Not Found"
     }
     
     var earliestBuildDate: Date {
@@ -70,11 +76,24 @@ public class XcodeProject: NSManagedObject {
         return builds.sorted() { $0.totalBuildTime > $1.totalBuildTime }.first
     }
     
-    var averageBuildTime: Double {
-        return totalBuildTime / numberOfBuilds
+    var dailyAverageNumberOfBuilds: Double {
+        return totalNumberOfBuilds / Double(numberOfDaysWithBuilds)
     }
     
-    private var numberOfBuilds: Double {
+    private var numberOfDaysWithBuilds: Int {
+        let dates = builds.map() { $0.buildDate }
+        let dateStrings = dates.map() { formatter.string(from: $0) }
+        let occurences = dateStrings.map() { ($0, 1) }
+        let justDates = occurences.map() { $0.0 }
+        let uniqueDates = NSSet(array: justDates)
+        return uniqueDates.count
+    }
+    
+    var totalAverageBuildTime: Double {
+        return totalBuildTime / totalNumberOfBuilds
+    }
+    
+    private var totalNumberOfBuilds: Double {
         return Double(builds.count)
     }
     
@@ -84,7 +103,6 @@ public class XcodeProject: NSManagedObject {
     }
     
     var logStoreHasBeenUpdated: Bool {
-        print(name)
         let logUpdateTime = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
         print("The log was last updated at: \(Date(timeIntervalSinceReferenceDate: logUpdateTime))")
         print("Our last modified date was at: \(Date(timeIntervalSinceReferenceDate: lastModificationDate))")
@@ -131,8 +149,7 @@ public class XcodeProject: NSManagedObject {
             // If the buildDict's end time is before the lastModificationDate, stop!
             if let buildDict = buildDict as? [String : Any],
                 buildDictIsNew(buildDict),
-                let newBuild = XcodeBuild(buildDict) {
-                let typeAndSuccessTuple = XcodeProjectManager.buildTypeAndSuccessTuple(buildKey, fromFolder: folderName)
+                let newBuild = XcodeBuild(buildDict), let typeAndSuccessTuple = XcodeProjectManager.buildTypeAndSuccessTuple(buildKey, fromFolder: folderName) {
                 newBuild.wasSuccessful = typeAndSuccessTuple.success
                 newBuild.buildType = typeAndSuccessTuple.type
                 addToXcodeBuilds(newBuild)
@@ -148,6 +165,18 @@ public class XcodeProject: NSManagedObject {
             return true
         }
         return timeStarted > lastModificationDate
+    }
+    
+    var mostBuildsInADay: (date: Date, recurrances: Int)? {
+        let dates = builds.map() { $0.buildDate }
+        let dateStrings = dates.map() { formatter.string(from: $0) }
+        let occurences = dateStrings.map() { ($0, 1) }
+        let counts = Dictionary(occurences, uniquingKeysWith: +)
+        let highestDateDict = counts.sorted() { $0.value > $1.value }.first
+        guard let dict = highestDateDict, let date = formatter.date(from: dict.key) else {
+            return nil
+        }
+        return (date, dict.value)
     }
     
     func buildsForPeriod(_ period: String.BuildTimePeriod) -> [XcodeBuild]? {

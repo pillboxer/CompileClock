@@ -78,7 +78,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func menuWillOpen(_ menu: NSMenu) {
         // If we don't have new builds, just show the last ones
         guard XcodeProjectManager.needsUpdating else {
-            print("No need")
             menu.items = lastMenuItems
             return
         }
@@ -98,7 +97,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     @objc func openStats() {
-        StatsManager.showStats()
+        StatsManager.shared.showStats()
     }
     
     private func loadMenu() {

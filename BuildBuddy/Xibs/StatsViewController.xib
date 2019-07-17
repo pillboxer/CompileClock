@@ -8,7 +8,10 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="StatsViewController" customModule="BuildBuddy" customModuleProvider="target">
             <connections>
+                <outlet property="averageBuildTimeLabel" destination="Yms-xo-ly5" id="1yK-74-Ohr"/>
+                <outlet property="dailyAverageLabel" destination="h4x-hf-fqZ" id="ic4-Cx-axa"/>
                 <outlet property="longestBuildTimeLabel" destination="j1z-YO-UhT" id="PPj-4D-G8r"/>
+                <outlet property="mostBuildsLabel" destination="ff6-vg-moH" id="aZs-wC-UTN"/>
                 <outlet property="titleLabel" destination="m32-3p-bUa" id="m6D-4d-5TY"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -115,8 +118,8 @@
                             </textFieldCell>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yms-xo-ly5">
-                            <rect key="frame" x="-2" y="72" width="32" height="16"/>
-                            <textFieldCell key="cell" lineBreakMode="clipping" title="2:45" id="FCu-qz-0Rh">
+                            <rect key="frame" x="-2" y="72" width="122" height="16"/>
+                            <textFieldCell key="cell" lineBreakMode="clipping" title="Awaiting More Data" id="FCu-qz-0Rh">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -131,16 +134,16 @@
                             </textFieldCell>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h4x-hf-fqZ">
-                            <rect key="frame" x="-2" y="24" width="21" height="16"/>
-                            <textFieldCell key="cell" lineBreakMode="clipping" title="45" id="hKd-Im-uMd">
+                            <rect key="frame" x="-2" y="24" width="122" height="16"/>
+                            <textFieldCell key="cell" lineBreakMode="clipping" title="Awaiting More Data" id="hKd-Im-uMd">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WKv-o8-Hs6">
-                            <rect key="frame" x="-2" y="0.0" width="24" height="16"/>
-                            <textFieldCell key="cell" lineBreakMode="clipping" title="9%" id="H47-ga-XIf">
+                            <rect key="frame" x="-2" y="0.0" width="122" height="16"/>
+                            <textFieldCell key="cell" lineBreakMode="clipping" title="Awaiting More Data" id="H47-ga-XIf">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

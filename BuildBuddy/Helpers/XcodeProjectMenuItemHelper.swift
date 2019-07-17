@@ -14,11 +14,11 @@ class XcodeProjectMenuItemHelper {
     
     static func menuItemsForProjects(_ projects: [XcodeProject]) -> [XcodeProjectMenuItem]  {
         let items = projects.compactMap() { project -> XcodeProjectMenuItem? in
-            guard let name = project.name else {
+            guard project.builds.count > 0 else {
                 return nil
             }
             let item = XcodeProjectMenuItem(project)
-            item.title = name
+            item.title = project.name
             return item
         }
         return items.sorted() { $0.title < $1.title }
