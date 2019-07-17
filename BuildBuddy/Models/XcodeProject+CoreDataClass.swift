@@ -18,9 +18,6 @@ public class XcodeProject: NSManagedObject {
     
     static func createNewProjectWithFolderName(_ folderName: String) -> XcodeProject? {
         let project: XcodeProject
-        
-        // This can stay the same
-        
         if let existingProject = existingProjectWithFolderName(folderName) {
             project = existingProject
         }
@@ -80,7 +77,7 @@ public class XcodeProject: NSManagedObject {
         return totalNumberOfBuilds / Double(numberOfDaysWithBuilds)
     }
     
-    private var numberOfDaysWithBuilds: Int {
+    var numberOfDaysWithBuilds: Int {
         let dates = builds.map() { $0.buildDate }
         let dateStrings = dates.map() { formatter.string(from: $0) }
         let occurences = dateStrings.map() { ($0, 1) }

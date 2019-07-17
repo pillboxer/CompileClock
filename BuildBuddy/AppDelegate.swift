@@ -16,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     var menu = NSMenu()
     var lastMenuItems = [NSMenuItem]()
+    #warning("Change This At Some Point")
     let preferences = NSMenuItem(title: "Preferences...", action: #selector(openPreferences), keyEquivalent: "")
     let stats = NSMenuItem(title: "Stats", action: #selector(openStats), keyEquivalent: "")
     var defaultsHaveChanged = false
@@ -27,11 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         lastMenuItems = launchingMenuItems
         loadMenu()
     }
-    
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
-    }
-    
+
     lazy var launchingMenuItems: [NSMenuItem] = {
        return [preferences]
     }()
@@ -103,7 +100,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private func loadMenu() {
         showLoadingItem()
         Listener.shared.resetDefaults()
-        // fetch the builds and once that's done construct the menu (all the while we are showing the indicator)
         fetchProjects()
         DispatchQueue.main.async {
             self.constructMenu()
@@ -115,7 +111,5 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             project.fetchBuilds()
         }
     }
-    
-    
 }
 

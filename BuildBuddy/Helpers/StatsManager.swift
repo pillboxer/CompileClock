@@ -11,7 +11,7 @@ import Cocoa
 class StatsManager: NSObject, NSWindowDelegate {
     
     static let shared = StatsManager()
-    var statsWindowController: StatsWindowController?
+    private var statsWindowController: StatsWindowController?
     
     func showStats() {
         let controller = StatsWindowController(XcodeProjectManager.projects)

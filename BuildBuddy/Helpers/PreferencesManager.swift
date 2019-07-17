@@ -16,5 +16,4 @@ class PreferencesManager {
         NSApp.activate(ignoringOtherApps: true)
         controller.showWindow(nil)
     }
-    
 }

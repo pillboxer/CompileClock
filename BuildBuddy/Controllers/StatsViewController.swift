@@ -42,10 +42,6 @@ class StatsViewController: NSViewController {
         super.viewDidLoad()
     }
     
-    deinit {
-        print("Stats gone")
-    }
-    
     func loadWithProject(_ project: XcodeProject) {
         currentProject = project
         reloadUI()
@@ -66,15 +62,29 @@ class StatsViewController: NSViewController {
     }
     
     private func configureAverageBuildTimeLabels() {
-        guard currentProject.builds.count > 20 else {
-            // FIXME: -
-            dailyAverageLabel.stringValue = "Awaiting More Data"
-            averageBuildTimeLabel.stringValue = "Awaiting More Data"
-            return
+        
+        let dailyAverageText: String
+        let averageBuildTimeText: String
+        
+        if currentProject.builds.count < 50 {
+            let numberRemaining = 50 - currentProject.builds.count
+            averageBuildTimeText = "\(numberRemaining) More Builds Needed"
         }
-        let dailyAverage = currentProject.dailyAverageNumberOfBuilds
-        dailyAverageLabel.stringValue = "\(dailyAverage) builds per day"
-        averageBuildTimeLabel.stringValue = String.prettyTime(currentProject.totalAverageBuildTime)
+        else {
+            averageBuildTimeText = String.prettyTime(currentProject.totalAverageBuildTime)
+        }
+        
+        if currentProject.numberOfDaysWithBuilds < 30 {
+            let numberRemaining = 30 - currentProject.numberOfDaysWithBuilds
+            dailyAverageText = "\(numberRemaining) More Build Days Needed"
+        }
+        else {
+            let dailyAverage = currentProject.dailyAverageNumberOfBuilds
+            dailyAverageText = "\(dailyAverage) builds per day"
+        }
+        
+        dailyAverageLabel.stringValue = dailyAverageText
+        averageBuildTimeLabel.stringValue = averageBuildTimeText
     }
     
     private func configureMostBuildsLabel() {

@@ -39,15 +39,8 @@ class PreferencesWindowController: NSWindowController, NSWindowDelegate {
         window?.styleMask.remove(.resizable)
     }
     
-    override func mouseDown(with event: NSEvent) {
-        window?.makeKeyAndOrderFront(nil)
-    }
-    
     private func addToContainerView() {
         menuContainerView.addSubview(menuPreferencesController.view)
         menuPreferencesController.view.frame = menuContainerView.bounds
     }
-    
 }
-
-

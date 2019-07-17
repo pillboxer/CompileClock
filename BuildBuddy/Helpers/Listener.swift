@@ -34,7 +34,6 @@ class Listener: NSObject {
     private(set) var defaultsChanged = false
     
     @objc private func changeDefaults() {
-        print("Defaults have changed")
         defaultsChanged = true
     }
     
