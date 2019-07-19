@@ -17,11 +17,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var menu = NSMenu()
     var lastMenuItems = [NSMenuItem]()
     #warning("Change This At Some Point")
-    let preferences = NSMenuItem(title: "Preferences...", action: #selector(openPreferences), keyEquivalent: "")
+    let preferences = NSMenuItem(title: "Preferences", action: #selector(openPreferences), keyEquivalent: "")
     let stats = NSMenuItem(title: "Stats", action: #selector(openStats), keyEquivalent: "")
+    let quit = NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "")
     var defaultsHaveChanged = false
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        quit.keyEquivalentModifierMask = .command
+        quit.keyEquivalent = "q"
         registerDefaults()
         configureStatusItem()
         menu.delegate = self
@@ -30,7 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     lazy var launchingMenuItems: [NSMenuItem] = {
-       return [preferences]
+       return [preferences, NSMenuItem.separator(), quit]
     }()
     
     private func configureStatusItem() {
@@ -51,16 +54,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let items = XcodeProjectMenuItemHelper.menuItemsForProjects(XcodeProjectManager.projects)
         menu.items = items
         constructSubmenus()
-        let separator = NSMenuItem.separator()
-        menu.addItem(separator)
         if UserDefaults.allPeriodsDisabled {
             menu.items.forEach() { $0.isHidden = true }
         }
-        menu.addItem(preferences)
         if items.count > 0 {
             menu.addItem(NSMenuItem.separator())
             menu.addItem(stats)
         }
+        menu.addItem(preferences)
+        menu.addItem(quit)
         lastMenuItems = menu.items
     }
 
@@ -111,6 +113,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         for project in XcodeProjectManager.projects {
             project.fetchBuilds()
         }
+    }
+    
+    @objc private func quitApp() {
+        NSApp.terminate(nil)
     }
 }
 

@@ -32,6 +32,7 @@ class StatsWindowController: NSWindowController {
         outlineView.dataSource = self
         outlineView.delegate = self
         statsContainerView.addSubview(statsViewController.view)
+        statsViewController.view.frame = statsContainerView.bounds
         configureOutlineView()
     }
     

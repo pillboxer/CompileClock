@@ -111,7 +111,7 @@
                     </constraints>
                 </box>
                 <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6w2-3D-esl">
-                    <rect key="frame" x="230" y="81" width="168" height="112"/>
+                    <rect key="frame" x="230" y="81" width="130" height="112"/>
                     <subviews>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j1z-YO-UhT">
                             <rect key="frame" x="-2" y="96" width="134" height="16"/>
@@ -180,14 +180,6 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="z92-Qp-YIc">
-                    <rect key="frame" x="131" y="217" width="156" height="11"/>
-                    <textFieldCell key="cell" alignment="center" title="Data Shown May Not Be Accurate" id="6wp-fL-bc5">
-                        <font key="font" metaFont="miniSystem"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MYi-qZ-7Sc">
                     <rect key="frame" x="197" y="16" width="25" height="18"/>
                     <constraints>
@@ -202,12 +194,21 @@
                         <action selector="peekButtonTapped:" target="-2" id="Onm-MO-1i1"/>
                     </connections>
                 </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="z92-Qp-YIc">
+                    <rect key="frame" x="131" y="217" width="156" height="11"/>
+                    <textFieldCell key="cell" alignment="center" title="Data Shown May Not Be Accurate" id="6wp-fL-bc5">
+                        <font key="font" metaFont="miniSystem"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <constraints>
                 <constraint firstItem="MYi-qZ-7Sc" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="1Nz-MJ-Z6S"/>
+                <constraint firstItem="6w2-3D-esl" firstAttribute="top" secondItem="z92-Qp-YIc" secondAttribute="bottom" constant="24" id="68V-Ds-b39"/>
+                <constraint firstItem="OKt-Jj-0M2" firstAttribute="top" secondItem="z92-Qp-YIc" secondAttribute="bottom" constant="24" id="88g-Dx-86R"/>
                 <constraint firstItem="m32-3p-bUa" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="8St-tY-0SI"/>
                 <constraint firstItem="IYL-gm-8gK" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="9ME-oq-YN9"/>
-                <constraint firstAttribute="trailing" secondItem="6w2-3D-esl" secondAttribute="trailing" constant="20" id="CRG-Uf-gpI"/>
                 <constraint firstItem="z92-Qp-YIc" firstAttribute="top" secondItem="m32-3p-bUa" secondAttribute="bottom" constant="8" id="JhV-mN-2oH"/>
                 <constraint firstItem="IYL-gm-8gK" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="KMp-RL-a15"/>
                 <constraint firstAttribute="bottom" secondItem="MYi-qZ-7Sc" secondAttribute="bottom" constant="16" id="OG4-3V-jLZ"/>
@@ -216,9 +217,7 @@
                 <constraint firstItem="syA-jn-KXX" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="XO2-06-rxa"/>
                 <constraint firstItem="m32-3p-bUa" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="20" id="b2k-6A-GoH"/>
                 <constraint firstItem="IYL-gm-8gK" firstAttribute="height" secondItem="OKt-Jj-0M2" secondAttribute="height" id="bhE-mD-4xd"/>
-                <constraint firstItem="6w2-3D-esl" firstAttribute="top" secondItem="m32-3p-bUa" secondAttribute="bottom" constant="43" id="dPI-Sf-pS0"/>
                 <constraint firstItem="syA-jn-KXX" firstAttribute="top" secondItem="IYL-gm-8gK" secondAttribute="bottom" constant="15" id="ehQ-yp-ohh"/>
-                <constraint firstItem="OKt-Jj-0M2" firstAttribute="top" secondItem="m32-3p-bUa" secondAttribute="bottom" constant="43" id="t1X-J9-XIc"/>
                 <constraint firstItem="OKt-Jj-0M2" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="um5-IV-2B4"/>
             </constraints>
             <point key="canvasLocation" x="108" y="154"/>

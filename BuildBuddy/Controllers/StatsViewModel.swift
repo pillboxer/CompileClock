@@ -94,8 +94,7 @@ class StatsViewModel {
     
     var dailyAverageBuildsString: String {
         if canShowDailyAverage || bypassChecks {
-            let decimals = UserDefaults.customDecimalPlaces
-            return String(format: "%.\(decimals)f Builds A Day", dailyAverage)
+            return String(format: "%.1f Builds A Day", dailyAverage)
         }
         else {
            return "Shows After \(daysRemainingUntilShowDailyAverageNumberOfBuilds) More Days"
@@ -104,8 +103,7 @@ class StatsViewModel {
     
     var workingTimePercentageString: String {
         if canShowWorkingTimePercentage || bypassChecks {
-            let decimals = UserDefaults.customDecimalPlaces
-            return String(format: "%.\(decimals)f", workingTimePercentage) + "%"
+            return String(format: "%.2f", workingTimePercentage) + "%"
         }
         else {
             return "Shows After \(daysRemainingUntilShowPercentageOfTimeSpent) More Days"
