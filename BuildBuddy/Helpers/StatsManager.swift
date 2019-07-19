@@ -14,7 +14,7 @@ class StatsManager: NSObject, NSWindowDelegate {
     private var statsWindowController: StatsWindowController?
     
     func showStats() {
-        let controller = StatsWindowController(XcodeProjectManager.projects)
+        let controller = StatsWindowController(XcodeProjectManager.projectsWithBuilds)
         controller.window?.delegate = self
         NSApp.activate(ignoringOtherApps: true)
         statsWindowController = controller

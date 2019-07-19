@@ -10,8 +10,12 @@
             <connections>
                 <outlet property="averageBuildTimeLabel" destination="Yms-xo-ly5" id="1yK-74-Ohr"/>
                 <outlet property="dailyAverageLabel" destination="h4x-hf-fqZ" id="ic4-Cx-axa"/>
+                <outlet property="improveAccuracyLabel" destination="syA-jn-KXX" id="7ey-m6-46p"/>
+                <outlet property="inaccurateDataLabel" destination="z92-Qp-YIc" id="Z4S-ug-0XS"/>
                 <outlet property="longestBuildTimeLabel" destination="j1z-YO-UhT" id="PPj-4D-G8r"/>
                 <outlet property="mostBuildsLabel" destination="ff6-vg-moH" id="aZs-wC-UTN"/>
+                <outlet property="peekButton" destination="MYi-qZ-7Sc" id="gRy-eZ-ijL"/>
+                <outlet property="timeSpentLabel" destination="WKv-o8-Hs6" id="9yD-AS-zxJ"/>
                 <outlet property="titleLabel" destination="m32-3p-bUa" id="m6D-4d-5TY"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -58,8 +62,8 @@
                             </textFieldCell>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kKm-gH-bpA">
-                            <rect key="frame" x="-2" y="27" width="94" height="16"/>
-                            <textFieldCell key="cell" lineBreakMode="clipping" title="Daily Average: " id="4ZI-CA-9TO">
+                            <rect key="frame" x="-2" y="27" width="145" height="16"/>
+                            <textFieldCell key="cell" lineBreakMode="clipping" title="Average Builds Per Day" id="4ZI-CA-9TO">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -107,7 +111,7 @@
                     </constraints>
                 </box>
                 <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6w2-3D-esl">
-                    <rect key="frame" x="230" y="81" width="130" height="112"/>
+                    <rect key="frame" x="230" y="81" width="168" height="112"/>
                     <subviews>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j1z-YO-UhT">
                             <rect key="frame" x="-2" y="96" width="134" height="16"/>
@@ -143,7 +147,7 @@
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WKv-o8-Hs6">
                             <rect key="frame" x="-2" y="0.0" width="122" height="16"/>
-                            <textFieldCell key="cell" lineBreakMode="clipping" title="Awaiting More Data" id="H47-ga-XIf">
+                            <textFieldCell key="cell" title="Awaiting More Data" id="H47-ga-XIf">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -165,19 +169,62 @@
                         <real value="3.4028234663852886e+38"/>
                     </customSpacing>
                 </stackView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="syA-jn-KXX">
+                    <rect key="frame" x="80" y="42" width="259" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="255" id="aem-Pv-58U"/>
+                    </constraints>
+                    <textFieldCell key="cell" alignment="center" title="For more accuracy, set the number of days and hours you work in the Advanced tab in Preferences" id="xv2-ka-9J0">
+                        <font key="font" metaFont="miniSystem"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="z92-Qp-YIc">
+                    <rect key="frame" x="131" y="217" width="156" height="11"/>
+                    <textFieldCell key="cell" alignment="center" title="Data Shown May Not Be Accurate" id="6wp-fL-bc5">
+                        <font key="font" metaFont="miniSystem"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MYi-qZ-7Sc">
+                    <rect key="frame" x="197" y="16" width="25" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="25" id="F7D-pG-otY"/>
+                        <constraint firstAttribute="height" constant="18" id="dIf-eq-q6Y"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSQuickLookTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Odw-WV-QzK">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="peekButtonTapped:" target="-2" id="Onm-MO-1i1"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
+                <constraint firstItem="MYi-qZ-7Sc" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="1Nz-MJ-Z6S"/>
                 <constraint firstItem="m32-3p-bUa" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="8St-tY-0SI"/>
                 <constraint firstItem="IYL-gm-8gK" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="9ME-oq-YN9"/>
+                <constraint firstAttribute="trailing" secondItem="6w2-3D-esl" secondAttribute="trailing" constant="20" id="CRG-Uf-gpI"/>
+                <constraint firstItem="z92-Qp-YIc" firstAttribute="top" secondItem="m32-3p-bUa" secondAttribute="bottom" constant="8" id="JhV-mN-2oH"/>
                 <constraint firstItem="IYL-gm-8gK" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="KMp-RL-a15"/>
+                <constraint firstAttribute="bottom" secondItem="MYi-qZ-7Sc" secondAttribute="bottom" constant="16" id="OG4-3V-jLZ"/>
                 <constraint firstItem="6w2-3D-esl" firstAttribute="leading" secondItem="IYL-gm-8gK" secondAttribute="trailing" constant="20" id="PXk-jH-TIU"/>
+                <constraint firstItem="z92-Qp-YIc" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="Uad-Ro-heN"/>
+                <constraint firstItem="syA-jn-KXX" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="XO2-06-rxa"/>
                 <constraint firstItem="m32-3p-bUa" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="20" id="b2k-6A-GoH"/>
                 <constraint firstItem="IYL-gm-8gK" firstAttribute="height" secondItem="OKt-Jj-0M2" secondAttribute="height" id="bhE-mD-4xd"/>
                 <constraint firstItem="6w2-3D-esl" firstAttribute="top" secondItem="m32-3p-bUa" secondAttribute="bottom" constant="43" id="dPI-Sf-pS0"/>
+                <constraint firstItem="syA-jn-KXX" firstAttribute="top" secondItem="IYL-gm-8gK" secondAttribute="bottom" constant="15" id="ehQ-yp-ohh"/>
                 <constraint firstItem="OKt-Jj-0M2" firstAttribute="top" secondItem="m32-3p-bUa" secondAttribute="bottom" constant="43" id="t1X-J9-XIc"/>
                 <constraint firstItem="OKt-Jj-0M2" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="um5-IV-2B4"/>
             </constraints>
             <point key="canvasLocation" x="108" y="154"/>
         </customView>
     </objects>
+    <resources>
+        <image name="NSQuickLookTemplate" width="19" height="12"/>
+    </resources>
 </document>

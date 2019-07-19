@@ -6,8 +6,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindowController" customModule="BuildTimes" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindowController" customModule="BuildBuddy" customModuleProvider="target">
             <connections>
+                <outlet property="advancedContainerView" destination="vDu-gK-Nuo" id="8Kf-7w-d6u"/>
                 <outlet property="menuContainerView" destination="gx0-Kn-XzO" id="Huy-Qe-hS5"/>
                 <outlet property="tabView" destination="uTq-Kx-osT" id="qa0-qV-vyR"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
@@ -47,11 +48,11 @@
                             </tabViewItem>
                             <tabViewItem label="Advanced" identifier="" image="failure" id="KZd-Jw-jNz">
                                 <view key="view" id="fiF-Em-s4a">
-                                    <rect key="frame" x="10" y="33" width="254" height="315"/>
+                                    <rect key="frame" x="10" y="33" width="282" height="370"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="vDu-gK-Nuo" userLabel="AdvancedContainerView">
-                                            <rect key="frame" x="0.0" y="0.0" width="254" height="315"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="282" height="370"/>
                                         </customView>
                                     </subviews>
                                     <constraints>

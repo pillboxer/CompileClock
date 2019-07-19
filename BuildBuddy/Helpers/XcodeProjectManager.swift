@@ -26,7 +26,7 @@ class XcodeProjectManager {
     }
     
     static var averageBuildTimeForAllProjects: Double {
-        let averageBuildTimesForProjects = projects.map() { $0.totalAverageBuildTime }
+        let averageBuildTimesForProjects = projects.map() { $0.averageBuildTime }
         let totalAverage = averageBuildTimesForProjects.reduce(0, +)
         return totalAverage / Double(projects.count)
     }
@@ -44,7 +44,7 @@ class XcodeProjectManager {
         // Filter out the saved projects from derivedData
         let newProjectNames = foldersAtDerivedDataLocation.filter() { folderName in
             
-            if folderName.contains("ModuleCache") || folderName.contains("BuildBuddy") {
+            if folderName.contains("ModuleCache") { //|| folderName.contains("BuildBuddy") {
                 return false
             }
             return !savedProjectNames.contains(folderName)

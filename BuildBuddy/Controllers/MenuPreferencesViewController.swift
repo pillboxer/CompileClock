@@ -84,7 +84,6 @@ class MenuPreferencesViewController: NSViewController {
     }
     
     @objc private func showDatePickerPopover(_ sender: NSButton) {
-
         present(popover, asPopoverRelativeTo: dateButton.bounds, of: dateButton, preferredEdge: .maxX, behavior: .transient)
     }
 }

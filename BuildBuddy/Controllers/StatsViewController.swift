@@ -16,18 +16,21 @@ class StatsViewController: NSViewController {
     @IBOutlet weak var longestBuildTimeLabel: NSTextField!
     @IBOutlet weak var mostBuildsLabel: NSTextField!
     @IBOutlet weak var dailyAverageLabel: NSTextField!
+    @IBOutlet weak var timeSpentLabel: NSTextField!
+    @IBOutlet weak var improveAccuracyLabel: NSTextField!
+    @IBOutlet weak var inaccurateDataLabel: NSTextField!
+    @IBOutlet weak var peekButton: NSButton!
     
+    @IBAction func peekButtonTapped(_ sender: Any) {
+        viewModel.bypassChecks = (peekButton.state == .on)
+        inaccurateDataLabel.isHidden = (peekButton.state == .off)
+        reloadUI()
+    }
     // MARK: - Properties
     override var nibName: NSNib.Name? {
         return "StatsViewController"
     }
-    var currentProject: XcodeProject!
-    
-    lazy var formatter: DateFormatter = {
-       let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        return formatter
-    }()
+    let viewModel = StatsViewModel()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -40,59 +43,47 @@ class StatsViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        inaccurateDataLabel.isHidden = true
     }
     
     func loadWithProject(_ project: XcodeProject) {
-        currentProject = project
+        viewModel.project = project
         reloadUI()
     }
     
     private func reloadUI() {
-        titleLabel.stringValue = currentProject.name
+        titleLabel.stringValue = viewModel.project.name
+        configurePeekButton()
         configureLongestBuildLabel()
-        configureAverageBuildTimeLabels()
+        configureDynamicLabels()
         configureMostBuildsLabel()
-        
     }
     
     private func configureLongestBuildLabel() {
-        if let longestBuild = currentProject.longestBuild {
-            longestBuildTimeLabel.stringValue = "\(String.prettyTime(longestBuild.totalBuildTime)) - \(formatter.string(from: longestBuild.buildDate))"
+        if let longestBuildString = viewModel.longestBuildString {
+            longestBuildTimeLabel.stringValue = longestBuildString
         }
     }
     
-    private func configureAverageBuildTimeLabels() {
-        
-        let dailyAverageText: String
-        let averageBuildTimeText: String
-        
-        if currentProject.builds.count < 50 {
-            let numberRemaining = 50 - currentProject.builds.count
-            averageBuildTimeText = "\(numberRemaining) More Builds Needed"
-        }
-        else {
-            averageBuildTimeText = String.prettyTime(currentProject.totalAverageBuildTime)
-        }
-        
-        if currentProject.numberOfDaysWithBuilds < 30 {
-            let numberRemaining = 30 - currentProject.numberOfDaysWithBuilds
-            dailyAverageText = "\(numberRemaining) More Build Days Needed"
-        }
-        else {
-            let dailyAverage = currentProject.dailyAverageNumberOfBuilds
-            dailyAverageText = "\(dailyAverage) builds per day"
-        }
-        
-        dailyAverageLabel.stringValue = dailyAverageText
-        averageBuildTimeLabel.stringValue = averageBuildTimeText
+    private func configurePeekButton() {
+        peekButton.isHidden = !viewModel.peekButtonShouldShow
+    }
+    
+    private func configureDynamicLabels() {
+        averageBuildTimeLabel.stringValue = viewModel.averageBuildTimeString
+        dailyAverageLabel.stringValue = viewModel.dailyAverageBuildsString
+        timeSpentLabel.stringValue = viewModel.workingTimePercentageString
+    }
+    
+    private func configureAverageBuildTime() {
+        averageBuildTimeLabel.stringValue = viewModel.averageBuildTimeString
     }
     
     private func configureMostBuildsLabel() {
-        guard let mostBuilds = currentProject.mostBuildsInADay else {
-            mostBuildsLabel.isHidden = true
+        guard let mostBuildsString = viewModel.mostBuildsInADayString else {
             return
         }
-        mostBuildsLabel.stringValue = "\(mostBuilds.recurrances) - \(formatter.string(from: mostBuilds.date))"
+        mostBuildsLabel.stringValue = mostBuildsString
     }
     
 }

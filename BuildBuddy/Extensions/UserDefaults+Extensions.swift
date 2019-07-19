@@ -30,6 +30,12 @@ extension UserDefaults {
         case customEndDate
     }
     
+    enum DefaultsAdvancedKey: String, CaseIterable {
+        case daysWorkedPerYear = "Days Worked Per Year"
+        case hoursWorkedPerDay = "Hours Worked Per Day"
+        case customDecimalPlaces = "Number Of Decimal Places"
+    }
+    
     
     
     // MARK: - Private
@@ -58,7 +64,25 @@ extension UserDefaults {
         }
     }
     
+    private static func getAdvancedValueForKey(_ key: DefaultsAdvancedKey) -> Int {
+        return UserDefaults.standard.integer(forKey: key.rawValue)
+    }
+    
     // MARK: - Getters
+    
+    static var numberOfDaysWorkedPerYear: Int {
+        return getAdvancedValueForKey(.daysWorkedPerYear)
+    }
+    
+    static var hoursWorkedPerDay: Int {
+        return getAdvancedValueForKey(.hoursWorkedPerDay)
+    }
+    
+    static var customDecimalPlaces: Int {
+        return getAdvancedValueForKey(.customDecimalPlaces)
+    }
+    
+    
     
     static func get(_ period: String.BuildTimePeriod) -> Bool {
         return UserDefaults.standard.bool(forKey: period.defaultsBoolKey.rawValue)
@@ -98,7 +122,8 @@ extension UserDefaults {
         let periodKeys = (String.BuildTimePeriod.allCases).map() { $0.rawValue }
         let boolKeys = (DefaultsBoolKey.allCases).map() { $0.rawValue }
         let dateKeys = (DefaultsDateKey.allCases).map() { $0.rawValue }
-        return periodKeys + boolKeys + dateKeys
+        let advancedKeys = (DefaultsAdvancedKey.allCases).map() { $0.rawValue }
+        return periodKeys + boolKeys + dateKeys + advancedKeys
     }
 
     
@@ -128,6 +153,14 @@ extension UserDefaults {
         UserDefaults.standard.set(endDate.timeIntervalSinceReferenceDate, forKey: "customEndDate")
     }
     
+    static private func setInitialDaysWorkedPerYear() {
+        UserDefaults.standard.set(262, forKey: UserDefaults.DefaultsAdvancedKey.daysWorkedPerYear.rawValue)
+    }
+    
+    static private func setInitialHoursWorkedPerDay() {
+        UserDefaults.standard.set(8, forKey: UserDefaults.DefaultsAdvancedKey.hoursWorkedPerDay.rawValue)
+    }
+    
     static func setInitialDefaults() {
         for key in DefaultsBoolKey.allCases {
             if key == .showsCustomInMenu {
@@ -137,6 +170,8 @@ extension UserDefaults {
                 set(key, bool: true)
             }
         }
+        setInitialDaysWorkedPerYear()
+        setInitialHoursWorkedPerDay()
         set(.automatic)
     }
     

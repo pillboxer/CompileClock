@@ -49,7 +49,9 @@ extension String {
     static func prettyTime(_ time: Double) -> String {
         let timeValue = time.prettyTime.time
         let timeBlock = time.prettyTime.timeBlock
-        return String(format: "%.1f \(timeBlock.rawValue)", timeValue)
+        let decimalPlaces = Int(UserDefaults.customDecimalPlaces)
+
+        return String(format: "%.\(decimalPlaces)f \(timeBlock.rawValue)", timeValue)
     }
 
     static func formattedTime(_ time: Double, forPeriod period: String.BuildTimePeriod) -> String {
@@ -71,7 +73,8 @@ extension String {
         case .automatic:
             return prettyTime(time)
         }
-        return String(format: "%.1f \(blockForPeriod.rawValue)", timeValue)
+        let decimalPlaces = UserDefaults.customDecimalPlaces
+        return String(format: "%.\(decimalPlaces)f \(blockForPeriod.rawValue)", timeValue)
     }
     
     private static func formattedStringForNoBuilds(withPeriod period: String.BuildTimePeriod) -> String {

@@ -15,6 +15,9 @@
 		BA8C3FCE22DCC1B30051BFD5 /* StatsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8C3FCD22DCC1B30051BFD5 /* StatsManager.swift */; };
 		BA8C3FD022DCC5260051BFD5 /* StatsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8C3FCF22DCC5260051BFD5 /* StatsWindowController.swift */; };
 		BA8C3FD222DCC53F0051BFD5 /* StatsWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA8C3FD122DCC53F0051BFD5 /* StatsWindowController.xib */; };
+		BA8D506F22E0609A005EE413 /* AdvancedPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8D506D22E0609A005EE413 /* AdvancedPreferencesViewController.swift */; };
+		BA8D507022E0609A005EE413 /* AdvancedPreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA8D506E22E0609A005EE413 /* AdvancedPreferencesViewController.xib */; };
+		BA8D507222E1E136005EE413 /* StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8D507122E1E136005EE413 /* StatsViewModel.swift */; };
 		BABD831722D8D91F0072A263 /* BuildBuddy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BABD831522D8D91F0072A263 /* BuildBuddy.xcdatamodeld */; };
 		BABD832822D8D9200072A263 /* BuildBuddyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD832722D8D9200072A263 /* BuildBuddyTests.swift */; };
 		BABD833B22D8D9480072A263 /* XcodeProjectMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD833622D8D9480072A263 /* XcodeProjectMenuItem.swift */; };
@@ -63,6 +66,9 @@
 		BA8C3FCD22DCC1B30051BFD5 /* StatsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsManager.swift; sourceTree = "<group>"; };
 		BA8C3FCF22DCC5260051BFD5 /* StatsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsWindowController.swift; sourceTree = "<group>"; };
 		BA8C3FD122DCC53F0051BFD5 /* StatsWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatsWindowController.xib; sourceTree = "<group>"; };
+		BA8D506D22E0609A005EE413 /* AdvancedPreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedPreferencesViewController.swift; sourceTree = "<group>"; };
+		BA8D506E22E0609A005EE413 /* AdvancedPreferencesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdvancedPreferencesViewController.xib; sourceTree = "<group>"; };
+		BA8D507122E1E136005EE413 /* StatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
 		BABD831022D8D91F0072A263 /* BuildBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuildBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BABD831622D8D91F0072A263 /* BuildBuddy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BuildBuddy.xcdatamodel; sourceTree = "<group>"; };
 		BABD831D22D8D9200072A263 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -217,6 +223,7 @@
 				BABD835622D8D9680072A263 /* MenuPreferencesViewController.xib */,
 				BABD835722D8D9680072A263 /* BuildListWindowController.xib */,
 				BABD835822D8D9680072A263 /* PreferencesWindowController.xib */,
+				BA8D506E22E0609A005EE413 /* AdvancedPreferencesViewController.xib */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -230,7 +237,9 @@
 				BABD836122D8D96F0072A263 /* PreferencesWindowController.swift */,
 				BAD6584822DB38600004DF1F /* FetchingMenuItemViewController.swift */,
 				BA5EC74322DE010C009632E3 /* StatsViewController.swift */,
+				BA8D507122E1E136005EE413 /* StatsViewModel.swift */,
 				BABD836222D8D96F0072A263 /* MenuPreferencesViewController.swift */,
+				BA8D506D22E0609A005EE413 /* AdvancedPreferencesViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -325,6 +334,7 @@
 				BABD835922D8D9680072A263 /* DatePickerPopoverViewController.xib in Resources */,
 				BABD835A22D8D9680072A263 /* MainMenu.xib in Resources */,
 				BABD835C22D8D9680072A263 /* BuildListWindowController.xib in Resources */,
+				BA8D507022E0609A005EE413 /* AdvancedPreferencesViewController.xib in Resources */,
 				BABD835D22D8D9680072A263 /* PreferencesWindowController.xib in Resources */,
 				BABD836A22D8D98B0072A263 /* Assets.xcassets in Resources */,
 				BA8C3FD222DCC53F0051BFD5 /* StatsWindowController.xib in Resources */,
@@ -361,6 +371,7 @@
 				BA743AFD22DA1D18009A6748 /* FileManager+Extensions.swift in Sources */,
 				BABD836522D8D96F0072A263 /* PreferencesWindowController.swift in Sources */,
 				BABD834722D8D94F0072A263 /* PreferencesManager.swift in Sources */,
+				BA8D507222E1E136005EE413 /* StatsViewModel.swift in Sources */,
 				BABD836822D8D9800072A263 /* AppDelegate.swift in Sources */,
 				BA8C3FCE22DCC1B30051BFD5 /* StatsManager.swift in Sources */,
 				BABD836422D8D96F0072A263 /* DatePickerPopoverViewController.swift in Sources */,
@@ -369,6 +380,7 @@
 				BA5EC74522DE010C009632E3 /* StatsViewController.swift in Sources */,
 				BABD835122D8D95E0072A263 /* Double+Extensions.swift in Sources */,
 				BABD836622D8D96F0072A263 /* MenuPreferencesViewController.swift in Sources */,
+				BA8D506F22E0609A005EE413 /* AdvancedPreferencesViewController.swift in Sources */,
 				BABD834622D8D94F0072A263 /* XcodeProjectManager.swift in Sources */,
 				BABD834322D8D94F0072A263 /* ActivityLogManager.swift in Sources */,
 				BABD833B22D8D9480072A263 /* XcodeProjectMenuItem.swift in Sources */,

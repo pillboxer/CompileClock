@@ -58,6 +58,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         menu.addItem(preferences)
         if items.count > 0 {
+            menu.addItem(NSMenuItem.separator())
             menu.addItem(stats)
         }
         lastMenuItems = menu.items

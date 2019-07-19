@@ -65,19 +65,23 @@ public class XcodeProject: NSManagedObject {
     }
     
     var earliestBuildDate: Date {
+        // Returns the earliest known build date - used for custom date picker
         let earliest = builds.sorted() { $0.buildDate < $1.buildDate }.first
         return earliest?.buildDate ?? Date()
     }
     
     var longestBuild: XcodeBuild? {
+        // Returns the build that took the longest time to compile
         return builds.sorted() { $0.totalBuildTime > $1.totalBuildTime }.first
     }
     
     var dailyAverageNumberOfBuilds: Double {
+        // Return how many times a project is built each day, on average
         return totalNumberOfBuilds / Double(numberOfDaysWithBuilds)
     }
     
     var numberOfDaysWithBuilds: Int {
+        // Return the number of days that have had builds - used so we know whether to show certain stats
         let dates = builds.map() { $0.buildDate }
         let dateStrings = dates.map() { formatter.string(from: $0) }
         let occurences = dateStrings.map() { ($0, 1) }
@@ -86,7 +90,24 @@ public class XcodeProject: NSManagedObject {
         return uniqueDates.count
     }
     
-    var totalAverageBuildTime: Double {
+    var percentageOfWorkingTimeSpentBuilding: Double {
+        let averageTimeSpentBuildingEachDay = averageBuildTime * dailyAverageNumberOfBuilds
+        print("AVERAGE TIME SPENT BUILDING \(averageTimeSpentBuildingEachDay)")
+        let daysWorked = UserDefaults.numberOfDaysWorkedPerYear
+        print("DAYS WORKED \(daysWorked)")
+        let timeSpentBuildingInAYearOfWork = averageTimeSpentBuildingEachDay * Double(daysWorked)
+        print("TIME SPENT IN A YEAR \(timeSpentBuildingInAYearOfWork)")
+        let secondsWorkedPerDay = UserDefaults.hoursWorkedPerDay * 60 * 60
+        print("SECONDS WORKED PER DAY \(secondsWorkedPerDay)")
+        let overall = daysWorked * secondsWorkedPerDay
+        print("SECONDS WORKED IN A WORKING YEAR \(overall)")
+        let percentage = (timeSpentBuildingInAYearOfWork / Double(overall)) * 100
+        print("PERCENTAGE OF WORKING TIME \(percentage)")
+        print("-----------")
+        return percentage
+    }
+    
+    var averageBuildTime: Double {
         return totalBuildTime / totalNumberOfBuilds
     }
     
