@@ -63,13 +63,13 @@ class XcodeProjectManager {
     }
     
     private static var foldersAtDerivedDataLocation: [String] {
-        #warning("What if user has different derived data location")
+        
         let fileManager = FileManager.default
-        guard let libraryFolder = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true).first else {
+        guard let location = UserDefaults.derivedDataURL else {
             return []
         }
-        let derivedDataLocation = URL(fileURLWithPath: "\(libraryFolder)/Developer/Xcode/DerivedData")
-        guard let enumerator = fileManager.enumerator(at: derivedDataLocation, includingPropertiesForKeys: [.nameKey, .isDirectoryKey], options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants], errorHandler: nil) else {
+        
+        guard let enumerator = fileManager.enumerator(at: location, includingPropertiesForKeys: [.nameKey, .isDirectoryKey], options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants], errorHandler: nil) else {
             return []
         }
         

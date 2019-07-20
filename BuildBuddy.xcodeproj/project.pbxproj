@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA0A41B622E32CEE00D5C1B0 /* WelcomeWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA0A41B522E32CEE00D5C1B0 /* WelcomeWindowController.xib */; };
+		BA0A41B822E3482C00D5C1B0 /* WelcomeWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0A41B722E3482C00D5C1B0 /* WelcomeWindowController.swift */; };
+		BA0A41BA22E3586800D5C1B0 /* DerivedDataPanelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0A41B922E3586800D5C1B0 /* DerivedDataPanelManager.swift */; };
+		BA0A41BC22E35D0100D5C1B0 /* WelcomeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0A41BB22E35D0100D5C1B0 /* WelcomeManager.swift */; };
 		BA4E630422DB6B0C00F54E20 /* Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E630322DB6B0C00F54E20 /* Listener.swift */; };
 		BA51957A22D8DB0600947899 /* Gzip in Frameworks */ = {isa = PBXBuildFile; productRef = BA51957922D8DB0600947899 /* Gzip */; };
 		BA5EC74522DE010C009632E3 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5EC74322DE010C009632E3 /* StatsViewController.swift */; };
@@ -59,6 +63,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA0A41B522E32CEE00D5C1B0 /* WelcomeWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WelcomeWindowController.xib; sourceTree = "<group>"; };
+		BA0A41B722E3482C00D5C1B0 /* WelcomeWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeWindowController.swift; sourceTree = "<group>"; };
+		BA0A41B922E3586800D5C1B0 /* DerivedDataPanelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerivedDataPanelManager.swift; sourceTree = "<group>"; };
+		BA0A41BB22E35D0100D5C1B0 /* WelcomeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeManager.swift; sourceTree = "<group>"; };
 		BA4E630322DB6B0C00F54E20 /* Listener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Listener.swift; sourceTree = "<group>"; };
 		BA5EC74322DE010C009632E3 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		BA5EC74422DE010C009632E3 /* StatsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatsViewController.xib; sourceTree = "<group>"; };
@@ -189,6 +197,8 @@
 				BABD834122D8D94F0072A263 /* XcodeProjectManager.swift */,
 				BABD834222D8D94F0072A263 /* PreferencesManager.swift */,
 				BA8C3FCD22DCC1B30051BFD5 /* StatsManager.swift */,
+				BA0A41B922E3586800D5C1B0 /* DerivedDataPanelManager.swift */,
+				BA0A41BB22E35D0100D5C1B0 /* WelcomeManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -220,6 +230,7 @@
 				BABF851922DB25550032FF16 /* FetchingMenuItemView.xib */,
 				BA8C3FD122DCC53F0051BFD5 /* StatsWindowController.xib */,
 				BA5EC74422DE010C009632E3 /* StatsViewController.xib */,
+				BA0A41B522E32CEE00D5C1B0 /* WelcomeWindowController.xib */,
 				BABD835622D8D9680072A263 /* MenuPreferencesViewController.xib */,
 				BABD835722D8D9680072A263 /* BuildListWindowController.xib */,
 				BABD835822D8D9680072A263 /* PreferencesWindowController.xib */,
@@ -240,6 +251,7 @@
 				BA8D507122E1E136005EE413 /* StatsViewModel.swift */,
 				BABD836222D8D96F0072A263 /* MenuPreferencesViewController.swift */,
 				BA8D506D22E0609A005EE413 /* AdvancedPreferencesViewController.swift */,
+				BA0A41B722E3482C00D5C1B0 /* WelcomeWindowController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -339,6 +351,7 @@
 				BABD836A22D8D98B0072A263 /* Assets.xcassets in Resources */,
 				BA8C3FD222DCC53F0051BFD5 /* StatsWindowController.xib in Resources */,
 				BABD835B22D8D9680072A263 /* MenuPreferencesViewController.xib in Resources */,
+				BA0A41B622E32CEE00D5C1B0 /* WelcomeWindowController.xib in Resources */,
 				BA5EC74622DE010C009632E3 /* StatsViewController.xib in Resources */,
 				BABF851A22DB25550032FF16 /* FetchingMenuItemView.xib in Resources */,
 			);
@@ -358,10 +371,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA0A41B822E3482C00D5C1B0 /* WelcomeWindowController.swift in Sources */,
 				BAE9EDD322D8E2D600DFFA7D /* XcodeBuild+CoreDataClass.swift in Sources */,
+				BA0A41BC22E35D0100D5C1B0 /* WelcomeManager.swift in Sources */,
 				BA8C3FD022DCC5260051BFD5 /* StatsWindowController.swift in Sources */,
 				BAE9EDD622D8E2D600DFFA7D /* XcodeProject+CoreDataProperties.swift in Sources */,
 				BAE9EDD522D8E2D600DFFA7D /* XcodeProject+CoreDataClass.swift in Sources */,
+				BA0A41BA22E3586800D5C1B0 /* DerivedDataPanelManager.swift in Sources */,
 				BABD834F22D8D95E0072A263 /* String+Extensions.swift in Sources */,
 				BAE9EDD422D8E2D600DFFA7D /* XcodeBuild+CoreDataProperties.swift in Sources */,
 				BABD836322D8D96F0072A263 /* BuildListWindowController.swift in Sources */,

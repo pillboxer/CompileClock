@@ -11,7 +11,6 @@ import Foundation
 extension UserDefaults {
     
     enum DefaultsBoolKey: String, CaseIterable {
-        case hasLaunchedBefore
         case showsTodayInMenu
         case showsWeekInMenu
         case showsAllTimeInMenu
@@ -128,7 +127,12 @@ extension UserDefaults {
 
     
     static var hasLaunchedBefore: Bool {
-        return UserDefaults.standard.bool(forKey: DefaultsBoolKey.hasLaunchedBefore.rawValue)
+        get {
+          UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "hasLaunchedBefore")
+        }
     }
     
     static var allPeriodsDisabled: Bool {
@@ -146,7 +150,30 @@ extension UserDefaults {
         return String.TimeBlock(rawValue: defaultsValue.lowercased()) ?? .automatic
     }
     
+    static var derivedDataURL: URL? {
+        guard let data = UserDefaults.standard.data(forKey: "derivedDataLocationData") else {
+            return nil
+        }
+        var notTrue = true
+        do {
+            let url = try URL(resolvingBookmarkData: data, options: [.withSecurityScope], relativeTo: nil, bookmarkDataIsStale: &notTrue)
+            return url
+        }
+        catch let error {
+            print(error.localizedDescription)
+        }
+        return nil
+        
+    }
+    
     // MARK: - Setters
+    
+    static func saveDerivedDataURL(_ url: URL) {
+        guard let bookmark = try? url.bookmarkData(options: .withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil) else {
+            fatalError()
+        }
+        UserDefaults.standard.set(bookmark, forKey: "derivedDataLocationData")
+    }
     
     static func set(startDate: Date, endDate: Date) {
         UserDefaults.standard.set(startDate.timeIntervalSinceReferenceDate, forKey: "customStartDate")
