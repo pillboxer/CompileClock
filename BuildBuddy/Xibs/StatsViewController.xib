@@ -16,6 +16,7 @@
                 <outlet property="mostBuildsLabel" destination="ff6-vg-moH" id="aZs-wC-UTN"/>
                 <outlet property="peekButton" destination="MYi-qZ-7Sc" id="gRy-eZ-ijL"/>
                 <outlet property="timeSpentLabel" destination="WKv-o8-Hs6" id="9yD-AS-zxJ"/>
+                <outlet property="timeSpentTitleLabel" destination="vcc-jK-wIL" id="3Mh-77-oBq"/>
                 <outlet property="titleLabel" destination="m32-3p-bUa" id="m6D-4d-5TY"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>

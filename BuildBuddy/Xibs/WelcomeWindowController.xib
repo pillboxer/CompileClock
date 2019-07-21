@@ -8,6 +8,10 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="WelcomeWindowController" customModule="BuildBuddy" customModuleProvider="target">
             <connections>
+                <outlet property="arrowImageView" destination="gNL-St-biB" id="Elb-qX-zBR"/>
+                <outlet property="firstBodyLabel" destination="6mW-hR-lQm" id="6rM-Cl-OUY"/>
+                <outlet property="letsGoButton" destination="5hf-tv-9Jh" id="0Pl-O6-Chf"/>
+                <outlet property="secondBodyLabel" destination="v0k-HN-p4E" id="Ddb-vP-34c"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="n6h-50-oHf"/>
             </connections>
         </customObject>
@@ -28,7 +32,7 @@
                             <constraint firstAttribute="width" constant="50" id="Jak-WW-5FT"/>
                             <constraint firstAttribute="height" constant="50" id="K56-B1-MP5"/>
                         </constraints>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="hammer" id="nlY-k4-YQD"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="hammer" id="nlY-k4-YQD"/>
                     </imageView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5u1-nF-kQR">
                         <rect key="frame" x="69" y="162" width="161" height="16"/>
@@ -64,11 +68,21 @@
                             <action selector="openPanel:" target="-2" id="UAJ-8q-AzI"/>
                         </connections>
                     </button>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gNL-St-biB">
+                        <rect key="frame" x="135" y="13" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="OHU-mP-VtF"/>
+                            <constraint firstAttribute="height" constant="30" id="gO6-zR-w8y"/>
+                        </constraints>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="arrow" id="XuA-H8-KfX"/>
+                    </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="bottom" secondItem="gNL-St-biB" secondAttribute="bottom" constant="13" id="4gu-Tr-5jn"/>
                     <constraint firstItem="5u1-nF-kQR" firstAttribute="top" secondItem="13n-UB-MIJ" secondAttribute="bottom" constant="8" id="4hD-b3-kiB"/>
                     <constraint firstAttribute="trailing" secondItem="v0k-HN-p4E" secondAttribute="trailing" constant="27" id="4oW-wS-XEg"/>
                     <constraint firstItem="5hf-tv-9Jh" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="6Bx-Pv-PUK"/>
+                    <constraint firstItem="gNL-St-biB" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="9Hx-7Y-faj"/>
                     <constraint firstItem="6mW-hR-lQm" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="BUt-Qw-x4W"/>
                     <constraint firstItem="6mW-hR-lQm" firstAttribute="centerY" secondItem="EiT-Mj-1SZ" secondAttribute="centerY" id="I10-hI-vhN"/>
                     <constraint firstAttribute="trailing" secondItem="6mW-hR-lQm" secondAttribute="trailing" constant="20" id="JO8-TV-LBu"/>
@@ -84,6 +98,7 @@
         </window>
     </objects>
     <resources>
+        <image name="arrow" width="50" height="50"/>
         <image name="hammer" width="512" height="512"/>
     </resources>
 </document>

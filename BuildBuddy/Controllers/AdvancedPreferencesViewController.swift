@@ -56,6 +56,10 @@ class AdvancedPreferencesViewController: NSViewController {
    // MARK : - Private Methods
     private func configureUI() {
         for key in UserDefaults.DefaultsAdvancedKey.allCases {
+            if key == .derivedDataLocation {
+                #warning("Change")
+                continue
+            }
             addLabelAndStackViewForKey(key)
         }
 
@@ -85,6 +89,8 @@ class AdvancedPreferencesViewController: NSViewController {
         case .hoursWorkedPerDay:
             stepper.minValue = 1
             stepper.maxValue = 24
+        default:
+            break
         }
         
         bind(stepper: stepper, to: textField, forKey: key)
@@ -104,6 +110,8 @@ class AdvancedPreferencesViewController: NSViewController {
             keyPath = "daysWorkedPerYear"
         case .hoursWorkedPerDay:
             keyPath = "hoursWorkedPerDay"
+        default:
+            return
         }
         
         stepper.bind(.value, to: self, withKeyPath: keyPath, options: [NSBindingOption.continuouslyUpdatesValue : true])

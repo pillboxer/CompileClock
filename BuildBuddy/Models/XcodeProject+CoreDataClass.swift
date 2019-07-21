@@ -122,6 +122,7 @@ public class XcodeProject: NSManagedObject {
     
     var logStoreHasBeenUpdated: Bool {
         let logUpdateTime = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
+        print("PROJECT: \(name)")
         print("The log was last updated at: \(Date(timeIntervalSinceReferenceDate: logUpdateTime))")
         print("Our last modified date was at: \(Date(timeIntervalSinceReferenceDate: lastModificationDate))")
         print("Thus Returning \(logUpdateTime > lastModificationDate)")
@@ -151,13 +152,11 @@ public class XcodeProject: NSManagedObject {
         return folderName + "/LogStoreManifest.plist"
     }
     
-    
-    // Get The Plist to fetch builds
+
     
     // MARK: - Exposed
     func fetchBuilds() {
         
-        // If the log store has not been updated, don't do this expensive task
         guard let folderName = folderName,
             let logs = logs else {
                 return

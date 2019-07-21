@@ -33,6 +33,7 @@ extension UserDefaults {
         case daysWorkedPerYear = "Days Worked Per Year"
         case hoursWorkedPerDay = "Hours Worked Per Day"
         case customDecimalPlaces = "Number Of Decimal Places"
+        case derivedDataLocation = "Derived Data Location"
     }
     
     
@@ -151,12 +152,12 @@ extension UserDefaults {
     }
     
     static var derivedDataURL: URL? {
-        guard let data = UserDefaults.standard.data(forKey: "derivedDataLocationData") else {
+        guard let data = UserDefaults.standard.data(forKey: DefaultsAdvancedKey.derivedDataLocation.rawValue) else {
             return nil
         }
         var notTrue = true
         do {
-            let url = try URL(resolvingBookmarkData: data, options: [.withSecurityScope], relativeTo: nil, bookmarkDataIsStale: &notTrue)
+            let url = try URL(resolvingBookmarkData: data, options: [], relativeTo: nil, bookmarkDataIsStale: &notTrue)
             return url
         }
         catch let error {
@@ -169,10 +170,10 @@ extension UserDefaults {
     // MARK: - Setters
     
     static func saveDerivedDataURL(_ url: URL) {
-        guard let bookmark = try? url.bookmarkData(options: .withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil) else {
+        guard let bookmark = try? url.bookmarkData(options: [], includingResourceValuesForKeys: nil, relativeTo: nil) else {
             fatalError()
         }
-        UserDefaults.standard.set(bookmark, forKey: "derivedDataLocationData")
+        UserDefaults.standard.set(bookmark, forKey: DefaultsAdvancedKey.derivedDataLocation.rawValue)
     }
     
     static func set(startDate: Date, endDate: Date) {
@@ -182,6 +183,10 @@ extension UserDefaults {
     
     static private func setInitialDaysWorkedPerYear() {
         UserDefaults.standard.set(262, forKey: UserDefaults.DefaultsAdvancedKey.daysWorkedPerYear.rawValue)
+    }
+    
+    static private func setInitialDecimalPlaces() {
+        UserDefaults.standard.set(1, forKey: UserDefaults.DefaultsAdvancedKey.customDecimalPlaces.rawValue)
     }
     
     static private func setInitialHoursWorkedPerDay() {
@@ -199,6 +204,7 @@ extension UserDefaults {
         }
         setInitialDaysWorkedPerYear()
         setInitialHoursWorkedPerDay()
+        setInitialDecimalPlaces()
         set(.automatic)
     }
     

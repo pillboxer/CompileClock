@@ -30,6 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         configureStatusItem()
         menu.delegate = self
         lastMenuItems = launchingMenuItems
+        loadMenu()
     }
 
     lazy var launchingMenuItems: [NSMenuItem] = {
@@ -78,11 +79,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     func menuWillOpen(_ menu: NSMenu) {
+        WelcomeManager.shared.close()
         guard UserDefaults.derivedDataURL != nil else {
             let item = NSMenuItem(title: "Set Derived Data Location...", action: #selector(openPanel), keyEquivalent: "")
             menu.items = [item]
             return
         }
+        
         // If we don't have new builds, just show the last ones
         guard XcodeProjectManager.needsUpdating else {
             menu.items = lastMenuItems
@@ -127,8 +130,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     @objc private func openPanel() {
-        NSApp.keyWindow?.close()
-        DerivedDataPanelManager.showDerivedDataPanel(onInitialLaunch: false)
+        DerivedDataPanelManager.showDerivedDataPanel(onInitialLaunch: !UserDefaults.hasLaunchedBefore)
     }
     
 }

@@ -88,7 +88,7 @@ class StatsViewModel {
             return String.prettyTime(averageBuildTime)
         }
         else {
-            return "Shows After \(numberOfBuildsNeededForAverageBuildTime) More Builds"
+            return "Shows After \(buildsRemainingUntilShowAverageBuildTime) More Builds"
         }
     }
     

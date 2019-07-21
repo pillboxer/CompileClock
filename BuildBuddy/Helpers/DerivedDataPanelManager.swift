@@ -16,28 +16,50 @@ class DerivedDataPanelManager {
         panel.canChooseFiles = false
         panel.allowsMultipleSelection = false
         guard let libraryFolder = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true).first else {
+            let alert = NSAlert()
+            alert.messageText = "Error: Could Not Find Library Folder"
+            alert.runModal()
             return
         }
-        panel.title = "Derived Data Location"
-        panel.message = "Confirm The Location Of Your Derived Data"
         let derivedDataLocation = URL(fileURLWithPath: "\(libraryFolder)/Developer/Xcode/")
         panel.directoryURL = derivedDataLocation
         panel.begin() { response in
             if response == .cancel {
                 if onInitialLaunch {
+                    WelcomeManager.shared.close()
                     WelcomeManager.shared.showWelcome()
                 }
                 return
             }
-            if let url = panel.url {
-                UserDefaults.saveDerivedDataURL(url)
+            guard let url = panel.url, derivedDataLocationIsValid(withUrl: url) else {
+                let alert = NSAlert()
+                alert.messageText = "It looks like this is not a valid DerivedData location. Please check and try again"
+                alert.alertStyle = .warning
+                alert.beginSheetModal(for: panel)
+                return
             }
             
+            UserDefaults.saveDerivedDataURL(url)
+            
             if onInitialLaunch {
-                // Show get started controller
+                WelcomeManager.shared.showSuccess()
                 UserDefaults.hasLaunchedBefore = true
             }
         }
+    }
+    
+    private static func derivedDataLocationIsValid(withUrl url: URL) -> Bool {
+        let fileManager = FileManager.default
+        
+        if !url.path.contains("DerivedData") {
+            return false
+        }
+        
+        guard let enumerator = fileManager.enumerator(at: url, includingPropertiesForKeys: [.nameKey, .isDirectoryKey], options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants], errorHandler: nil) else {
+            return false
+        }
+        let names = enumerator.map() { $0 as! URL }
+        return names.contains() { $0.path.contains("ModuleCache") }
     }
     
 }

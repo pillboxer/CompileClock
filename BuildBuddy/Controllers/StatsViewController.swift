@@ -16,6 +16,7 @@ class StatsViewController: NSViewController {
     @IBOutlet weak var longestBuildTimeLabel: NSTextField!
     @IBOutlet weak var mostBuildsLabel: NSTextField!
     @IBOutlet weak var dailyAverageLabel: NSTextField!
+    @IBOutlet weak var timeSpentTitleLabel: NSTextField!
     @IBOutlet weak var timeSpentLabel: NSTextField!
     @IBOutlet weak var improveAccuracyLabel: NSTextField!
     @IBOutlet weak var inaccurateDataLabel: NSTextField!
@@ -56,13 +57,32 @@ class StatsViewController: NSViewController {
         configurePeekButton()
         configureLongestBuildLabel()
         configureDynamicLabels()
+        configureImproveAccuracyLabel()
+        configureTimeSpentTitleLabel()
         configureMostBuildsLabel()
+    }
+    
+    private func configureTimeSpentTitleLabel() {
+        let font = NSFont.systemFont(ofSize: 13)
+        let superFont = NSFont.systemFont(ofSize: 11)
+        let string = NSMutableAttributedString(string: "Working Time Spent Building*", attributes: [.font:font])
+        string.setAttributes([.font: superFont, .baselineOffset: 3], range: NSRange(location: 27, length: 1))
+        timeSpentTitleLabel.attributedStringValue = string
     }
     
     private func configureLongestBuildLabel() {
         if let longestBuildString = viewModel.longestBuildString {
             longestBuildTimeLabel.stringValue = longestBuildString
         }
+    }
+    
+    private func configureImproveAccuracyLabel() {
+        let font = NSFont.systemFont(ofSize: 9)
+        let superFont = NSFont.systemFont(ofSize: 6)
+        let string = NSMutableAttributedString(string: "*For more accuracy, set the number of days and hours you work in the Advanced tab in Preferences", attributes: [.font:font])
+        string.setAttributes([.font: superFont, .baselineOffset: 3], range: NSRange(location: 0, length: 1))
+        string.setAlignment(.center, range: NSRange(location: 0, length: string.length))
+        improveAccuracyLabel.attributedStringValue = string
     }
     
     private func configurePeekButton() {
@@ -73,10 +93,6 @@ class StatsViewController: NSViewController {
         averageBuildTimeLabel.stringValue = viewModel.averageBuildTimeString
         dailyAverageLabel.stringValue = viewModel.dailyAverageBuildsString
         timeSpentLabel.stringValue = viewModel.workingTimePercentageString
-    }
-    
-    private func configureAverageBuildTime() {
-        averageBuildTimeLabel.stringValue = viewModel.averageBuildTimeString
     }
     
     private func configureMostBuildsLabel() {
