@@ -12,6 +12,7 @@ import Gzip
 class ActivityLogManager {
     
     static func buildTypeAndSuccessTuple(fromLog activityLog: Data?) -> (XcodeBuild.BuildType, Bool)? {
+        #warning("Need more robust method of checking build type")
         guard let activityLog = activityLog,
         let gzipped = try? activityLog.gunzipped(),
             let activityLogString = String(data: gzipped, encoding: .utf8) else {
@@ -34,7 +35,7 @@ class ActivityLogManager {
             type = .run
         }
 
-        let success = lastCharacters.contains("succeeded") || lastCharacters.contains("stopped")
+        let success = lastCharacters.contains("succeeded")
         return (type, success)
     }
     

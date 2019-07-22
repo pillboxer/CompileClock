@@ -30,6 +30,7 @@ class WelcomeManager: NSObject, NSWindowDelegate {
     }
     
     func close() {
+        controller?.window?.animateToStatusItem()
         controller?.window?.close()
     }
     

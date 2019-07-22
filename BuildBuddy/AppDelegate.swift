@@ -13,11 +13,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     @IBOutlet weak var window: NSWindow!
     
+    
+    static let shared = AppDelegate()
+    
     // MARK: - Properties
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     let listener = Listener.shared
     var menu = NSMenu()
     var lastMenuItems = [NSMenuItem]()
+
 
     // MARK: - Menu Items
     let preferences = NSMenuItem(title: "Preferences", action: #selector(openPreferences), keyEquivalent: "")
@@ -111,6 +115,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func menuWillOpen(_ menu: NSMenu) {
         // Close the welcome window if it's open
         WelcomeManager.shared.close()
+        
         
         // If there's no derivedDataURL, we need to set it. Just show that option and quit
         guard UserDefaults.derivedDataURL != nil else {

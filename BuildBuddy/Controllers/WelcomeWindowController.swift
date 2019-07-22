@@ -9,9 +9,11 @@
 import Cocoa
 
 class WelcomeWindowController: NSWindowController {
-
+    
     // MARK: - Action Methods
     @IBAction func openPanel(_ sender: Any) {
+        let panelFrame = NSRect(x: 440, y: 434, width: 799, height: 448)
+        window?.setFrame(panelFrame, display: true, animate: true)
         DerivedDataPanelManager.showDerivedDataPanel(onInitialLaunch: true)
         window?.close()
     }
@@ -35,17 +37,19 @@ class WelcomeWindowController: NSWindowController {
     // MARK: - Life Cycle
     override func windowDidLoad() {
         super.windowDidLoad()
-        window?.styleMask.remove([.closable, .resizable])
+        window?.styleMask.remove([.resizable])
+        window?.title = "BuildBuddy"
         window?.center()
         configureUIForState()
     }
-
-
+    
+    
     // MARK: - Initialisation
     init(displayState: DisplayState) {
         state = displayState
         super.init(window: nil)
     }
+
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -60,8 +64,8 @@ class WelcomeWindowController: NSWindowController {
             letsGoButton.isHidden = false
             arrowImageView.isHidden = true
         case .getStarted:
-            firstBodyLabel.stringValue = "You're All Set Up And Ready To Go."
-            secondBodyLabel.stringValue = "Check Your Builds By Opening The Menu Bar App Above"
+            firstBodyLabel.stringValue = "You're all set up and ready to go."
+            secondBodyLabel.stringValue = "Check your builds by selecting the menu bar icon"
             letsGoButton.isHidden = true
             arrowImageView.isHidden = false
         }

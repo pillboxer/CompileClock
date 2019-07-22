@@ -10,10 +10,12 @@ import Cocoa
 
 class DerivedDataPanelManager {
     
+    static var panel = NSOpenPanel()
+    
     // MARK: - Exposed Methods
     static func showDerivedDataPanel(onInitialLaunch: Bool) {
         // Configure the panel
-        let panel = NSOpenPanel()
+        panel.close()
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
         panel.allowsMultipleSelection = false
@@ -31,7 +33,6 @@ class DerivedDataPanelManager {
         panel.directoryURL = derivedDataLocation
         
         panel.begin() { response in
-            
             // If it's the initial launch, reshow the welcome screen on cancel
             if response == .cancel {
                 if onInitialLaunch {
@@ -40,7 +41,6 @@ class DerivedDataPanelManager {
                 }
                 return
             }
-            
             guard let url = panel.url else {
                 return
             }
@@ -51,7 +51,6 @@ class DerivedDataPanelManager {
                 alert.alertStyle = .warning
                 // I hate this, but we seem to lose control of the panel once ok is clicked on the modal, so we need to create a new one
                 alert.beginSheetModal(for: panel) { _ in
-                    panel.close()
                     showDerivedDataPanel(onInitialLaunch: onInitialLaunch)
                 }
                 return
