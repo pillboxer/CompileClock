@@ -28,8 +28,6 @@ class WelcomeWindowController: NSWindowController {
         case getStarted
     }
     private let state: DisplayState
-    
-    
     override var windowNibName: NSNib.Name? {
         return "WelcomeWindowController"
     }

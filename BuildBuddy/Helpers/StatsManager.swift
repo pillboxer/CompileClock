@@ -10,9 +10,11 @@ import Cocoa
 
 class StatsManager: NSObject, NSWindowDelegate {
     
+    // MARK: - Properties
     static let shared = StatsManager()
     private var statsWindowController: StatsWindowController?
     
+    // MARK: - Exposed Methods
     func showStats() {
         let controller = StatsWindowController(XcodeProjectManager.projectsWithBuilds)
         controller.window?.delegate = self

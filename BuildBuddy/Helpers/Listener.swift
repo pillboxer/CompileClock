@@ -10,15 +10,23 @@ import Foundation
 
 class Listener: NSObject {
     
+    // MARK: - Properties
     static let shared = Listener()
-    
+    private(set) var defaultsChanged = false
+
+    // MARK: - Initialisation
     private override init() {
         super.init()
         configureObservations()
     }
     
+    // MARK : - Private Methods
     private func configureObservations() {
         observeDefaults()
+    }
+    
+    @objc private func changeDefaults() {
+        defaultsChanged = true
     }
     
     private func observeDefaults() {
@@ -27,17 +35,13 @@ class Listener: NSObject {
         }
     }
     
+    // MARK: - Exposed Methods
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         changeDefaults()
     }
-    
-    private(set) var defaultsChanged = false
-    
-    @objc private func changeDefaults() {
-        defaultsChanged = true
-    }
-    
-    func resetDefaults() {
+        
+    func resetDefaultsChangedStatus() {
         defaultsChanged = false
     }
     

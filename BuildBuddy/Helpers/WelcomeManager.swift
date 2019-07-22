@@ -10,10 +10,11 @@ import Cocoa
 
 class WelcomeManager: NSObject, NSWindowDelegate {
     
+    // MARK: - Properties
     static let shared = WelcomeManager()
     var controller: WelcomeWindowController?
     
-    
+    // MARK: - Exposed Methods
     func showWelcome() {
         controller = WelcomeWindowController(displayState: .welcome)
         controller?.showWindow(nil)

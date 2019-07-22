@@ -14,8 +14,7 @@ import CoreData
 @objc(XcodeProject)
 public class XcodeProject: NSManagedObject {
     
-    // MARK: - Creation
-    
+    // MARK: - Creation And Fetching
     static func createNewProjectWithFolderName(_ folderName: String) -> XcodeProject? {
         let project: XcodeProject
         if let existingProject = existingProjectWithFolderName(folderName) {
@@ -48,17 +47,10 @@ public class XcodeProject: NSManagedObject {
         super.init(entity: entity, insertInto: context)
     }
     
-    
-    // MARK: - Properties
+    // MARK: - Exposed Properties
     var builds: [XcodeBuild] {
         return xcodeBuilds?.allObjects as? [XcodeBuild] ?? []
     }
-    
-    private lazy var formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        return formatter
-    }()
     
     var name: String {
         return builds.first?.name ?? "Name Not Found"
@@ -92,24 +84,42 @@ public class XcodeProject: NSManagedObject {
     
     var percentageOfWorkingTimeSpentBuilding: Double {
         let averageTimeSpentBuildingEachDay = averageBuildTime * dailyAverageNumberOfBuilds
-        print("AVERAGE TIME SPENT BUILDING \(averageTimeSpentBuildingEachDay)")
         let daysWorked = UserDefaults.numberOfDaysWorkedPerYear
-        print("DAYS WORKED \(daysWorked)")
         let timeSpentBuildingInAYearOfWork = averageTimeSpentBuildingEachDay * Double(daysWorked)
-        print("TIME SPENT IN A YEAR \(timeSpentBuildingInAYearOfWork)")
         let secondsWorkedPerDay = UserDefaults.hoursWorkedPerDay * 60 * 60
-        print("SECONDS WORKED PER DAY \(secondsWorkedPerDay)")
         let overall = daysWorked * secondsWorkedPerDay
-        print("SECONDS WORKED IN A WORKING YEAR \(overall)")
         let percentage = (timeSpentBuildingInAYearOfWork / Double(overall)) * 100
-        print("PERCENTAGE OF WORKING TIME \(percentage)")
-        print("-----------")
         return percentage
+    }
+    
+    var logStoreHasBeenUpdated: Bool {
+        let logUpdateTime = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
+        // If the time of the last update to the log was after the last modification date, then it has been updated
+        return logUpdateTime > lastModificationDate
     }
     
     var averageBuildTime: Double {
         return totalBuildTime / totalNumberOfBuilds
     }
+    
+    var mostBuildsInADay: (date: Date, recurrances: Int)? {
+        let dates = builds.map() { $0.buildDate }
+        let dateStrings = dates.map() { formatter.string(from: $0) }
+        let occurences = dateStrings.map() { ($0, 1) }
+        let counts = Dictionary(occurences, uniquingKeysWith: +)
+        let highestDateDict = counts.sorted() { $0.value > $1.value }.first
+        guard let dict = highestDateDict, let date = formatter.date(from: dict.key) else {
+            return nil
+        }
+        return (date, dict.value)
+    }
+    
+    // MARK: - Private Properties
+    private lazy var formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter
+    }()
     
     private var totalNumberOfBuilds: Double {
         return Double(builds.count)
@@ -118,16 +128,6 @@ public class XcodeProject: NSManagedObject {
     private var totalBuildTime: Double {
         let allBuilds = builds.map() { $0.totalBuildTime }
         return allBuilds.reduce(0, +)
-    }
-    
-    var logStoreHasBeenUpdated: Bool {
-        let logUpdateTime = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
-        print("PROJECT: \(name)")
-        print("The log was last updated at: \(Date(timeIntervalSinceReferenceDate: logUpdateTime))")
-        print("Our last modified date was at: \(Date(timeIntervalSinceReferenceDate: lastModificationDate))")
-        print("Thus Returning \(logUpdateTime > lastModificationDate)")
-        print("-----------")
-        return logUpdateTime > lastModificationDate
     }
     
     private var lastBuild: XcodeBuild? {
@@ -152,48 +152,26 @@ public class XcodeProject: NSManagedObject {
         return folderName + "/LogStoreManifest.plist"
     }
     
-
-    
-    // MARK: - Exposed
+    // MARK: - Exposed Methods
     func fetchBuilds() {
-        
         guard let folderName = folderName,
             let logs = logs else {
                 return
         }
-      
         for (buildKey, buildDict) in logs {
-            // If the buildDict's end time is before the lastModificationDate, stop!
+            // Make sure the build is new, otherwise we don't need to bother with it
             if let buildDict = buildDict as? [String : Any],
                 buildDictIsNew(buildDict),
-                let newBuild = XcodeBuild(buildDict), let typeAndSuccessTuple = XcodeProjectManager.buildTypeAndSuccessTuple(buildKey, fromFolder: folderName) {
+                let newBuild = XcodeBuild(buildDict),
+                let typeAndSuccessTuple = XcodeProjectManager.buildTypeAndSuccessTuple(buildKey, fromFolder: folderName) {
                 newBuild.wasSuccessful = typeAndSuccessTuple.success
                 newBuild.buildType = typeAndSuccessTuple.type
                 addToXcodeBuilds(newBuild)
             }
         }
+        // We can have this here, as even if there are no new builds, we are just replacing the date with the same date!
         lastModificationDate = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
         CoreDataManager.save()
-    }
-    
-    
-    private func buildDictIsNew(_ dict: [String : Any]) -> Bool {
-        guard let timeStarted = dict["timeStartedRecording"] as? Double else {
-            return true
-        }
-        return timeStarted > lastModificationDate
-    }
-    
-    var mostBuildsInADay: (date: Date, recurrances: Int)? {
-        let dates = builds.map() { $0.buildDate }
-        let dateStrings = dates.map() { formatter.string(from: $0) }
-        let occurences = dateStrings.map() { ($0, 1) }
-        let counts = Dictionary(occurences, uniquingKeysWith: +)
-        let highestDateDict = counts.sorted() { $0.value > $1.value }.first
-        guard let dict = highestDateDict, let date = formatter.date(from: dict.key) else {
-            return nil
-        }
-        return (date, dict.value)
     }
     
     func buildsForPeriod(_ period: String.BuildTimePeriod) -> [XcodeBuild]? {
@@ -220,25 +198,31 @@ public class XcodeProject: NSManagedObject {
             filteredBuilds = customBuilds
             
         }
+        // Run the filtered builds against our UserDefaults settings
         return buildsToShow(fromBuilds: filteredBuilds)
-    }
-    
-    func buildsToShow(fromBuilds builds: [XcodeBuild]) -> [XcodeBuild] {
-        return builds.filter() { build in
-            // If we don't show tests, archives or cleans and the build is one, we hide
-            if !UserDefaults.showsBuildType(build.buildType) {
-                return false
-            }
-            
-            return UserDefaults.showsSuccess(build.wasSuccessful)
-            
-            
-        }
     }
     
     func numberOfBuildsForPeriod(_ period: String.BuildTimePeriod) -> Int {
         return buildsForPeriod(period)?.count ?? 0
     }
     
+    // MARK: - Private Methods
+    private func buildDictIsNew(_ dict: [String : Any]) -> Bool {
+        guard let timeStarted = dict["timeStartedRecording"] as? Double else {
+            return true
+        }
+        // We know the build is new if the time of the build happened after our internal last modification date
+        return timeStarted > lastModificationDate
+    }
     
+    private func buildsToShow(fromBuilds builds: [XcodeBuild]) -> [XcodeBuild] {
+        return builds.filter() { build in
+            // If we don't show tests, archives or cleans and the build is one of those, we hide
+            if !UserDefaults.showsBuildType(build.buildType) {
+                return false
+            }
+            // We check if we are showing builds with this result (success or failure)
+            return UserDefaults.showsSuccess(build.wasSuccessful)
+        }
+    }
 }

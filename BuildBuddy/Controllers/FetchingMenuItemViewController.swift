@@ -9,18 +9,23 @@
 import Cocoa
 
 class FetchingMenuItemViewController: NSViewController {
-
+    
+    // MARK: - IBOutlets
     @IBOutlet var customView: NSView!
     @IBOutlet weak var spinner: NSProgressIndicator!
     
+    // MARK: - Properties
     override var nibName: NSNib.Name? {
         return "FetchingMenuItemView"
     }
+    
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         spinner.startAnimation(self)
     }
     
+    // MARK: - Initialisation
     init() {
         super.init(nibName: nil, bundle: nil)
     }

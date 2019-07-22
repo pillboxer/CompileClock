@@ -9,7 +9,8 @@
 import Foundation
 import Gzip
 extension String {
-
+    
+    // MARK: - Enums
     enum TimeBlock: String, CaseIterable {
         case automatic
         case seconds
@@ -39,13 +40,13 @@ extension String {
                 return  UserDefaults.DefaultsBoolKey.showsCustomInMenu
             }
         }
-        
         var pretty: String {
             return self.rawValue.capitalized
         }
     
     }
     
+    // MARK: - Exposed Methods
     static func prettyTime(_ time: Double) -> String {
         let timeValue = time.prettyTime.time
         let timeBlock = time.prettyTime.timeBlock
@@ -63,11 +64,11 @@ extension String {
         let timeValue: Double
         switch blockForPeriod {
         case .days:
-            timeValue = time.days
+            timeValue = time.daysFromSeconds
         case .hours:
-            timeValue = time.hours
+            timeValue = time.hoursFromSeconds
         case .minutes:
-            timeValue = time.minutes
+            timeValue = time.minutesFromSeconds
         case .seconds:
             timeValue = time
         case .automatic:
@@ -77,6 +78,17 @@ extension String {
         return String(format: "%.\(decimalPlaces)f \(blockForPeriod.rawValue)", timeValue)
     }
     
+    static func menuItemTitleFormatter(withPeriod period: String.BuildTimePeriod, numberOfBuilds: Int) -> String {
+        let buildOrBuilds = numberOfBuilds == 1 ? "Build" : "Builds"
+        if period == .last {
+            return period.pretty
+        }
+        return "\(period.pretty) - \(numberOfBuilds) \(buildOrBuilds)"
+    }
+    
+    static var xcodeProject = "XcodeProject"
+    
+    // MARK: - Private Methods
     private static func formattedStringForNoBuilds(withPeriod period: String.BuildTimePeriod) -> String {
         let noBuilds = "No Builds "
         switch period {
@@ -90,16 +102,7 @@ extension String {
             return noBuilds
         }
     }
-    
-    static func menuItemTitleFormatter(withPeriod period: String.BuildTimePeriod, numberOfBuilds: Int) -> String {
-        let buildOrBuilds = numberOfBuilds == 1 ? "Build" : "Builds"
-        if period == .last {
-            return period.pretty
-        }
-        return "\(period.pretty) - \(numberOfBuilds) \(buildOrBuilds)"
-    }
-    
-    static var xcodeProject = "XcodeProject"
+
 
 
 }

@@ -68,6 +68,18 @@ extension UserDefaults {
         return UserDefaults.standard.integer(forKey: key.rawValue)
     }
     
+    static private func setInitialDaysWorkedPerYear() {
+        UserDefaults.standard.set(262, forKey: UserDefaults.DefaultsAdvancedKey.daysWorkedPerYear.rawValue)
+    }
+    
+    static private func setInitialDecimalPlaces() {
+        UserDefaults.standard.set(1, forKey: UserDefaults.DefaultsAdvancedKey.customDecimalPlaces.rawValue)
+    }
+    
+    static private func setInitialHoursWorkedPerDay() {
+        UserDefaults.standard.set(8, forKey: UserDefaults.DefaultsAdvancedKey.hoursWorkedPerDay.rawValue)
+    }
+    
     // MARK: - Getters
     
     static var numberOfDaysWorkedPerYear: Int {
@@ -82,18 +94,16 @@ extension UserDefaults {
         return getAdvancedValueForKey(.customDecimalPlaces)
     }
     
-    
-    
-    static func get(_ period: String.BuildTimePeriod) -> Bool {
-        return UserDefaults.standard.bool(forKey: period.defaultsBoolKey.rawValue)
-    }
-    
     static var customStartDate: Date {
         return get(.customStartDate)
     }
     
     static var customEndDate: Date {
         return get(.customEndDate)
+    }
+    
+    static func get(_ period: String.BuildTimePeriod) -> Bool {
+        return UserDefaults.standard.bool(forKey: period.defaultsBoolKey.rawValue)
     }
     
     static func showsBuildType(_ buildType: XcodeBuild.BuildType) -> Bool {
@@ -168,7 +178,6 @@ extension UserDefaults {
     }
     
     // MARK: - Setters
-    
     static func saveDerivedDataURL(_ url: URL) {
         guard let bookmark = try? url.bookmarkData(options: [], includingResourceValuesForKeys: nil, relativeTo: nil) else {
             fatalError()
@@ -181,17 +190,7 @@ extension UserDefaults {
         UserDefaults.standard.set(endDate.timeIntervalSinceReferenceDate, forKey: "customEndDate")
     }
     
-    static private func setInitialDaysWorkedPerYear() {
-        UserDefaults.standard.set(262, forKey: UserDefaults.DefaultsAdvancedKey.daysWorkedPerYear.rawValue)
-    }
-    
-    static private func setInitialDecimalPlaces() {
-        UserDefaults.standard.set(1, forKey: UserDefaults.DefaultsAdvancedKey.customDecimalPlaces.rawValue)
-    }
-    
-    static private func setInitialHoursWorkedPerDay() {
-        UserDefaults.standard.set(8, forKey: UserDefaults.DefaultsAdvancedKey.hoursWorkedPerDay.rawValue)
-    }
+
     
     static func setInitialDefaults() {
         for key in DefaultsBoolKey.allCases {

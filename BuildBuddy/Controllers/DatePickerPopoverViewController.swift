@@ -42,6 +42,7 @@ class DatePickerPopoverViewController: NSViewController {
         return "DatePickerPopoverViewController"
     }
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         startDatePicker.minDate = XcodeProjectManager.earliestBuildDate

@@ -18,8 +18,8 @@ class MenuPreferencesViewController: NSViewController {
         return "MenuPreferencesViewController"
     }
     
-    var dateButton = NSButton()
-    let popover = DatePickerPopoverViewController()
+    private var dateButton = NSButton()
+    private let popover = DatePickerPopoverViewController()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -38,7 +38,7 @@ class MenuPreferencesViewController: NSViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    // MARK : - Private Methods
     private func addCheckBoxes() {
         for period in String.BuildTimePeriod.allCases {
             let checkbox = NSButton(checkboxWithTitle: period.pretty, target: self, action: nil)

@@ -10,8 +10,7 @@ import Foundation
 
 class XcodeProjectManager {
     
-    static let listener = Listener.shared
-    
+    // MARK: - Exposed Methods
     static var projects: [XcodeProject] {
         return retrieveProjects()
     }
@@ -25,36 +24,13 @@ class XcodeProjectManager {
         return dates.sorted() { $0 < $1 }.first ?? Date()
     }
     
-    static var averageBuildTimeForAllProjects: Double {
-        let averageBuildTimesForProjects = projects.map() { $0.averageBuildTime }
-        let totalAverage = averageBuildTimesForProjects.reduce(0, +)
-        return totalAverage / Double(projects.count)
-    }
-    
     static var needsUpdating: Bool {
+        // Filter down the projects so we just get the ones where the plist has been updated
         let projectsWithUpdates = projects.filter() { $0.logStoreHasBeenUpdated == true }
-        return !projectsWithUpdates.isEmpty || listener.defaultsChanged
+        // True if we have projects with updates
+        return !projectsWithUpdates.isEmpty
     }
-    
-    private static func retrieveProjects() -> [XcodeProject] {
-                
-        // First, get all the saved projects
-        let savedProjects = XcodeProject.fetchAll() ?? []
-        let savedProjectNames = savedProjects.compactMap() { $0.folderName }
-        // Filter out the saved projects from derivedData
-        let newProjectNames = foldersAtDerivedDataLocation.filter() { folderName in
-            
-            if folderName.contains("ModuleCache") { //|| folderName.contains("BuildBuddy") {
-                return false
-            }
-            return !savedProjectNames.contains(folderName)
-        }
-        
-        // Create new projects if any
-        let newProjects = newProjectNames.compactMap() { XcodeProject.createNewProjectWithFolderName($0) }
-        return savedProjects + newProjects
-    }
-    
+
     static func buildTypeAndSuccessTuple(_ buildKey: String, fromFolder folder: String) -> (type: XcodeBuild.BuildType, success: Bool)? {
         let folderURL = URL(fileURLWithPath: folder)
         let activityLogURL = folderURL.appendingPathComponent("\(buildKey).xcactivitylog")
@@ -62,8 +38,8 @@ class XcodeProjectManager {
         return ActivityLogManager.buildTypeAndSuccessTuple(fromLog: rawLog)
     }
     
-    private static var foldersAtDerivedDataLocation: [String] {
-        
+    // MARK: - Private Methods
+    static private var foldersAtDerivedDataLocation: [String] {
         let fileManager = FileManager.default
         guard let location = UserDefaults.derivedDataURL else {
             return []
@@ -73,15 +49,34 @@ class XcodeProjectManager {
             return []
         }
         
-        // Get the build folder here
-    
         return enumerator.map() { ($0 as! URL).buildFolder.path }
     }
     
+    static private var averageBuildTimeForAllProjects: Double {
+        let averageBuildTimesForProjects = projects.map() { $0.averageBuildTime }
+        let totalAverage = averageBuildTimesForProjects.reduce(0, +)
+        return totalAverage / Double(projects.count)
+    }
+    
+    static private func retrieveProjects() -> [XcodeProject] {
+        // First, get all the saved projects
+        let savedProjects = XcodeProject.fetchAll() ?? []
+        let savedProjectNames = savedProjects.compactMap() { $0.folderName }
+        // Filter out the saved projects from derivedData
+        let newProjectNames = foldersAtDerivedDataLocation.filter() { folderName in
+            
+            if folderName.contains("ModuleCache") || folderName.contains("BuildBuddy") {
+                return false
+            }
+            return !savedProjectNames.contains(folderName)
+        }
+        // Create new projects if any
+        let newProjects = newProjectNames.compactMap() { XcodeProject.createNewProjectWithFolderName($0) }
+        return savedProjects + newProjects
+    }
 }
 
 extension URL {
-    
     var buildFolder: URL {
         return self.appendingPathComponent("Logs/Build")
     }

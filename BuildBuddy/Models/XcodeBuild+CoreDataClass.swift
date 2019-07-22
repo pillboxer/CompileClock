@@ -15,23 +15,10 @@ import CoreData
 @objc(XcodeBuild)
 public class XcodeBuild: NSManagedObject {
     
+    // MARK: - Properties
     private static let timeStartedRecording = "timeStartedRecording"
     private static let timeStoppedRecording = "timeStoppedRecording"
     private static let schemeName = "schemeIdentifier-schemeName"
-    
-    convenience init?(_ dict: [String: Any]) {
-        guard let started = dict[XcodeBuild.timeStartedRecording] as? Double,
-            let stopped = dict[XcodeBuild.timeStoppedRecording] as? Double,
-            let name = dict[XcodeBuild.schemeName] as? String else {
-                return nil
-        }
-        let moc = CoreDataManager.moc
-        let entity = NSEntityDescription.entity(forEntityName: "XcodeBuild", in: moc)!
-        self.init(entity: entity, insertInto: moc)
-        self.name = name
-        self.timeStarted = started
-        self.timeStopped = stopped
-    }
     
     enum BuildType: Int {
         case run
@@ -79,4 +66,20 @@ public class XcodeBuild: NSManagedObject {
         return Calendar.current.isDate(buildDate, equalTo: Date(), toGranularity: .weekOfYear)
     }
     
+    // MARK: - Initialisation
+    convenience init?(_ dict: [String: Any]) {
+        guard let started = dict[XcodeBuild.timeStartedRecording] as? Double,
+            let stopped = dict[XcodeBuild.timeStoppedRecording] as? Double,
+            let name = dict[XcodeBuild.schemeName] as? String else {
+                return nil
+        }
+        let moc = CoreDataManager.moc
+        let entity = NSEntityDescription.entity(forEntityName: "XcodeBuild", in: moc)!
+        self.init(entity: entity, insertInto: moc)
+        self.name = name
+        self.timeStarted = started
+        self.timeStopped = stopped
+    }
+    
+
 }

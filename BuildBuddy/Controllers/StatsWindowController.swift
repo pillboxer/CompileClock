@@ -9,22 +9,26 @@
 import Cocoa
 
 class StatsWindowController: NSWindowController {
+
+    // MARK: - IBOutlets
+    @IBOutlet weak var statsContainerView: NSView!
+    @IBOutlet weak var outlineView: NSOutlineView!
+    
+    // MARK: - Properties
+    let projects: [XcodeProject]
+    let statsViewController = StatsViewController()
     
     override var windowNibName: NSNib.Name? {
         return "StatsWindowController"
     }
     
-    @IBOutlet weak var statsContainerView: NSView!
-    @IBOutlet weak var outlineView: NSOutlineView!
-    let projects: [XcodeProject]
-    let statsViewController = StatsViewController()
-    
+    // MARK: - Initialisation
     init(_ projects: [XcodeProject]) {
         self.projects = projects.sorted() { $0.name < $1.name }
         super.init(window: nil)
     }
     
-    
+    // MARK: - Life Cycle
     override func windowDidLoad() {
         super.windowDidLoad()
         window?.center()
@@ -36,11 +40,12 @@ class StatsWindowController: NSWindowController {
         configureOutlineView()
     }
     
-    
+    // MARK: - Initialisation
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK : - Private Methods
     private func configureOutlineView() {
         guard projects.count > 0 else {
             return
@@ -53,6 +58,7 @@ class StatsWindowController: NSWindowController {
 
 extension StatsWindowController: NSOutlineViewDataSource, NSOutlineViewDelegate {
     
+    // MARK: - Outline View Data Source
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         return projects.count + 1
     }
@@ -67,6 +73,8 @@ extension StatsWindowController: NSOutlineViewDataSource, NSOutlineViewDelegate 
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         return false
     }
+    
+    // MARK: - Outline View Delegate
 
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {        
         if item as? String == "PROJECTS" {

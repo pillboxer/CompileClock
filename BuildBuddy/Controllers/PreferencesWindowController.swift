@@ -12,7 +12,6 @@ import AppKit
 class PreferencesWindowController: NSWindowController, NSWindowDelegate {
 
     // MARK: - IBOutlets
-    
     @IBOutlet weak var menuContainerView: NSView!
     @IBOutlet weak var advancedContainerView: NSView!
     @IBOutlet weak var tabView: NSTabView!
@@ -26,6 +25,7 @@ class PreferencesWindowController: NSWindowController, NSWindowDelegate {
         return "PreferencesWindowController"
     }
     
+    // MARK: - Initialisation
     init() {
         super.init(window: nil)
     }
@@ -34,6 +34,7 @@ class PreferencesWindowController: NSWindowController, NSWindowDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Life Cycle
     override func windowDidLoad() {
         super.windowDidLoad()
         addToContainerView()
@@ -41,6 +42,7 @@ class PreferencesWindowController: NSWindowController, NSWindowDelegate {
         window?.styleMask.remove(.resizable)
     }
     
+    // MARK : - Private Methods
     private func addToContainerView() {
         menuContainerView.addSubview(menuPreferencesController.view)
         menuPreferencesController.view.frame = menuContainerView.bounds

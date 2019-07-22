@@ -10,20 +10,29 @@ import Cocoa
 
 class DerivedDataPanelManager {
     
+    // MARK: - Exposed Methods
     static func showDerivedDataPanel(onInitialLaunch: Bool) {
+        // Configure the panel
         let panel = NSOpenPanel()
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
         panel.allowsMultipleSelection = false
+        
+        // Make sure we can find library folder
         guard let libraryFolder = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true).first else {
             let alert = NSAlert()
             alert.messageText = "Error: Could Not Find Library Folder"
             alert.runModal()
             return
         }
+        
+        // Set the panel to the standard derivedData location
         let derivedDataLocation = URL(fileURLWithPath: "\(libraryFolder)/Developer/Xcode/")
         panel.directoryURL = derivedDataLocation
+        
         panel.begin() { response in
+            
+            // If it's the initial launch, reshow the welcome screen on cancel
             if response == .cancel {
                 if onInitialLaunch {
                     WelcomeManager.shared.close()
@@ -31,11 +40,20 @@ class DerivedDataPanelManager {
                 }
                 return
             }
-            guard let url = panel.url, derivedDataLocationIsValid(withUrl: url) else {
+            
+            guard let url = panel.url else {
+                return
+            }
+            
+            if !derivedDataLocationIsValid(withUrl: url) {
                 let alert = NSAlert()
                 alert.messageText = "It looks like this is not a valid DerivedData location. Please check and try again"
                 alert.alertStyle = .warning
-                alert.beginSheetModal(for: panel)
+                // I hate this, but we seem to lose control of the panel once ok is clicked on the modal, so we need to create a new one
+                alert.beginSheetModal(for: panel) { _ in
+                    panel.close()
+                    showDerivedDataPanel(onInitialLaunch: onInitialLaunch)
+                }
                 return
             }
             
@@ -48,6 +66,7 @@ class DerivedDataPanelManager {
         }
     }
     
+    // MARK : - Private Methods
     private static func derivedDataLocationIsValid(withUrl url: URL) -> Bool {
         let fileManager = FileManager.default
         

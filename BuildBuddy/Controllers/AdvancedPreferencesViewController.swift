@@ -18,19 +18,19 @@ class AdvancedPreferencesViewController: NSViewController {
         return "AdvancedPreferencesViewController"
     }
 
-    @objc var daysWorkedPerYear = UserDefaults.numberOfDaysWorkedPerYear {
+    @objc private var daysWorkedPerYear = UserDefaults.numberOfDaysWorkedPerYear {
         didSet {
             UserDefaults.standard.set(daysWorkedPerYear, forKey: UserDefaults.DefaultsAdvancedKey.daysWorkedPerYear.rawValue)
         }
     }
     
-    @objc var hoursWorkedPerDay = UserDefaults.hoursWorkedPerDay {
+    @objc private var hoursWorkedPerDay = UserDefaults.hoursWorkedPerDay {
         didSet {
             UserDefaults.standard.set(hoursWorkedPerDay, forKey: UserDefaults.DefaultsAdvancedKey.hoursWorkedPerDay.rawValue)
         }
     }
     
-    @objc var customDecimalPlaces = UserDefaults.customDecimalPlaces {
+    @objc private var customDecimalPlaces = UserDefaults.customDecimalPlaces {
         didSet {
             UserDefaults.standard.set(customDecimalPlaces, forKey: UserDefaults.DefaultsAdvancedKey.customDecimalPlaces.rawValue)
         }

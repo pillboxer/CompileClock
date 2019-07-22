@@ -10,13 +10,11 @@ import Cocoa
 
 class XcodeProjectMenuItemHelper {
     
-    static var controller: BuildListWindowController?
-    
-    static func menuItemsForProjects(_ projects: [XcodeProject]) -> [XcodeProjectMenuItem]  {
-        let items = projects.compactMap() { project -> XcodeProjectMenuItem? in
-            guard project.builds.count > 0 else {
-                return nil
-            }
+    // MARK: - Properties
+    static private var controller: BuildListWindowController?
+    static var menuItemsForProjects: [XcodeProjectMenuItem]  {
+        // Get all the projects with builds and sort them by name
+        let items = XcodeProjectManager.projectsWithBuilds.map() { project -> XcodeProjectMenuItem in
             let item = XcodeProjectMenuItem(project)
             item.title = project.name
             return item
@@ -24,6 +22,7 @@ class XcodeProjectMenuItemHelper {
         return items.sorted() { $0.title < $1.title }
     }
     
+    // MARK: - Exposed MEthods
     static func submenuForMenuItem(_ item: XcodeProjectMenuItem) -> NSMenu? {
         let submenu = NSMenu()
         let items = String.BuildTimePeriod.allCases.flatMap() { itemsForTimePeriod($0, project: item.project) }
@@ -31,8 +30,21 @@ class XcodeProjectMenuItemHelper {
 
         return submenu
     }
+
+    @objc static func showBuildListControllerForProject(_ sender: XcodeProjectMenuItem) {
+        NSApp.activate(ignoringOtherApps: true)
+        let project = sender.project
+        controller?.close()
+        guard let period = sender.period,
+            let builds = project.buildsForPeriod(period) else {
+                return
+        }
+        controller = BuildListWindowController(builds, period: period)
+        controller?.showWindow(nil)
+    }
     
-    static func itemsForTimePeriod(_ period: String.BuildTimePeriod, project: XcodeProject) -> [NSMenuItem] {
+    // MARK : - Private Methods
+    static private func itemsForTimePeriod(_ period: String.BuildTimePeriod, project: XcodeProject) -> [NSMenuItem] {
         guard UserDefaults.get(period) == true else { return [] }
         let buildsForPeriod = project.buildsForPeriod(period) ?? []
         let timePeriodTitle = String.menuItemTitleFormatter(withPeriod: period, numberOfBuilds: buildsForPeriod.count)
@@ -46,21 +58,8 @@ class XcodeProjectMenuItemHelper {
         timeItem.period = period
         timeItem.action = selector
         let separator = NSMenuItem.separator()
-
+        
         return [periodItem, timeItem, separator]
     }
-    
-    @objc static func showBuildListControllerForProject(_ sender: XcodeProjectMenuItem) {
-        NSApp.activate(ignoringOtherApps: true)
-        let project = sender.project
-        controller?.close()
-        guard let period = sender.period,
-            let builds = project.buildsForPeriod(period) else {
-                return
-        }
-        controller = BuildListWindowController(builds, period: period)
-        controller?.showWindow(nil)
-    }
-    
     
 }

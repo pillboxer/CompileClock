@@ -10,15 +10,15 @@ import Foundation
 
 extension Double {
 
-    var minutes: Double {
+    var minutesFromSeconds: Double {
         return self / 60
     }
 
-    var hours: Double {
+    var hoursFromSeconds: Double {
         return self / 60 / 60
     }
 
-    var days: Double {
+    var daysFromSeconds: Double {
         return self / 60 / 60 / 24
     }
     
@@ -36,13 +36,13 @@ extension Double {
     
     var prettyTime: (time: Double, timeBlock: String.TimeBlock) {
         if self.isGreaterThanADay {
-            return (self.days, .days)
+            return (self.daysFromSeconds, .days)
         }
         else if self.isGreaterThanAnHour {
-            return (self.hours, .hours)
+            return (self.hoursFromSeconds, .hours)
         }
         else if self.isGreaterThanAMinute {
-            return (self.minutes, .minutes)
+            return (self.minutesFromSeconds, .minutes)
         }
         else {
             return (self, .seconds)

@@ -17,14 +17,15 @@ class BuildListWindowController: NSWindowController, NSTableViewDataSource, NSTa
     override var windowNibName: NSNib.Name? {
         return "BuildListWindowController"
     }
-    
-    private var builds: [XcodeBuild]
-    private let period: String.BuildTimePeriod
     lazy var dateFormatter: DateFormatter = {
-       let formatter = DateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "E, d MMM yyyy HH:mm:ss"
         return formatter
     }()
+    
+    private var builds: [XcodeBuild]
+    private let period: String.BuildTimePeriod
+
     
     // MARK: - Initialisation
     init(_ builds: [XcodeBuild], period: String.BuildTimePeriod) {
@@ -33,28 +34,28 @@ class BuildListWindowController: NSWindowController, NSTableViewDataSource, NSTa
         super.init(window: nil)
     }
     
-    func windowDidResignKey(_ notification: Notification) {
-        window?.close()
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Life Cycle
     override func windowDidLoad() {
         super.windowDidLoad()
         window?.center()
         window?.title = builds.first?.name ?? "Build"
     }
     
+    func windowDidResignKey(_ notification: Notification) {
+        window?.close()
+    }
+    
+    // MARK: - Table View Delegate
     func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
         if let sortedBuilds = (builds as NSArray).sortedArray(using: tableView.sortDescriptors) as? [XcodeBuild] {
             self.builds = sortedBuilds
             tableView.reloadData()
         }
-
     }
-
     
     // MARK: - Table View Data Source
     func numberOfRows(in tableView: NSTableView) -> Int {

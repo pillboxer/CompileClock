@@ -22,6 +22,7 @@ class StatsViewController: NSViewController {
     @IBOutlet weak var inaccurateDataLabel: NSTextField!
     @IBOutlet weak var peekButton: NSButton!
     
+    // MARK: - Action Methods
     @IBAction func peekButtonTapped(_ sender: Any) {
         viewModel.bypassChecks = (peekButton.state == .on)
         inaccurateDataLabel.isHidden = (peekButton.state == .off)
@@ -31,8 +32,9 @@ class StatsViewController: NSViewController {
     override var nibName: NSNib.Name? {
         return "StatsViewController"
     }
-    let viewModel = StatsViewModel()
+    private let viewModel = StatsViewModel()
     
+    // MARK: - Initialisation
     init() {
         super.init(nibName: nil, bundle: nil)
     }
@@ -41,17 +43,19 @@ class StatsViewController: NSViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         inaccurateDataLabel.isHidden = true
     }
     
+    // MARK: - Exposed Methods
     func loadWithProject(_ project: XcodeProject) {
         viewModel.project = project
         reloadUI()
     }
     
+    // MARK : - Private Methods
     private func reloadUI() {
         titleLabel.stringValue = viewModel.project.name
         configurePeekButton()
