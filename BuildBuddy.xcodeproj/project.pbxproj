@@ -225,16 +225,16 @@
 		BABD835222D8D9680072A263 /* Xibs */ = {
 			isa = PBXGroup;
 			children = (
+				BABD835722D8D9680072A263 /* BuildListWindowController.xib */,
 				BABD835322D8D9680072A263 /* DatePickerPopoverViewController.xib */,
-				BABD835422D8D9680072A263 /* MainMenu.xib */,
 				BABF851922DB25550032FF16 /* FetchingMenuItemView.xib */,
 				BA8C3FD122DCC53F0051BFD5 /* StatsWindowController.xib */,
 				BA5EC74422DE010C009632E3 /* StatsViewController.xib */,
+				BABD835822D8D9680072A263 /* PreferencesWindowController.xib */,
 				BA0A41B522E32CEE00D5C1B0 /* WelcomeWindowController.xib */,
 				BABD835622D8D9680072A263 /* MenuPreferencesViewController.xib */,
-				BABD835722D8D9680072A263 /* BuildListWindowController.xib */,
-				BABD835822D8D9680072A263 /* PreferencesWindowController.xib */,
 				BA8D506E22E0609A005EE413 /* AdvancedPreferencesViewController.xib */,
+				BABD835422D8D9680072A263 /* MainMenu.xib */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -244,14 +244,14 @@
 			children = (
 				BABD835F22D8D96F0072A263 /* BuildListWindowController.swift */,
 				BABD836022D8D96F0072A263 /* DatePickerPopoverViewController.swift */,
-				BA8C3FCF22DCC5260051BFD5 /* StatsWindowController.swift */,
-				BABD836122D8D96F0072A263 /* PreferencesWindowController.swift */,
 				BAD6584822DB38600004DF1F /* FetchingMenuItemViewController.swift */,
+				BA8C3FCF22DCC5260051BFD5 /* StatsWindowController.swift */,
 				BA5EC74322DE010C009632E3 /* StatsViewController.swift */,
 				BA8D507122E1E136005EE413 /* StatsViewModel.swift */,
+				BABD836122D8D96F0072A263 /* PreferencesWindowController.swift */,
+				BA0A41B722E3482C00D5C1B0 /* WelcomeWindowController.swift */,
 				BABD836222D8D96F0072A263 /* MenuPreferencesViewController.swift */,
 				BA8D506D22E0609A005EE413 /* AdvancedPreferencesViewController.swift */,
-				BA0A41B722E3482C00D5C1B0 /* WelcomeWindowController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

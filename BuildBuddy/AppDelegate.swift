@@ -13,19 +13,28 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     @IBOutlet weak var window: NSWindow!
     
+    // MARK: - Properties
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+    let listener = Listener.shared
     var menu = NSMenu()
     var lastMenuItems = [NSMenuItem]()
-    #warning("Change This At Some Point")
+
+    // MARK: - Menu Items
     let preferences = NSMenuItem(title: "Preferences", action: #selector(openPreferences), keyEquivalent: "")
     let stats = NSMenuItem(title: "Stats", action: #selector(openStats), keyEquivalent: "")
-    let quit = NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "")
-    #warning("Change this")
-
-    
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
+    let nothingToShow = NSMenuItem(title: "Nothing To Show", action: nil, keyEquivalent: "")
+    let quit: NSMenuItem = {
+        let quit = NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q")
         quit.keyEquivalentModifierMask = .command
-        quit.keyEquivalent = "q"
+        return quit
+    }()
+    lazy var launchingMenuItems: [NSMenuItem] = {
+        return [preferences, NSMenuItem.separator(), quit]
+    }()
+    
+
+    // MARK: - Life Cycle
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         registerDefaults()
         configureStatusItem()
         menu.delegate = self
@@ -33,10 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         loadMenu()
     }
 
-    lazy var launchingMenuItems: [NSMenuItem] = {
-       return [preferences, NSMenuItem.separator(), quit]
-    }()
-    
+    // MARK: - Menu Bar Icon
     private func configureStatusItem() {
         let image = NSImage(named: "hammer")
         image?.size = NSMakeSize(18.0, 18.0)
@@ -44,34 +50,58 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         statusItem.menu = menu
     }
     
+    // MARK: - User Defaults
     private func registerDefaults() {
+        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
         if !UserDefaults.hasLaunchedBefore {
             UserDefaults.setInitialDefaults()
             WelcomeManager.shared.showWelcome()
             return
         }
-        
+    }
+    
+    // MARK: - Menu
+    private func loadMenu() {
+        // Show the spinner
+        showLoadingItem()
+        // Put the defaultsChanged status back to false so we don't fetch unnecessarily
+        Listener.shared.resetDefaultsChangedStatus()
+        // Fetch the projects
+        fetchProjects()
+        // Do this asynchronously, otherwise the menu bar won't open whilst it is constructing
+        DispatchQueue.main.async {
+            self.constructMenu()
+        }
     }
 
     private func constructMenu() {
-        let items = XcodeProjectMenuItemHelper.menuItemsForProjects(XcodeProjectManager.projects)
+        let items = XcodeProjectMenuItemHelper.menuItemsForProjects
         menu.items = items
         constructSubmenus()
+        
         if UserDefaults.allPeriodsDisabled {
-            menu.items.forEach() { $0.isHidden = true }
+            menu.items.forEach() { item in
+                item.submenu?.items = [nothingToShow]
+            }
         }
+        // Show the stats item if we have projects to show
         if items.count > 0 {
             menu.addItem(NSMenuItem.separator())
             menu.addItem(stats)
         }
+        
+        // Always add preferences and quit
         menu.addItem(preferences)
         menu.addItem(quit)
+        
+        // Important! This means we have items to show if we don't need to fetch and reconstruct the menu
         lastMenuItems = menu.items
     }
 
     private func constructSubmenus() {
+        // If the item is an XcodeProject, add the submenu that shows our data
         menu.items.forEach() { item in
-            if let item = item as? XcodeProjectMenuItem, item.title != "" {
+            if let item = item as? XcodeProjectMenuItem {
                 let submenu = XcodeProjectMenuItemHelper.submenuForMenuItem(item)
                 menu.setSubmenu(submenu, for: item)
             }
@@ -79,50 +109,52 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     func menuWillOpen(_ menu: NSMenu) {
+        // Close the welcome window if it's open
         WelcomeManager.shared.close()
+        
+        // If there's no derivedDataURL, we need to set it. Just show that option and quit
         guard UserDefaults.derivedDataURL != nil else {
             let item = NSMenuItem(title: "Set Derived Data Location...", action: #selector(openPanel), keyEquivalent: "")
-            menu.items = [item]
+            item.image = NSImage(named: "failure")
+            item.image?.size = NSSize(width: 18, height: 18)
+            menu.items = [item, quit]
             return
         }
         
-        // If we don't have new builds, just show the last ones
-        guard XcodeProjectManager.needsUpdating else {
+        // If the projects have been updated, or we have changed stuff in preferences, we should update.
+        // Otherwise, just show the last items we were showing
+        guard XcodeProjectManager.needsUpdating || listener.defaultsChanged  else {
             menu.items = lastMenuItems
             return
         }
+        
         // we have new builds so load the menu
         loadMenu()
     }
     
     private func showLoadingItem() {
+        // Sets the animated loading menu itme
         let item = NSMenuItem(title: "", action: nil, keyEquivalent: "")
         let controller = FetchingMenuItemViewController()
         item.view = controller.view
         menu.items = [item]
     }
     
+    
+    private func fetchProjects() {
+        for project in XcodeProjectManager.projects {
+            project.fetchBuilds()
+        }
+    }
+    
+
+    // MARK: - Selectors
     @objc func openPreferences() {
         PreferencesManager.showPreferences()
     }
     
     @objc func openStats() {
         StatsManager.shared.showStats()
-    }
-    
-    private func loadMenu() {
-        showLoadingItem()
-        Listener.shared.resetDefaults()
-        fetchProjects()
-        DispatchQueue.main.async {
-            self.constructMenu()
-        }
-    }
-    
-    private func fetchProjects() {
-        for project in XcodeProjectManager.projects {
-            project.fetchBuilds()
-        }
     }
     
     @objc private func quitApp() {

@@ -20,7 +20,7 @@ class StatsWindowController: NSWindowController {
     let statsViewController = StatsViewController()
     
     init(_ projects: [XcodeProject]) {
-        self.projects = projects
+        self.projects = projects.sorted() { $0.name < $1.name }
         super.init(window: nil)
     }
     

@@ -10,7 +10,6 @@ import Foundation
 
 class StatsViewModel {
     
-    
     // MARK: - Properties
     var project: XcodeProject!
     let numberOfBuildsNeededForAverageBuildTime = 50
