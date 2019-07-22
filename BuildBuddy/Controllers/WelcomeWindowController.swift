@@ -12,10 +12,18 @@ class WelcomeWindowController: NSWindowController {
     
     // MARK: - Action Methods
     @IBAction func openPanel(_ sender: Any) {
-        let panelFrame = NSRect(x: 440, y: 434, width: 799, height: 448)
-        window?.setFrame(panelFrame, display: true, animate: true)
-        DerivedDataPanelManager.showDerivedDataPanel(onInitialLaunch: true)
-        window?.close()
+        if let frame = window?.frame {
+            let newFrame = NSRect(x: frame.minX, y: frame.minY, width: 0, height: 0)
+            NSAnimationContext.runAnimationGroup({ _ in
+                NSAnimationContext.current.duration = 0.2
+                window?.animator().setFrame(newFrame, display: true, animate: true)
+            }) {
+                DerivedDataPanelManager.showDerivedDataPanel(onInitialLaunch: true)
+                self.window?.close()
+            }
+        }
+
+
     }
     
     // MARK: - IBOutlets
@@ -57,6 +65,7 @@ class WelcomeWindowController: NSWindowController {
     
     // MARK : - Private Methods
     private func configureUIForState() {
+        
         switch state {
         case .welcome:
             firstBodyLabel.stringValue = "BuildBuddy helps you keep track of the time you spend compiling your software."
@@ -68,6 +77,13 @@ class WelcomeWindowController: NSWindowController {
             secondBodyLabel.stringValue = "Check your builds by selecting the menu bar icon"
             letsGoButton.isHidden = true
             arrowImageView.isHidden = false
+        }
+        if let frame = window?.frame {
+            window?.setContentSize(NSSize.zero)
+            NSAnimationContext.runAnimationGroup() { _ in
+                NSAnimationContext.current.duration = 0.2
+                window?.animator().setFrame(frame, display: true, animate: true)
+            }
         }
     }
     
