@@ -65,7 +65,7 @@ class XcodeProjectManager {
         // Filter out the saved projects from derivedData
         let newProjectNames = foldersAtDerivedDataLocation.filter() { folderName in
             
-            if folderName.contains("ModuleCache") || folderName.contains("BuildBuddy") {
+            if folderName.contains("ModuleCache") { //|| folderName.contains("BuildBuddy") {
                 return false
             }
             return !savedProjectNames.contains(folderName)

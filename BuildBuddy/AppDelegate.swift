@@ -56,7 +56,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     // MARK: - User Defaults
     private func registerDefaults() {
-        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
         if !UserDefaults.hasLaunchedBefore {
             UserDefaults.setInitialDefaults()
             WelcomeManager.shared.showWelcome()
