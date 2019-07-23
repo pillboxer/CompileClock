@@ -70,9 +70,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // Put the defaultsChanged status back to false so we don't fetch unnecessarily
         Listener.shared.resetDefaultsChangedStatus()
         // Fetch the projects
-        fetchProjects()
         // Do this asynchronously, otherwise the menu bar won't open whilst it is constructing
         DispatchQueue.main.async {
+            self.fetchProjects()
             self.constructMenu()
         }
     }
