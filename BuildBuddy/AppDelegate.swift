@@ -21,8 +21,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     let listener = Listener.shared
     var menu = NSMenu()
     var lastMenuItems = [NSMenuItem]()
-
-
+    
+    
     // MARK: - Menu Items
     let preferences = NSMenuItem(title: "Preferences", action: #selector(openPreferences), keyEquivalent: "")
     let stats = NSMenuItem(title: "Stats", action: #selector(openStats), keyEquivalent: "")
@@ -36,7 +36,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return [preferences, NSMenuItem.separator(), quit]
     }()
     
-
+    
     // MARK: - Life Cycle
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         registerDefaults()
@@ -45,7 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         lastMenuItems = launchingMenuItems
         loadMenu()
     }
-
+    
     // MARK: - Menu Bar Icon
     private func configureStatusItem() {
         let image = NSImage(named: "hammer")
@@ -71,12 +71,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         Listener.shared.resetDefaultsChangedStatus()
         // Fetch the projects
         // Do this asynchronously, otherwise the menu bar won't open whilst it is constructing
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .userInitiated).async {
             self.fetchProjects()
-            self.constructMenu()
+            DispatchQueue.main.async {
+                self.constructMenu()
+            }
         }
     }
-
+    
     private func constructMenu() {
         let items = XcodeProjectMenuItemHelper.menuItemsForProjects
         menu.items = items
@@ -100,7 +102,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // Important! This means we have items to show if we don't need to fetch and reconstruct the menu
         lastMenuItems = menu.items
     }
-
+    
     private func constructSubmenus() {
         // If the item is an XcodeProject, add the submenu that shows our data
         menu.items.forEach() { item in
@@ -151,7 +153,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
     
-
+    
     // MARK: - Selectors
     @objc func openPreferences() {
         PreferencesManager.showPreferences()
