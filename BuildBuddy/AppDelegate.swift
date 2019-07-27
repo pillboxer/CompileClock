@@ -80,6 +80,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     private func constructMenu() {
+        FetchingMenuItemManager.resetView()
         let items = XcodeProjectMenuItemHelper.menuItemsForProjects
         menu.items = items
         constructSubmenus()
@@ -117,6 +118,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // Close the welcome window if it's open
         WelcomeManager.shared.close()
         
+        if FetchingMenuItemManager.isFetching {
+            FetchingMenuItemManager.changeTextIfAppropriate()
+            showLoadingItem()
+            return
+        }
+        
         
         // If there's no derivedDataURL, we need to set it. Just show that option and quit
         guard UserDefaults.derivedDataURL != nil else {
@@ -126,7 +133,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             menu.items = [item, quit]
             return
         }
-        
+
         // If the projects have been updated, or we have changed stuff in preferences, we should update.
         // Otherwise, just show the last items we were showing
         guard XcodeProjectManager.needsUpdating || listener.defaultsChanged  else {
@@ -140,17 +147,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     private func showLoadingItem() {
         // Sets the animated loading menu itme
-        let item = NSMenuItem(title: "", action: nil, keyEquivalent: "")
-        let controller = FetchingMenuItemViewController()
-        item.view = controller.view
-        menu.items = [item]
+        menu.items = [FetchingMenuItemManager.menuItem]
     }
     
     
     private func fetchProjects() {
+        FetchingMenuItemManager.start()
         for project in XcodeProjectManager.projects {
             project.fetchBuilds()
         }
+        FetchingMenuItemManager.finish()
     }
     
     

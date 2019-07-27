@@ -51,6 +51,7 @@
 		BAE9EDD422D8E2D600DFFA7D /* XcodeBuild+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE9EDD022D8E2D600DFFA7D /* XcodeBuild+CoreDataProperties.swift */; };
 		BAE9EDD522D8E2D600DFFA7D /* XcodeProject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE9EDD122D8E2D600DFFA7D /* XcodeProject+CoreDataClass.swift */; };
 		BAE9EDD622D8E2D600DFFA7D /* XcodeProject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE9EDD222D8E2D600DFFA7D /* XcodeProject+CoreDataProperties.swift */; };
+		BAEBA9E922EB75FA000A7FE0 /* FetchingMenuItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEBA9E822EB75FA000A7FE0 /* FetchingMenuItemManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,7 @@
 		BAE9EDD022D8E2D600DFFA7D /* XcodeBuild+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XcodeBuild+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BAE9EDD122D8E2D600DFFA7D /* XcodeProject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XcodeProject+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BAE9EDD222D8E2D600DFFA7D /* XcodeProject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XcodeProject+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BAEBA9E822EB75FA000A7FE0 /* FetchingMenuItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingMenuItemManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +200,7 @@
 				BABD833F22D8D94F0072A263 /* XcodeProjectMenuItemHelper.swift */,
 				BABD834122D8D94F0072A263 /* XcodeProjectManager.swift */,
 				BABD834222D8D94F0072A263 /* PreferencesManager.swift */,
+				BAEBA9E822EB75FA000A7FE0 /* FetchingMenuItemManager.swift */,
 				BA8C3FCD22DCC1B30051BFD5 /* StatsManager.swift */,
 				BA0A41B922E3586800D5C1B0 /* DerivedDataPanelManager.swift */,
 				BA0A41BB22E35D0100D5C1B0 /* WelcomeManager.swift */,
@@ -405,6 +408,7 @@
 				BABD834322D8D94F0072A263 /* ActivityLogManager.swift in Sources */,
 				BABD833B22D8D9480072A263 /* XcodeProjectMenuItem.swift in Sources */,
 				BA4E630422DB6B0C00F54E20 /* Listener.swift in Sources */,
+				BAEBA9E922EB75FA000A7FE0 /* FetchingMenuItemManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

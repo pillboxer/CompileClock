@@ -152,6 +152,7 @@ public class XcodeProject: NSManagedObject {
         return folderName + "/LogStoreManifest.plist"
     }
     
+    
     // MARK: - Exposed Methods
     func fetchBuilds() {
         guard let folderName = folderName,
@@ -164,6 +165,7 @@ public class XcodeProject: NSManagedObject {
                 buildDictIsNew(buildDict),
                 let newBuild = XcodeBuild(buildDict),
                 let typeAndSuccessTuple = XcodeProjectManager.buildTypeAndSuccessTuple(buildKey, fromFolder: folderName) {
+                FetchingMenuItemManager.changeTextIfAppropriate()
                 newBuild.wasSuccessful = typeAndSuccessTuple.success
                 newBuild.buildType = typeAndSuccessTuple.type
                 addToXcodeBuilds(newBuild)

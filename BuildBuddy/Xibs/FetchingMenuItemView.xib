@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="FetchingMenuItemViewController" customModule="BuildBuddy" customModuleProvider="target">
             <connections>
                 <outlet property="customView" destination="c22-O7-iKe" id="dGa-oX-qOa"/>
+                <outlet property="label" destination="gGU-0D-6NI" id="ONO-65-iiT"/>
                 <outlet property="spinner" destination="c2H-Dz-4xm" id="a5s-M0-SDB"/>
                 <outlet property="view" destination="c22-O7-iKe" id="AI3-oa-iJ5"/>
             </connections>
@@ -16,28 +17,32 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="c22-O7-iKe">
-            <rect key="frame" x="0.0" y="0.0" width="124" height="20"/>
+            <rect key="frame" x="0.0" y="0.0" width="116" height="20"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gGU-0D-6NI">
-                    <rect key="frame" x="18" y="2" width="72" height="16"/>
-                    <textFieldCell key="cell" lineBreakMode="clipping" title="Calculating" id="dEj-Bb-AJO">
+                    <rect key="frame" x="18" y="2" width="69" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="truncatingTail" title="Fetching" id="dEj-Bb-AJO">
                         <font key="font" usesAppearanceFont="YES"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
                 <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="c2H-Dz-4xm">
-                    <rect key="frame" x="101" y="2" width="16" height="16"/>
+                    <rect key="frame" x="93" y="2" width="16" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="16" id="2wP-t7-igh"/>
+                    </constraints>
                 </progressIndicator>
             </subviews>
             <constraints>
                 <constraint firstItem="c2H-Dz-4xm" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="kir-v2-2Uo"/>
                 <constraint firstItem="gGU-0D-6NI" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="nb7-CA-TTl"/>
+                <constraint firstItem="c2H-Dz-4xm" firstAttribute="leading" secondItem="gGU-0D-6NI" secondAttribute="trailing" constant="8" id="oKX-eK-YU9"/>
                 <constraint firstAttribute="trailing" secondItem="c2H-Dz-4xm" secondAttribute="trailing" constant="7" id="peu-eQ-UDM"/>
                 <constraint firstItem="gGU-0D-6NI" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="ptu-8e-cqh"/>
             </constraints>
-            <point key="canvasLocation" x="-69" y="36"/>
+            <point key="canvasLocation" x="11" y="36"/>
         </customView>
     </objects>
 </document>
