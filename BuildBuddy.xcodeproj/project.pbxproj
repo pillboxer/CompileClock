@@ -23,6 +23,7 @@
 		BA8D506F22E0609A005EE413 /* AdvancedPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8D506D22E0609A005EE413 /* AdvancedPreferencesViewController.swift */; };
 		BA8D507022E0609A005EE413 /* AdvancedPreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA8D506E22E0609A005EE413 /* AdvancedPreferencesViewController.xib */; };
 		BA8D507222E1E136005EE413 /* StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8D507122E1E136005EE413 /* StatsViewModel.swift */; };
+		BA9AF57E22EDA9540014790C /* Calender+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9AF57D22EDA9540014790C /* Calender+Extensions.swift */; };
 		BABD831722D8D91F0072A263 /* BuildBuddy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BABD831522D8D91F0072A263 /* BuildBuddy.xcdatamodeld */; };
 		BABD832822D8D9200072A263 /* BuildBuddyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD832722D8D9200072A263 /* BuildBuddyTests.swift */; };
 		BABD833B22D8D9480072A263 /* XcodeProjectMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD833622D8D9480072A263 /* XcodeProjectMenuItem.swift */; };
@@ -80,6 +81,7 @@
 		BA8D506D22E0609A005EE413 /* AdvancedPreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedPreferencesViewController.swift; sourceTree = "<group>"; };
 		BA8D506E22E0609A005EE413 /* AdvancedPreferencesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdvancedPreferencesViewController.xib; sourceTree = "<group>"; };
 		BA8D507122E1E136005EE413 /* StatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
+		BA9AF57D22EDA9540014790C /* Calender+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calender+Extensions.swift"; sourceTree = "<group>"; };
 		BABD831022D8D91F0072A263 /* BuildBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuildBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BABD831622D8D91F0072A263 /* BuildBuddy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BuildBuddy.xcdatamodel; sourceTree = "<group>"; };
 		BABD831D22D8D9200072A263 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				BABD834D22D8D95E0072A263 /* UserDefaults+Extensions.swift */,
 				BABD834E22D8D95E0072A263 /* Double+Extensions.swift */,
 				BA743AFC22DA1D18009A6748 /* FileManager+Extensions.swift */,
+				BA9AF57D22EDA9540014790C /* Calender+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				BABD835022D8D95E0072A263 /* UserDefaults+Extensions.swift in Sources */,
 				BAD6584922DB38600004DF1F /* FetchingMenuItemViewController.swift in Sources */,
 				BA743AFD22DA1D18009A6748 /* FileManager+Extensions.swift in Sources */,
+				BA9AF57E22EDA9540014790C /* Calender+Extensions.swift in Sources */,
 				BABD836522D8D96F0072A263 /* PreferencesWindowController.swift in Sources */,
 				BABD834722D8D94F0072A263 /* PreferencesManager.swift in Sources */,
 				BA8D507222E1E136005EE413 /* StatsViewModel.swift in Sources */,

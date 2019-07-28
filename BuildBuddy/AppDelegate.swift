@@ -21,6 +21,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     let listener = Listener.shared
     var menu = NSMenu()
     var lastMenuItems = [NSMenuItem]()
+    var lastFetchDate = Date()
+    
+    private var hasFetchedToday: Bool {
+        let date = Date()
+        return Calendar.numberOfDaysBetweenDates(date, lastFetchDate) == 0
+    }
     
     
     // MARK: - Menu Items
@@ -136,7 +142,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         // If the projects have been updated, or we have changed stuff in preferences, we should update.
         // Otherwise, just show the last items we were showing
-        guard XcodeProjectManager.needsUpdating || listener.defaultsChanged  else {
+        guard XcodeProjectManager.needsUpdating || listener.defaultsChanged || !hasFetchedToday  else {
             menu.items = lastMenuItems
             return
         }
@@ -157,6 +163,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             project.fetchBuilds()
         }
         FetchingMenuItemManager.finish()
+        lastFetchDate = Date()
     }
     
     
