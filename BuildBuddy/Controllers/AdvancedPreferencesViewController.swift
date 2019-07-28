@@ -62,6 +62,7 @@ class AdvancedPreferencesViewController: NSViewController {
             }
             addLabelAndStackViewForKey(key)
         }
+        addResetPreferencesUI()
 
     }
     
@@ -98,6 +99,38 @@ class AdvancedPreferencesViewController: NSViewController {
         let box = NSBox()
         box.boxType = .separator
         stackView.addArrangedSubview(box)
+    }
+    
+    private func addResetPreferencesUI() {
+        let label = NSTextField(labelWithString: "Reset Preferences")
+        stackView.addArrangedSubview(label)
+        let button = NSButton(title: "Reset", target: self, action: #selector(showResetPreferencesConfirmationAlert))
+        stackView.addArrangedSubview(button)
+    }
+    
+    @objc private func resetPreferences() {
+        closeAlert()
+        UserDefaults.setInitialDefaults()
+        view.window?.close()
+        let alert = NSAlert()
+        alert.messageText = "Successfully Reset Preferences"
+        alert.runModal()
+    }
+    
+    @objc private func showResetPreferencesConfirmationAlert() {
+        let alert = NSAlert()
+        alert.messageText = "Are you sure you want to reset your preferences?"
+        alert.addButton(withTitle: "Okay")
+        alert.addButton(withTitle: "Cancel")
+        alert.alertStyle = .critical
+        let result = alert.runModal()
+        if result == .alertFirstButtonReturn {
+            resetPreferences()
+        }
+    }
+    
+    @objc private func closeAlert() {
+        NSApp.mainWindow?.attachedSheet?.close()
     }
     
     private func bind(stepper: NSStepper, to textField: NSTextField, forKey key: UserDefaults.DefaultsAdvancedKey) {

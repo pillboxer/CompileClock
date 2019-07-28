@@ -8,12 +8,23 @@
 
 import Cocoa
 
-class PreferencesManager {
+class PreferencesManager: NSObject, NSWindowDelegate {
     
-    static let controller = PreferencesWindowController()
+    static let shared = PreferencesManager()
+    private var controller: PreferencesWindowController?
     
-    static func showPreferences() {
+    func showPreferences() {
+        controller = PreferencesWindowController()
         NSApp.activate(ignoringOtherApps: true)
-        controller.showWindow(nil)
+        controller?.window?.delegate = self
+        controller?.showWindow(nil)
     }
+    
+    func windowWillClose(_ notification: Notification) {
+        controller = nil
+    }
+    
+    
+    
+    
 }

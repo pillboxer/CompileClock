@@ -66,12 +66,12 @@ class DerivedDataPanelManager {
     }
     
     // MARK : - Private Methods
-    private static func derivedDataLocationIsValid(withUrl url: URL) -> Bool {
+    static func derivedDataLocationIsValid(withUrl url: URL) -> Bool {
         let fileManager = FileManager.default
         
-        if !url.path.contains("DerivedData") {
-            return false
-        }
+//        if !url.path.contains("DerivedData") {
+//            return false
+//        }
         
         guard let enumerator = fileManager.enumerator(at: url, includingPropertiesForKeys: [.nameKey, .isDirectoryKey], options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants], errorHandler: nil) else {
             return false

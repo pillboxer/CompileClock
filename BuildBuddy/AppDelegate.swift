@@ -132,7 +132,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         
         // If there's no derivedDataURL, we need to set it. Just show that option and quit
-        guard UserDefaults.derivedDataURL != nil else {
+        guard let url = UserDefaults.derivedDataURL, DerivedDataPanelManager.derivedDataLocationIsValid(withUrl: url) else {
             let item = NSMenuItem(title: "Set Derived Data Location...", action: #selector(openPanel), keyEquivalent: "")
             item.image = NSImage(named: "failure")
             item.image?.size = NSSize(width: 18, height: 18)
@@ -169,7 +169,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     // MARK: - Selectors
     @objc func openPreferences() {
-        PreferencesManager.showPreferences()
+        PreferencesManager.shared.showPreferences()
     }
     
     @objc func openStats() {
