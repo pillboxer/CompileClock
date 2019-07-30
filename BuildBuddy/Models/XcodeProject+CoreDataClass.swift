@@ -31,6 +31,14 @@ public class XcodeProject: NSManagedObject {
         return project
     }
     
+    static func deleteProjectWithFolderName(_ folderName: String) {
+        let context = CoreDataManager.moc
+        if let project = existingProjectWithFolderName(folderName) {
+            context.delete(project)
+        }
+        CoreDataManager.save()
+    }
+    
     private static func existingProjectWithFolderName(_ folderName: String) -> XcodeProject? {
         let fetchRequest = NSFetchRequest<XcodeProject>(entityName: String.xcodeProject)
         fetchRequest.predicate = NSPredicate(format: "folderName == %@", folderName)

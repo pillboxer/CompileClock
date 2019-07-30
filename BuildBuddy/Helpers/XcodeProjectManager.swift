@@ -38,6 +38,35 @@ class XcodeProjectManager {
         return ActivityLogManager.buildTypeAndSuccessTuple(fromLog: rawLog)
     }
     
+    static func mergeProjectsIfNecessary() {
+        let projectNames = projects.map() { $0.name }
+        let occurences = projectNames.map() { ($0, 1) }
+        let dict = Dictionary(occurences, uniquingKeysWith: +)
+        let moreThanOne = dict.filter() { $0.value > 1 }
+        let filtered = projects.filter() { project in
+            for (key, _) in moreThanOne {
+                if key == project.name && project.builds.count > 0 {
+                    return true
+                }
+            }
+            return false
+        }
+        var sortedByModificationDate = filtered.sorted() { $0.lastModificationDate < $1.lastModificationDate }
+        if let newest = sortedByModificationDate.last {
+            while sortedByModificationDate.count > 1 {
+                let currentOldest = sortedByModificationDate.removeFirst()
+                for build in currentOldest.builds {
+                    newest.addToXcodeBuilds(build)
+                }
+                if let folderName = currentOldest.folderName {
+                    XcodeProject.deleteProjectWithFolderName(folderName)
+                }
+            }
+        }
+
+        
+    }
+    
     // MARK: - Private Methods
     static private var foldersAtDerivedDataLocation: [String] {
         let fileManager = FileManager.default

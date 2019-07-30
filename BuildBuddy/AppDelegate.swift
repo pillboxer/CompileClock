@@ -163,6 +163,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             project.fetchBuilds()
         }
         FetchingMenuItemManager.finish()
+        XcodeProjectManager.mergeProjectsIfNecessary()
         lastFetchDate = Date()
     }
     
