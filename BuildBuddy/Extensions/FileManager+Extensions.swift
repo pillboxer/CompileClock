@@ -15,6 +15,6 @@ extension FileManager {
             let modificationDate = attributes[FileAttributeKey.modificationDate] as? Date {
             return modificationDate
         }
-        return Date()
+        return Date(timeIntervalSinceReferenceDate: 0)
     }
 }

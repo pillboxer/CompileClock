@@ -49,7 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         configureStatusItem()
         menu.delegate = self
         lastMenuItems = launchingMenuItems
-        loadMenu()
+        startLoop()
     }
     
     // MARK: - Menu Bar Icon
@@ -123,7 +123,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func menuWillOpen(_ menu: NSMenu) {
         // Close the welcome window if it's open
         WelcomeManager.shared.close()
-        
+        checkAndLoadMenu()
+    }
+    
+    private func showLoadingItem() {
+        // Sets the animated loading menu itme
+        menu.items = [FetchingMenuItemManager.menuItem]
+    }
+    
+    private func checkAndLoadMenu() {
         if FetchingMenuItemManager.isFetching {
             FetchingMenuItemManager.changeTextIfAppropriate()
             showLoadingItem()
@@ -139,7 +147,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             menu.items = [item, quit]
             return
         }
-
+        
         // If the projects have been updated, or we have changed stuff in preferences, we should update.
         // Otherwise, just show the last items we were showing
         guard XcodeProjectManager.needsUpdating || listener.defaultsChanged || !hasFetchedToday  else {
@@ -151,9 +159,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         loadMenu()
     }
     
-    private func showLoadingItem() {
-        // Sets the animated loading menu itme
-        menu.items = [FetchingMenuItemManager.menuItem]
+    private func startLoop() {
+        checkAndLoadMenu()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 75) { [weak self] in
+            self?.startLoop()
+        }
     }
     
     
