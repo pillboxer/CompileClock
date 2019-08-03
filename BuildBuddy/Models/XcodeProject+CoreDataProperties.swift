@@ -18,6 +18,7 @@ extension XcodeProject {
     }
 
     @NSManaged public var folderName: String?
+    @NSManaged public var userDefinedName: String?
     @NSManaged public var xcodeBuilds: NSSet?
     @NSManaged public var lastModificationDate: Double
 

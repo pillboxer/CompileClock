@@ -11,7 +11,8 @@ import Cocoa
 class XcodeProjectMenuItemHelper {
     
     // MARK: - Properties
-    static private var controller: BuildListWindowController?
+    static private var buildListController: BuildListWindowController?
+    static private var alternateNamesController: AlternateNamesWindowController?
     static var menuItemsForProjects: [XcodeProjectMenuItem]  {
         // Get all the projects with builds and sort them by name
         let items = XcodeProjectManager.projectsWithBuilds.map() { project -> XcodeProjectMenuItem in
@@ -22,10 +23,23 @@ class XcodeProjectMenuItemHelper {
         return items.sorted() { $0.title < $1.title }
     }
     
+    @objc static private func showAlternateNamesController(_ sender: XcodeProjectMenuItem) {
+        alternateNamesController = AlternateNamesWindowController(sender.project)
+        alternateNamesController?.showWindow(nil)
+    }
+    
     // MARK: - Exposed MEthods
     static func submenuForMenuItem(_ item: XcodeProjectMenuItem) -> NSMenu? {
         let submenu = NSMenu()
-        let items = String.BuildTimePeriod.allCases.flatMap() { itemsForTimePeriod($0, project: item.project) }
+        var items = String.BuildTimePeriod.allCases.flatMap() { itemsForTimePeriod($0, project: item.project) }
+        if item.project.hasAlternateNames {
+            let newItem = XcodeProjectMenuItem(item.project)
+            newItem.title = "Change Name..."
+            newItem.action = #selector(showAlternateNamesController(_:))
+            newItem.target = self
+            items.append(newItem)
+            
+        }
         submenu.items = items
 
         return submenu
@@ -34,13 +48,13 @@ class XcodeProjectMenuItemHelper {
     @objc static func showBuildListControllerForProject(_ sender: XcodeProjectMenuItem) {
         NSApp.activate(ignoringOtherApps: true)
         let project = sender.project
-        controller?.close()
+        buildListController?.close()
         guard let period = sender.period,
             let builds = project.buildsForPeriod(period) else {
                 return
         }
-        controller = BuildListWindowController(builds, period: period)
-        controller?.showWindow(nil)
+        buildListController = BuildListWindowController(builds, period: period)
+        buildListController?.showWindow(nil)
     }
     
     // MARK : - Private Methods

@@ -37,7 +37,9 @@ final class CoreDataManager {
         let applicationSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
         guard let buildBuddyURL = applicationSupport?.appendingPathComponent("BuildBuddy") else { fatalError() }
         let peristentStoreURL = buildBuddyURL.appendingPathComponent(persistentStoreName)
-        try! persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: peristentStoreURL, options: nil)
+        let options = [ NSInferMappingModelAutomaticallyOption : true,
+                           NSMigratePersistentStoresAutomaticallyOption : true]
+        try! persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: peristentStoreURL, options: options)
         return persistentStoreCoordinator
     }()
     

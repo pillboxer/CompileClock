@@ -25,10 +25,18 @@ class XcodeProjectManager {
     }
     
     static var needsUpdating: Bool {
+        if forceUpdate {
+            forceUpdate = false
+            return true
+        }
         // Filter down the projects so we just get the ones where the plist has been updated
         let projectsWithUpdates = projects.filter() { $0.logStoreHasBeenUpdated == true }
         // True if we have projects with updates
         return !projectsWithUpdates.isEmpty
+    }
+    
+    static func forceProjectUpdate() {
+        forceUpdate = true
     }
 
     static func buildTypeAndSuccessTuple(_ buildKey: String, fromFolder folder: String) -> (type: XcodeBuild.BuildType, success: Bool)? {
@@ -103,6 +111,8 @@ class XcodeProjectManager {
         let newProjects = newProjectNames.compactMap() { XcodeProject.createNewProjectWithFolderName($0) }
         return savedProjects + newProjects
     }
+    
+    static private var forceUpdate = false
 }
 
 extension URL {
