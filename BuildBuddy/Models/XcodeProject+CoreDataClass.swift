@@ -61,7 +61,53 @@ public class XcodeProject: NSManagedObject {
     }
     
     var name: String {
-        return builds.first?.name ?? "Name Not Found"
+        get {
+            if let userDefinedName = userDefinedName {
+                return userDefinedName
+            }
+            else if let closestName = closestName {
+                return closestName
+            }
+            else {
+                return builds.first?.name ?? "Name Not Found"
+            }
+        }
+        
+        set {
+            userDefinedName = newValue
+            XcodeProjectManager.forceProjectUpdate()
+            CoreDataManager.save()
+        }
+    }
+    
+    var closestName: String? {
+        if let strippedFolder = strippedFolder {
+            if hasAlternateNames {
+                let nameMatchingFolder = nameAlternatives.filter() { strippedFolder == $0 }.first
+                if let matchedName = nameMatchingFolder {
+                    return matchedName
+                }
+            }
+        }
+        return nil
+    }
+    
+    var nameAlternatives: [String] {
+        let nameSet = Set(builds.compactMap() { $0.name } )
+        return Array(nameSet)
+    }
+    
+    var hasAlternateNames: Bool {
+        return nameAlternatives.count > 1
+    }
+    
+    var strippedFolder: String? {
+        guard let folderName = folderName else {
+            return nil
+        }
+        let beforeHyphen = folderName.components(separatedBy: "-")[0]
+        let afterSlash = beforeHyphen.components(separatedBy: "/").last
+        return afterSlash
     }
     
     var earliestBuildDate: Date {

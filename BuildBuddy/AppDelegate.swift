@@ -49,7 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         configureStatusItem()
         menu.delegate = self
         lastMenuItems = launchingMenuItems
-        loadMenu()
+        startFetchLoop()
     }
     
     // MARK: - Menu Bar Icon
@@ -82,6 +82,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             DispatchQueue.main.async {
                 self.constructMenu()
             }
+        }
+    }
+    
+    private func startFetchLoop() {
+        checkForUpdates()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 60.0) {
+            self.startFetchLoop()
         }
     }
     
@@ -130,7 +137,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             return
         }
         
+        checkForUpdates()
         
+    }
+    
+    private func showLoadingItem() {
+        // Sets the animated loading menu itme
+        menu.items = [FetchingMenuItemManager.menuItem]
+    }
+    
+    private func checkForUpdates() {
         // If there's no derivedDataURL, we need to set it. Just show that option and quit
         guard let url = UserDefaults.derivedDataURL, DerivedDataPanelManager.derivedDataLocationIsValid(withUrl: url) else {
             let item = NSMenuItem(title: "Set Derived Data Location...", action: #selector(openPanel), keyEquivalent: "")
@@ -149,11 +165,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         // we have new builds so load the menu
         loadMenu()
-    }
-    
-    private func showLoadingItem() {
-        // Sets the animated loading menu itme
-        menu.items = [FetchingMenuItemManager.menuItem]
     }
     
     

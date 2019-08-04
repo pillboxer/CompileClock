@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14865.6" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14877.5" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="XcodeBuild" representedClassName="XcodeBuild" syncable="YES">
         <attribute name="buildKey" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -12,10 +12,11 @@
     <entity name="XcodeProject" representedClassName="XcodeProject" syncable="YES">
         <attribute name="folderName" optional="YES" attributeType="String"/>
         <attribute name="lastModificationDate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="userDefinedName" optional="YES" attributeType="String"/>
         <relationship name="xcodeBuilds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="XcodeBuild" inverseName="xcodeProject" inverseEntity="XcodeBuild"/>
     </entity>
     <elements>
         <element name="XcodeBuild" positionX="-63" positionY="-18" width="128" height="148"/>
-        <element name="XcodeProject" positionX="-54" positionY="27" width="128" height="88"/>
+        <element name="XcodeProject" positionX="-54" positionY="27" width="128" height="103"/>
     </elements>
 </model>
