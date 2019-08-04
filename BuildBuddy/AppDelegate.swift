@@ -97,9 +97,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     func loadDisplayText() {
+        let displayOption = UserDefaults.displayTextOption
         if UserDefaults.showsDisplayText {
             let title: String
-            switch UserDefaults.displayTextOption {
+            switch displayOption {
             case .builds:
                 title = " Builds Today: \(XcodeProjectManager.totalBuildsToday)"
             case .time:

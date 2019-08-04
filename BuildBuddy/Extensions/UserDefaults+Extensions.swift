@@ -147,6 +147,7 @@ extension UserDefaults {
     
     static var displayTextOption: String.DisplayTextOptions {
         guard let option = UserDefaults.standard.value(forKey: UserDefaults.DefaultsAdvancedKey.todayInfoText.rawValue) as? String else {
+            setInitialTodayText()
             return .builds
         }
         return String.DisplayTextOptions(rawValue: option.lowercased()) ?? .builds
