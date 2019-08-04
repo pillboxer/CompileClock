@@ -20,19 +20,19 @@ class AdvancedPreferencesViewController: NSViewController {
 
     @objc private var daysWorkedPerYear = UserDefaults.numberOfDaysWorkedPerYear {
         didSet {
-            UserDefaults.standard.set(daysWorkedPerYear, forKey: UserDefaults.DefaultsAdvancedKey.daysWorkedPerYear.rawValue)
+            UserDefaults.standard.set(daysWorkedPerYear, forKey: UserDefaults.DefaultsStepperKey.daysWorkedPerYear.rawValue)
         }
     }
     
     @objc private var hoursWorkedPerDay = UserDefaults.hoursWorkedPerDay {
         didSet {
-            UserDefaults.standard.set(hoursWorkedPerDay, forKey: UserDefaults.DefaultsAdvancedKey.hoursWorkedPerDay.rawValue)
+            UserDefaults.standard.set(hoursWorkedPerDay, forKey: UserDefaults.DefaultsStepperKey.hoursWorkedPerDay.rawValue)
         }
     }
     
     @objc private var customDecimalPlaces = UserDefaults.customDecimalPlaces {
         didSet {
-            UserDefaults.standard.set(customDecimalPlaces, forKey: UserDefaults.DefaultsAdvancedKey.customDecimalPlaces.rawValue)
+            UserDefaults.standard.set(customDecimalPlaces, forKey: UserDefaults.DefaultsStepperKey.customDecimalPlaces.rawValue)
         }
     }
 
@@ -55,18 +55,15 @@ class AdvancedPreferencesViewController: NSViewController {
     
    // MARK : - Private Methods
     private func configureUI() {
-        for key in UserDefaults.DefaultsAdvancedKey.allCases {
-            if key == .derivedDataLocation {
-                #warning("Change")
-                continue
-            }
-            addLabelAndStackViewForKey(key)
+        for key in UserDefaults.DefaultsStepperKey.allCases {
+            addLabelAndStackViewForStepperKey(key)
         }
+        addDisplayTextStackView()
         addResetPreferencesUI()
 
     }
     
-    private func addLabelAndStackViewForKey(_ key: UserDefaults.DefaultsAdvancedKey) {
+    private func addLabelAndStackViewForStepperKey(_ key: UserDefaults.DefaultsStepperKey) {
         let label = NSTextField(labelWithString: key.rawValue)
         stackView.addArrangedSubview(label)
         
@@ -90,15 +87,49 @@ class AdvancedPreferencesViewController: NSViewController {
         case .hoursWorkedPerDay:
             stepper.minValue = 1
             stepper.maxValue = 24
-        default:
-            break
         }
         
         bind(stepper: stepper, to: textField, forKey: key)
         stackView.addArrangedSubview(horizontalStackView)
-        let box = NSBox()
-        box.boxType = .separator
-        stackView.addArrangedSubview(box)
+        addSeparator()
+    }
+    
+    private func addDisplayTextStackView() {
+        
+        let horizontalStackView = NSStackView()
+        horizontalStackView.orientation = .horizontal
+        
+        let todayInfoString = UserDefaults.DefaultsAdvancedKey.todayInfoText.rawValue
+        let label = NSTextField(labelWithString: todayInfoString)
+        stackView.addArrangedSubview(label)
+        
+        let enabledButton = NSButton(checkboxWithTitle: "", target: nil, action: nil)
+        horizontalStackView.addArrangedSubview(enabledButton)
+        enabledButton.bind(.value, to: NSUserDefaultsController.shared, withKeyPath: "values.\(UserDefaults.DefaultsBoolKey.showsDisplayText.rawValue)", options: [NSBindingOption.continuouslyUpdatesValue : true])
+        
+        enabledButton.target = self
+        enabledButton.action = #selector(updateStatusItem)
+        
+        displayOptionsPopUp.bind(.enabled, to: enabledButton, withKeyPath: "cell.state", options: [NSBindingOption.continuouslyUpdatesValue : true])
+        displayOptionsPopUp.bind(.selectedValue, to: NSUserDefaultsController.shared, withKeyPath: "values.\(todayInfoString)", options: [NSBindingOption.continuouslyUpdatesValue : true])
+        
+        horizontalStackView.addArrangedSubview(displayOptionsPopUp)
+        stackView.addArrangedSubview(horizontalStackView)
+        addSeparator()
+    }
+    
+    private lazy var displayOptionsPopUp: NSPopUpButton = {
+        let popUp = NSPopUpButton()
+        let displayOptions = String.DisplayTextOptions.allCases.map() { $0.rawValue.capitalized }
+        popUp.addItems(withTitles: displayOptions)
+        popUp.action = #selector(updateStatusItem)
+        popUp.target = self
+        return popUp
+    }()
+    
+    @objc private func updateStatusItem() {
+        let appDelegate = NSApp.delegate as? AppDelegate
+        appDelegate?.loadDisplayText()
     }
     
     private func addResetPreferencesUI() {
@@ -133,7 +164,13 @@ class AdvancedPreferencesViewController: NSViewController {
         NSApp.mainWindow?.attachedSheet?.close()
     }
     
-    private func bind(stepper: NSStepper, to textField: NSTextField, forKey key: UserDefaults.DefaultsAdvancedKey) {
+    private func addSeparator() {
+        let box = NSBox()
+        box.boxType = .separator
+        stackView.addArrangedSubview(box)
+    }
+    
+    private func bind(stepper: NSStepper, to textField: NSTextField, forKey key: UserDefaults.DefaultsStepperKey) {
         let keyPath: String
         
         switch key {
@@ -143,8 +180,6 @@ class AdvancedPreferencesViewController: NSViewController {
             keyPath = "daysWorkedPerYear"
         case .hoursWorkedPerDay:
             keyPath = "hoursWorkedPerDay"
-        default:
-            return
         }
         
         stepper.bind(.value, to: self, withKeyPath: keyPath, options: [NSBindingOption.continuouslyUpdatesValue : true])

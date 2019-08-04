@@ -24,6 +24,17 @@ class XcodeProjectManager {
         return dates.sorted() { $0 < $1 }.first ?? Date()
     }
     
+    static var totalBuildsToday: Int {
+        let builds =  projects.flatMap() { $0.todaysBuilds }
+        return builds.count
+    }
+    
+    static var totalTimeToday: String {
+        let buildTimes = projects.map() { $0.todaysBuildTime }
+        let total = buildTimes.reduce(0, +)
+        return String.prettyTime(total)
+    }
+    
     static var needsUpdating: Bool {
         if forceUpdate {
             forceUpdate = false

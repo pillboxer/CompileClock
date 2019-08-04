@@ -19,6 +19,11 @@ extension String {
         case days
     }
     
+    enum DisplayTextOptions: String, CaseIterable {
+        case builds
+        case time
+    }
+    
     enum BuildTimePeriod: String, CaseIterable {
         case today
         case week

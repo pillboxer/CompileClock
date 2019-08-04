@@ -14,6 +14,7 @@ class PreferencesManager: NSObject, NSWindowDelegate {
     private var controller: PreferencesWindowController?
     
     func showPreferences() {
+        controller?.close()
         controller = PreferencesWindowController()
         NSApp.activate(ignoringOtherApps: true)
         controller?.window?.delegate = self

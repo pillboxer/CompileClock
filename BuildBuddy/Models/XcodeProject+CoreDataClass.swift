@@ -57,7 +57,7 @@ public class XcodeProject: NSManagedObject {
     
     // MARK: - Exposed Properties
     var builds: [XcodeBuild] {
-        return xcodeBuilds?.allObjects as? [XcodeBuild] ?? []
+        return (xcodeBuilds?.allObjects as? [XcodeBuild] ?? []).removingDuplicateBuilds()
     }
     
     var name: String {
@@ -74,6 +74,10 @@ public class XcodeProject: NSManagedObject {
         }
         
         set {
+            if let userDefinedName = userDefinedName,
+                userDefinedName == newValue {
+                return
+            }
             userDefinedName = newValue
             XcodeProjectManager.forceProjectUpdate()
             CoreDataManager.save()
@@ -108,6 +112,10 @@ public class XcodeProject: NSManagedObject {
         let beforeHyphen = folderName.components(separatedBy: "-")[0]
         let afterSlash = beforeHyphen.components(separatedBy: "/").last
         return afterSlash
+    }
+    
+    var todaysBuilds: [XcodeBuild] {
+        return builds.filter() { $0.buildDateIsToday }
     }
     
     var earliestBuildDate: Date {
@@ -154,6 +162,13 @@ public class XcodeProject: NSManagedObject {
     
     var averageBuildTime: Double {
         return totalBuildTime / totalNumberOfBuilds
+    }
+    
+    var todaysBuildTime: Double {
+        let todaysBuilds = builds.filter() { $0.buildDateIsToday }
+        let times = todaysBuilds.map() { $0.totalBuildTime }
+        let totalForToday = times.reduce(0, +)
+        return totalForToday
     }
     
     var mostBuildsInADay: (date: Date, recurrances: Int)? {
@@ -240,8 +255,7 @@ public class XcodeProject: NSManagedObject {
         case .allTime:
             filteredBuilds = builds
         case .today:
-            let todaysTimes = builds.filter() { $0.buildDateIsToday }
-            filteredBuilds = todaysTimes
+            filteredBuilds = todaysBuilds
         case .week:
             let weeksTimes = builds.filter() { $0.buildDateIsInLastWeek }
             filteredBuilds = weeksTimes

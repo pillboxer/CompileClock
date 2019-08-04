@@ -83,3 +83,26 @@ public class XcodeBuild: NSManagedObject {
     
 
 }
+
+extension Array where Element == XcodeBuild {
+    
+    private func containsBuild(_ build: XcodeBuild) -> Bool {
+        for value in self {
+            if value.buildDate == build.buildDate {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func removingDuplicateBuilds() -> [XcodeBuild] {
+        var uniqueBuilds = [XcodeBuild]()
+        for value in self {
+            if !uniqueBuilds.containsBuild(value) {
+                uniqueBuilds.append(value)
+            }
+        }
+        return uniqueBuilds
+    }
+    
+}

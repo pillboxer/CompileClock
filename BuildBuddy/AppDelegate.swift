@@ -17,7 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     static let shared = AppDelegate()
     
     // MARK: - Properties
-    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     let listener = Listener.shared
     var menu = NSMenu()
     var lastMenuItems = [NSMenuItem]()
@@ -55,7 +55,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     // MARK: - Menu Bar Icon
     private func configureStatusItem() {
         let image = NSImage(named: "hammer")
-        image?.size = NSMakeSize(18.0, 18.0)
+        image?.size = NSMakeSize(17.0, 17.0)
         statusItem.button?.image = image
         statusItem.menu = menu
     }
@@ -85,14 +85,36 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
     
+    func forceUpdate() {
+        loadMenu()
+    }
+    
     private func startFetchLoop() {
-        checkForUpdates()
+        reloadMenuIfNecessary()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 60.0) {
             self.startFetchLoop()
         }
     }
     
+    func loadDisplayText() {
+        if UserDefaults.showsDisplayText {
+            let title: String
+            switch UserDefaults.displayTextOption {
+            case .builds:
+                title = " Builds Today: \(XcodeProjectManager.totalBuildsToday)"
+            case .time:
+                title = " Time Spent: \(XcodeProjectManager.totalTimeToday)"
+            }
+            statusItem.button?.title = title
+            statusItem.button?.imagePosition = .imageLeft
+
+          } else {
+              statusItem.button?.imagePosition = .imageOnly
+          }
+    }
+    
     private func constructMenu() {
+        loadDisplayText()
         FetchingMenuItemManager.resetView()
         let items = XcodeProjectMenuItemHelper.menuItemsForProjects
         menu.items = items
@@ -137,7 +159,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             return
         }
         
-        checkForUpdates()
+        reloadMenuIfNecessary()
         
     }
     
@@ -146,7 +168,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.items = [FetchingMenuItemManager.menuItem]
     }
     
-    private func checkForUpdates() {
+    private func reloadMenuIfNecessary() {
+        
         // If there's no derivedDataURL, we need to set it. Just show that option and quit
         guard let url = UserDefaults.derivedDataURL, DerivedDataPanelManager.derivedDataLocationIsValid(withUrl: url) else {
             let item = NSMenuItem(title: "Set Derived Data Location...", action: #selector(openPanel), keyEquivalent: "")

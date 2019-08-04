@@ -22,6 +22,7 @@ extension UserDefaults {
         case showsSucceeded
         case showsFailures
         case showsBuilds
+        case showsDisplayText
     }
     
     private enum DefaultsDateKey: String, CaseIterable {
@@ -29,12 +30,18 @@ extension UserDefaults {
         case customEndDate
     }
     
-    enum DefaultsAdvancedKey: String, CaseIterable {
+    enum DefaultsStepperKey: String, CaseIterable {
         case daysWorkedPerYear = "Days Worked Per Year"
         case hoursWorkedPerDay = "Hours Worked Per Day"
         case customDecimalPlaces = "Number Of Decimal Places"
-        case derivedDataLocation = "Derived Data Location"
     }
+    
+    enum DefaultsAdvancedKey: String, CaseIterable {
+        case derivedDataLocation = "Derived Data Location"
+        case todayInfoText = "Today Information Text"
+    }
+    
+
     
     
     
@@ -64,34 +71,40 @@ extension UserDefaults {
         }
     }
     
-    private static func getAdvancedValueForKey(_ key: DefaultsAdvancedKey) -> Int {
+    private static func getStepperValueForKey(_ key: DefaultsStepperKey) -> Int {
         return UserDefaults.standard.integer(forKey: key.rawValue)
     }
+
     
     static private func setInitialDaysWorkedPerYear() {
-        UserDefaults.standard.set(262, forKey: UserDefaults.DefaultsAdvancedKey.daysWorkedPerYear.rawValue)
+        UserDefaults.standard.set(262, forKey: UserDefaults.DefaultsStepperKey.daysWorkedPerYear.rawValue)
     }
     
     static private func setInitialDecimalPlaces() {
-        UserDefaults.standard.set(1, forKey: UserDefaults.DefaultsAdvancedKey.customDecimalPlaces.rawValue)
+        UserDefaults.standard.set(1, forKey: UserDefaults.DefaultsStepperKey.customDecimalPlaces.rawValue)
     }
     
     static private func setInitialHoursWorkedPerDay() {
-        UserDefaults.standard.set(8, forKey: UserDefaults.DefaultsAdvancedKey.hoursWorkedPerDay.rawValue)
+        UserDefaults.standard.set(8, forKey: UserDefaults.DefaultsStepperKey.hoursWorkedPerDay.rawValue)
+    }
+    
+    static private func setInitialTodayText() {
+        UserDefaults.standard.set(false, forKey: UserDefaults.DefaultsBoolKey.showsDisplayText.rawValue)
+        UserDefaults.standard.set(String.DisplayTextOptions.builds.rawValue.capitalized, forKey: UserDefaults.DefaultsAdvancedKey.todayInfoText.rawValue)
     }
     
     // MARK: - Getters
     
     static var numberOfDaysWorkedPerYear: Int {
-        return getAdvancedValueForKey(.daysWorkedPerYear)
+        return getStepperValueForKey(.daysWorkedPerYear)
     }
     
     static var hoursWorkedPerDay: Int {
-        return getAdvancedValueForKey(.hoursWorkedPerDay)
+        return getStepperValueForKey(.hoursWorkedPerDay)
     }
     
     static var customDecimalPlaces: Int {
-        return getAdvancedValueForKey(.customDecimalPlaces)
+        return getStepperValueForKey(.customDecimalPlaces)
     }
     
     static var customStartDate: Date {
@@ -126,6 +139,17 @@ extension UserDefaults {
         case true:
             return UserDefaults.standard.bool(forKey: DefaultsBoolKey.showsSucceeded.rawValue)
         }
+    }
+    
+    static var showsDisplayText: Bool {
+        return UserDefaults.standard.bool(forKey: UserDefaults.DefaultsBoolKey.showsDisplayText.rawValue)
+    }
+    
+    static var displayTextOption: String.DisplayTextOptions {
+        guard let option = UserDefaults.standard.value(forKey: UserDefaults.DefaultsAdvancedKey.todayInfoText.rawValue) as? String else {
+            return .builds
+        }
+        return String.DisplayTextOptions(rawValue: option.lowercased()) ?? .builds
     }
     
     static var allKeys: [String] {
@@ -204,6 +228,7 @@ extension UserDefaults {
         setInitialDaysWorkedPerYear()
         setInitialHoursWorkedPerDay()
         setInitialDecimalPlaces()
+        setInitialTodayText()
         set(.automatic)
     }
     
