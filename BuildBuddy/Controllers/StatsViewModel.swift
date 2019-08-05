@@ -35,32 +35,32 @@ class StatsViewModel {
         return "\(mostBuilds.recurrances) - \(formatter.string(from: mostBuilds.date))"
     }
     
-    var averageBuildTimeString: String {
+    lazy var averageBuildTimeString: String = {
         if canShowAverageBuildTime || bypassChecks {
             return String.prettyTime(averageBuildTime)
         }
         else {
             return "Shows After \(buildsRemainingUntilShowAverageBuildTime) More Builds"
         }
-    }
+    }()
     
-    var dailyAverageBuildsString: String {
+    lazy var dailyAverageBuildsString: String = {
         if canShowDailyAverage || bypassChecks {
             return String(format: "%.1f Builds A Day", dailyAverage)
         }
         else {
             return "Shows After \(daysRemainingUntilShowDailyAverageNumberOfBuilds) More Days"
         }
-    }
+    }()
     
-    var workingTimePercentageString: String {
+   lazy var workingTimePercentageString: String = {
         if canShowWorkingTimePercentage || bypassChecks {
             return String(format: "%.2f", workingTimePercentage) + "%"
         }
         else {
             return "Shows After \(daysRemainingUntilShowPercentageOfTimeSpent) More Days"
         }
-    }
+    }()
     
     
     // MARK: - Private Properties

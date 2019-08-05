@@ -24,15 +24,15 @@ class XcodeProjectManager {
         return dates.sorted() { $0 < $1 }.first ?? Date()
     }
     
-    static var totalBuildsToday: Int {
+    static private var totalBuildsToday: Int {
         let builds =  projects.flatMap() { $0.todaysBuilds }
         return builds.count
     }
     
-    static var totalTimeToday: String {
+    static private var totalTimeToday: String {
         let buildTimes = projects.map() { $0.todaysBuildTime }
         let total = buildTimes.reduce(0, +)
-        return String.prettyTime(total)
+        return String.prettyTime(total, shortened: true)
     }
     
     static var needsUpdating: Bool {
@@ -48,6 +48,15 @@ class XcodeProjectManager {
     
     static func forceProjectUpdate() {
         forceUpdate = true
+    }
+    
+    static var displayText: String {
+        switch UserDefaults.displayTextOption {
+        case .builds:
+            return " \(XcodeProjectManager.totalBuildsToday)"
+        case .time:
+            return " \(XcodeProjectManager.totalTimeToday)"
+        }
     }
 
     static func buildTypeAndSuccessTuple(_ buildKey: String, fromFolder folder: String) -> (type: XcodeBuild.BuildType, success: Bool)? {

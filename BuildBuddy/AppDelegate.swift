@@ -97,16 +97,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     func loadDisplayText() {
-        let displayOption = UserDefaults.displayTextOption
         if UserDefaults.showsDisplayText {
-            let title: String
-            switch displayOption {
-            case .builds:
-                title = " Builds Today: \(XcodeProjectManager.totalBuildsToday)"
-            case .time:
-                title = " Time Spent: \(XcodeProjectManager.totalTimeToday)"
-            }
-            statusItem.button?.title = title
+            statusItem.button?.title = XcodeProjectManager.displayText
             statusItem.button?.imagePosition = .imageLeft
 
           } else {

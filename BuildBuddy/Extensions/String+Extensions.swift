@@ -17,6 +17,10 @@ extension String {
         case minutes
         case hours
         case days
+        
+        var shortened: String {
+            return String(self.rawValue.prefix(1))
+        }
     }
     
     enum DisplayTextOptions: String, CaseIterable {
@@ -52,12 +56,13 @@ extension String {
     }
     
     // MARK: - Exposed Methods
-    static func prettyTime(_ time: Double) -> String {
+    static func prettyTime(_ time: Double, shortened: Bool = false) -> String {
         let timeValue = time.prettyTime.time
         let timeBlock = time.prettyTime.timeBlock
+        let timeBlockValue = shortened ? timeBlock.shortened : timeBlock.rawValue
         let decimalPlaces = Int(UserDefaults.customDecimalPlaces)
-
-        return String(format: "%.\(decimalPlaces)f \(timeBlock.rawValue)", timeValue)
+        let timeString = String(format: "%.\(decimalPlaces)f \(timeBlockValue)", timeValue)
+        return shortened ? timeString.replacingOccurrences(of: " ", with: "") : timeString
     }
 
     static func formattedTime(_ time: Double, forPeriod period: String.BuildTimePeriod) -> String {
