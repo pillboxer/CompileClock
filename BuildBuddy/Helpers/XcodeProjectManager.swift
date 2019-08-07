@@ -19,17 +19,49 @@ class XcodeProjectManager {
         return projects.filter() { $0.builds.count > 0 }
     }
     
+    static var hasBuiltToday: Bool {
+        return totalBuildsToday > 0
+    }
+    
     static var earliestBuildDate: Date {
         let dates = projects.map() { $0.earliestBuildDate }
         return dates.sorted() { $0 < $1 }.first ?? Date()
     }
     
+    static private var averageTimeToday: Double {
+        let projectsWithBuildsToday = projects.filter() { $0.todaysBuilds.count > 0 }
+        let count = Double(projectsWithBuildsToday.count)
+        guard count > 0 else {
+            return 0
+        }
+        let projectAverages = projectsWithBuildsToday.map() { $0.averageBuildTime }
+        let totalTime = projectAverages.reduce(0, +)
+        return totalTime / count
+    }
+    
+    static private var lastBuildTime: Double {
+        let lastBuilds = projects.compactMap() { $0.lastBuild }
+        let latestBuild =  lastBuilds.sorted() { $0.buildDate > $1.buildDate }.first
+        guard let latest = latestBuild else {
+            return 0
+        }
+        return latest.totalBuildTime
+    }
+    
     static private var totalBuildsToday: Int {
-        let builds =  projects.flatMap() { $0.todaysBuilds }
+        let builds = projects.flatMap() { $0.todaysBuilds }
         return builds.count
     }
     
-    static private var totalTimeToday: String {
+    static private var averageTimeTodayString: String {
+        return String.prettyTime(averageTimeToday, shortened: true)
+    }
+    
+    static private var lastBuildTimeString: String {
+        return String.prettyTime(lastBuildTime, shortened: true)
+    }
+    
+    static private var totalTimeTodayString: String {
         let buildTimes = projects.map() { $0.todaysBuildTime }
         let total = buildTimes.reduce(0, +)
         return String.prettyTime(total, shortened: true)
@@ -55,7 +87,11 @@ class XcodeProjectManager {
         case .builds:
             return " \(XcodeProjectManager.totalBuildsToday)"
         case .time:
-            return " \(XcodeProjectManager.totalTimeToday)"
+            return " \(XcodeProjectManager.totalTimeTodayString)"
+        case .average:
+            return " \(XcodeProjectManager.averageTimeTodayString)"
+        case .last :
+            return " \(XcodeProjectManager.lastBuildTimeString)"
         }
     }
 

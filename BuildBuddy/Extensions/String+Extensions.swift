@@ -26,6 +26,8 @@ extension String {
     enum DisplayTextOptions: String, CaseIterable {
         case builds
         case time
+        case average
+        case last
     }
     
     enum BuildTimePeriod: String, CaseIterable {

@@ -97,7 +97,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     func loadDisplayText() {
-        if UserDefaults.showsDisplayText {
+        if UserDefaults.showsDisplayText && XcodeProjectManager.hasBuiltToday {
             statusItem.button?.title = XcodeProjectManager.displayText
             statusItem.button?.imagePosition = .imageLeft
 

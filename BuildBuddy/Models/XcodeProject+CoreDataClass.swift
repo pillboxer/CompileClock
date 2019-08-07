@@ -164,12 +164,13 @@ public class XcodeProject: NSManagedObject {
         return totalBuildTime / totalNumberOfBuilds
     }
     
+    
     var todaysBuildTime: Double {
-        let todaysBuilds = builds.filter() { $0.buildDateIsToday }
         let times = todaysBuilds.map() { $0.totalBuildTime }
         let totalForToday = times.reduce(0, +)
         return totalForToday
     }
+    
     
     var mostBuildsInADay: (date: Date, recurrances: Int)? {
         let dates = builds.map() { $0.buildDate }
@@ -199,7 +200,7 @@ public class XcodeProject: NSManagedObject {
         return allBuilds.reduce(0, +)
     }
     
-    private var lastBuild: XcodeBuild? {
+    var lastBuild: XcodeBuild? {
         return builds.sorted() { $0.buildDate < $1.buildDate }.last
     }
     

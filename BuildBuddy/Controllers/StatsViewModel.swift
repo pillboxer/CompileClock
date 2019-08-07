@@ -85,17 +85,17 @@ class StatsViewModel {
         return project.numberOfDaysWithBuilds >= numberOfDaysNeededForPercentageOfTimeSpentBuilding
     }
     
-    private var buildsRemainingUntilShowAverageBuildTime: Int {
+    private lazy var buildsRemainingUntilShowAverageBuildTime: Int = {
         return numberOfBuildsNeededForAverageBuildTime - project.builds.count
-    }
+    }()
     
-    private var daysRemainingUntilShowDailyAverageNumberOfBuilds: Int {
+    private lazy var daysRemainingUntilShowDailyAverageNumberOfBuilds: Int = {
         return numberOfDaysNeededForDailyAverageNumberOfBuilds - project.numberOfDaysWithBuilds
-    }
+    }()
     
-    private var daysRemainingUntilShowPercentageOfTimeSpent: Int {
+    private lazy var daysRemainingUntilShowPercentageOfTimeSpent: Int = {
         return numberOfDaysNeededForPercentageOfTimeSpentBuilding - project.numberOfDaysWithBuilds
-    }
+    }()
     
     private var averageBuildTime: Double {
         return project.averageBuildTime
