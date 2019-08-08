@@ -14,12 +14,12 @@ class StatsViewModel {
     var project: XcodeProject!
     var bypassChecks = false
     
-    var longestBuildString: String? {
+    lazy var longestBuildString: String? = {
         if let longestBuild = project?.longestBuild {
             return "\(String.prettyTime(longestBuild.totalBuildTime)) - \(formatter.string(from: longestBuild.buildDate))"
         }
         return nil
-    }
+    }()
     
     var peekButtonShouldShow: Bool {
         if !canShowDailyAverage || !canShowAverageBuildTime || !canShowWorkingTimePercentage {
@@ -73,17 +73,17 @@ class StatsViewModel {
         return formatter
     }()
     
-    private var canShowAverageBuildTime: Bool {
+    private lazy var canShowAverageBuildTime: Bool = {
         return project.builds.count >= numberOfBuildsNeededForAverageBuildTime
-    }
+    }()
     
-    private var canShowDailyAverage: Bool {
+    private lazy var canShowDailyAverage: Bool = {
         project.numberOfDaysWithBuilds >= numberOfDaysNeededForDailyAverageNumberOfBuilds
-    }
+    }()
     
-    private var canShowWorkingTimePercentage: Bool {
+    private lazy var canShowWorkingTimePercentage: Bool = {
         return project.numberOfDaysWithBuilds >= numberOfDaysNeededForPercentageOfTimeSpentBuilding
-    }
+    }()
     
     private lazy var buildsRemainingUntilShowAverageBuildTime: Int = {
         return numberOfBuildsNeededForAverageBuildTime - project.builds.count

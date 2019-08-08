@@ -164,6 +164,11 @@ public class XcodeProject: NSManagedObject {
         return totalBuildTime / totalNumberOfBuilds
     }
     
+    var todaysAverage: Double {
+        let todaysCount = Double(todaysBuilds.count)
+        return todaysBuildTime / todaysCount
+    }
+    
     
     var todaysBuildTime: Double {
         let times = todaysBuilds.map() { $0.totalBuildTime }
@@ -195,7 +200,7 @@ public class XcodeProject: NSManagedObject {
         return Double(builds.count)
     }
     
-    private var totalBuildTime: Double {
+    var totalBuildTime: Double {
         let allBuilds = builds.map() { $0.totalBuildTime }
         return allBuilds.reduce(0, +)
     }

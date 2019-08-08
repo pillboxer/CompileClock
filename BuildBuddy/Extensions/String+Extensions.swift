@@ -28,6 +28,8 @@ extension String {
         case time
         case average
         case last
+        case allTimeCount = "all time (builds)"
+        case allTimeDuration = "all time (duration)"
     }
     
     enum BuildTimePeriod: String, CaseIterable {

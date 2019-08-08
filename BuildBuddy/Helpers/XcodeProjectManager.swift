@@ -34,8 +34,7 @@ class XcodeProjectManager {
         guard count > 0 else {
             return 0
         }
-        #error("This is wrong!")
-        let projectAverages = projectsWithBuildsToday.map() { $0.averageBuildTime }
+        let projectAverages = projectsWithBuildsToday.map() { $0.todaysAverage }
         let totalTime = projectAverages.reduce(0, +)
         return totalTime / count
     }
@@ -54,6 +53,16 @@ class XcodeProjectManager {
         return builds.count
     }
     
+    static private var allTimeBuildCount: Int {
+        let countArray = projects.map() { $0.builds.count }
+        return countArray.reduce(0, +)
+    }
+    
+    static private var allTimeDuration: Double {
+        let totalTimes = projects.map() { $0.totalBuildTime }
+        return totalTimes.reduce(0, +)
+    }
+    
     static private var averageTimeTodayString: String {
         return String.prettyTime(averageTimeToday, shortened: true)
     }
@@ -66,6 +75,10 @@ class XcodeProjectManager {
         let buildTimes = projects.map() { $0.todaysBuildTime }
         let total = buildTimes.reduce(0, +)
         return String.prettyTime(total, shortened: true)
+    }
+    
+    static private var allTimeDurationString: String {
+        return String.prettyTime(allTimeDuration, shortened: true)
     }
     
     static var needsUpdating: Bool {
@@ -93,6 +106,10 @@ class XcodeProjectManager {
             return " \(XcodeProjectManager.averageTimeTodayString)"
         case .last :
             return " \(XcodeProjectManager.lastBuildTimeString)"
+        case .allTimeCount:
+            return " \(XcodeProjectManager.allTimeBuildCount)"
+        case .allTimeDuration:
+            return " \(XcodeProjectManager.allTimeDurationString)"
         }
     }
 
@@ -145,12 +162,7 @@ class XcodeProjectManager {
         
         return enumerator.map() { ($0 as! URL).buildFolder.path }
     }
-    
-    static private var averageBuildTimeForAllProjects: Double {
-        let averageBuildTimesForProjects = projects.map() { $0.averageBuildTime }
-        let totalAverage = averageBuildTimesForProjects.reduce(0, +)
-        return totalAverage / Double(projects.count)
-    }
+
     
     static private func retrieveProjects() -> [XcodeProject] {
         // First, get all the saved projects
