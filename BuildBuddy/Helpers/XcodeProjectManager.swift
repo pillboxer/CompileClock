@@ -34,6 +34,7 @@ class XcodeProjectManager {
         guard count > 0 else {
             return 0
         }
+        #error("This is wrong!")
         let projectAverages = projectsWithBuildsToday.map() { $0.averageBuildTime }
         let totalTime = projectAverages.reduce(0, +)
         return totalTime / count
