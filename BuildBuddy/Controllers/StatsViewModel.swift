@@ -14,12 +14,12 @@ class StatsViewModel {
     var project: XcodeProject!
     var bypassChecks = false
     
-    lazy var longestBuildString: String? = {
+    var longestBuildString: String? {
         if let longestBuild = project?.longestBuild {
             return "\(String.prettyTime(longestBuild.totalBuildTime)) - \(formatter.string(from: longestBuild.buildDate))"
         }
         return nil
-    }()
+    }
     
     var peekButtonShouldShow: Bool {
         if !canShowDailyAverage || !canShowAverageBuildTime || !canShowWorkingTimePercentage {
@@ -73,29 +73,29 @@ class StatsViewModel {
         return formatter
     }()
     
-    private lazy var canShowAverageBuildTime: Bool = {
+    private var canShowAverageBuildTime: Bool {
         return project.builds.count >= numberOfBuildsNeededForAverageBuildTime
-    }()
+    }
     
-    private lazy var canShowDailyAverage: Bool = {
+    private var canShowDailyAverage: Bool {
         project.numberOfDaysWithBuilds >= numberOfDaysNeededForDailyAverageNumberOfBuilds
-    }()
+    }
     
-    private lazy var canShowWorkingTimePercentage: Bool = {
+    private var canShowWorkingTimePercentage: Bool {
         return project.numberOfDaysWithBuilds >= numberOfDaysNeededForPercentageOfTimeSpentBuilding
-    }()
+    }
     
-    private lazy var buildsRemainingUntilShowAverageBuildTime: Int = {
+    private var buildsRemainingUntilShowAverageBuildTime: Int {
         return numberOfBuildsNeededForAverageBuildTime - project.builds.count
-    }()
+    }
     
-    private lazy var daysRemainingUntilShowDailyAverageNumberOfBuilds: Int = {
+    private var daysRemainingUntilShowDailyAverageNumberOfBuilds: Int {
         return numberOfDaysNeededForDailyAverageNumberOfBuilds - project.numberOfDaysWithBuilds
-    }()
+    }
     
-    private lazy var daysRemainingUntilShowPercentageOfTimeSpent: Int = {
+    private var daysRemainingUntilShowPercentageOfTimeSpent: Int {
         return numberOfDaysNeededForPercentageOfTimeSpentBuilding - project.numberOfDaysWithBuilds
-    }()
+    }
     
     private var averageBuildTime: Double {
         return project.averageBuildTime

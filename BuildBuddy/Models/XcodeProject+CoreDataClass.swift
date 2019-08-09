@@ -57,7 +57,7 @@ public class XcodeProject: NSManagedObject {
     
     // MARK: - Exposed Properties
     var builds: [XcodeBuild] {
-        return (xcodeBuilds?.allObjects as? [XcodeBuild] ?? []).removingDuplicateBuilds()
+        return (xcodeBuilds?.allObjects as? [XcodeBuild] ?? [])
     }
     
     var name: String {
@@ -162,11 +162,6 @@ public class XcodeProject: NSManagedObject {
     
     var averageBuildTime: Double {
         return totalBuildTime / totalNumberOfBuilds
-    }
-    
-    var todaysAverage: Double {
-        let todaysCount = Double(todaysBuilds.count)
-        return todaysBuildTime / todaysCount
     }
     
     
@@ -300,5 +295,14 @@ public class XcodeProject: NSManagedObject {
             // We check if we are showing builds with this result (success or failure)
             return UserDefaults.showsSuccess(build.wasSuccessful)
         }
+    }
+    
+    func checkAndRemoveDuplicates() {
+        let noDupes = NSSet(array: builds.removingDuplicateBuilds())
+        if builds.count > noDupes.count, let setBuilds = xcodeBuilds {
+            removeFromXcodeBuilds(setBuilds)
+            addToXcodeBuilds(noDupes)
+        }
+        
     }
 }

@@ -45,6 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     // MARK: - Life Cycle
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        XcodeProjectManager.checkAndRemoveDuplicates()
         registerDefaults()
         configureStatusItem()
         menu.delegate = self

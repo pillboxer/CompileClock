@@ -34,9 +34,10 @@ class XcodeProjectManager {
         guard count > 0 else {
             return 0
         }
-        let projectAverages = projectsWithBuildsToday.map() { $0.todaysAverage }
-        let totalTime = projectAverages.reduce(0, +)
-        return totalTime / count
+        let todaysBuilds = projectsWithBuildsToday.flatMap() { $0.todaysBuilds }
+        let projectTotals = todaysBuilds.map() { $0.totalBuildTime }
+        let totalTime = projectTotals.reduce(0, +)
+        return totalTime / Double(projectTotals.count)
     }
     
     static private var lastBuildTime: Double {
@@ -111,6 +112,10 @@ class XcodeProjectManager {
         case .allTimeDuration:
             return " \(XcodeProjectManager.allTimeDurationString)"
         }
+    }
+    
+    static func checkAndRemoveDuplicates() {
+        projects.forEach() { $0.checkAndRemoveDuplicates() }
     }
 
     static func buildTypeAndSuccessTuple(_ buildKey: String, fromFolder folder: String) -> (type: XcodeBuild.BuildType, success: Bool)? {
