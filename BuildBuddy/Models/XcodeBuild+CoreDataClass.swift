@@ -84,22 +84,19 @@ public class XcodeBuild: NSManagedObject {
 
 }
 
-extension Array where Element == XcodeBuild {
+extension Set where Element == XcodeBuild {
     
-    private func containsBuild(_ build: XcodeBuild) -> Bool {
-        for value in self {
-            if value.buildDate == build.buildDate {
-                return true
-            }
-        }
-        return false
+    // This is for when two identical builds get added
+    // Note even though two builds might have the same date, they will be different objects, which is why having them in a set is not enough
+    private func hasBuildWithIdenticalDate(_ build: XcodeBuild) -> Bool {
+        return self.contains() { $0.buildDate == build.buildDate }
     }
     
-    func removingDuplicateBuilds() -> [XcodeBuild] {
-        var uniqueBuilds = [XcodeBuild]()
+    func removingDuplicateBuilds() -> Set<XcodeBuild> {
+        var uniqueBuilds = Set<XcodeBuild>()
         for value in self {
-            if !uniqueBuilds.containsBuild(value) {
-                uniqueBuilds.append(value)
+            if !uniqueBuilds.hasBuildWithIdenticalDate(value) {
+                uniqueBuilds.insert(value)
             }
         }
         return uniqueBuilds

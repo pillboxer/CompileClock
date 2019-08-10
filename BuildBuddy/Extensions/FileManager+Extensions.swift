@@ -17,4 +17,8 @@ extension FileManager {
         }
         return Date(timeIntervalSince1970: 0)
     }
+    
+    static func folderIsValid(_ folder: String) -> Bool {
+        return FileManager.default.fileExists(atPath: folder)
+    }
 }

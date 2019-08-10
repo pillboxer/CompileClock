@@ -126,11 +126,13 @@ class XcodeProjectManager {
     }
     
     static func mergeProjectsIfNecessary() {
-        let projectNames = projects.map() { $0.name }
+        let projectsToCheck = projects
+        let projectNames = projectsToCheck.map() { $0.name }
         let occurences = projectNames.map() { ($0, 1) }
         let dict = Dictionary(occurences, uniquingKeysWith: +)
         let moreThanOne = dict.filter() { $0.value > 1 }
-        let filtered = projects.filter() { project in
+        
+        let filtered = projectsToCheck.filter() { project in
             for (key, _) in moreThanOne {
                 if key == project.name && project.builds.count > 0 {
                     return true
@@ -150,8 +152,6 @@ class XcodeProjectManager {
                 }
             }
         }
-
-        
     }
     
     // MARK: - Private Methods
@@ -168,17 +168,14 @@ class XcodeProjectManager {
         return enumerator.map() { ($0 as! URL).buildFolder.path }
     }
 
+
     
     static private func retrieveProjects() -> [XcodeProject] {
         // First, get all the saved projects
         let savedProjects = XcodeProject.fetchAll() ?? []
-        let savedProjectNames = savedProjects.compactMap() { $0.folderName }
+        let savedProjectNames = Set(savedProjects.compactMap() { $0.folderName })
         // Filter out the saved projects from derivedData
         let newProjectNames = foldersAtDerivedDataLocation.filter() { folderName in
-            
-            if folderName.contains("ModuleCache") { //|| folderName.contains("BuildBuddy") {
-                return false
-            }
             return !savedProjectNames.contains(folderName)
         }
         // Create new projects if any

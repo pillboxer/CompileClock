@@ -24,6 +24,7 @@
 		BA8D507022E0609A005EE413 /* AdvancedPreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA8D506E22E0609A005EE413 /* AdvancedPreferencesViewController.xib */; };
 		BA8D507222E1E136005EE413 /* StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8D507122E1E136005EE413 /* StatsViewModel.swift */; };
 		BA9AF57E22EDA9540014790C /* Calender+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9AF57D22EDA9540014790C /* Calender+Extensions.swift */; };
+		BAA7F9B822FEF59300C37E26 /* StatusItemAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA7F9B722FEF59300C37E26 /* StatusItemAnimationManager.swift */; };
 		BABD831722D8D91F0072A263 /* BuildBuddy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BABD831522D8D91F0072A263 /* BuildBuddy.xcdatamodeld */; };
 		BABD832822D8D9200072A263 /* BuildBuddyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD832722D8D9200072A263 /* BuildBuddyTests.swift */; };
 		BABD833B22D8D9480072A263 /* XcodeProjectMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD833622D8D9480072A263 /* XcodeProjectMenuItem.swift */; };
@@ -84,6 +85,7 @@
 		BA8D506E22E0609A005EE413 /* AdvancedPreferencesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdvancedPreferencesViewController.xib; sourceTree = "<group>"; };
 		BA8D507122E1E136005EE413 /* StatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
 		BA9AF57D22EDA9540014790C /* Calender+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calender+Extensions.swift"; sourceTree = "<group>"; };
+		BAA7F9B722FEF59300C37E26 /* StatusItemAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemAnimationManager.swift; sourceTree = "<group>"; };
 		BABD831022D8D91F0072A263 /* BuildBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuildBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BABD831622D8D91F0072A263 /* BuildBuddy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BuildBuddy.xcdatamodel; sourceTree = "<group>"; };
 		BABD831D22D8D9200072A263 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				BA8C3FCD22DCC1B30051BFD5 /* StatsManager.swift */,
 				BA0A41B922E3586800D5C1B0 /* DerivedDataPanelManager.swift */,
 				BA0A41BB22E35D0100D5C1B0 /* WelcomeManager.swift */,
+				BAA7F9B722FEF59300C37E26 /* StatusItemAnimationManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 				BABD836522D8D96F0072A263 /* PreferencesWindowController.swift in Sources */,
 				BABD834722D8D94F0072A263 /* PreferencesManager.swift in Sources */,
 				BA8D507222E1E136005EE413 /* StatsViewModel.swift in Sources */,
+				BAA7F9B822FEF59300C37E26 /* StatusItemAnimationManager.swift in Sources */,
 				BABD836822D8D9800072A263 /* AppDelegate.swift in Sources */,
 				BA8C3FCE22DCC1B30051BFD5 /* StatsManager.swift in Sources */,
 				BABD836422D8D96F0072A263 /* DatePickerPopoverViewController.swift in Sources */,

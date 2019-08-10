@@ -37,6 +37,7 @@ class AlternateNamesWindowController: NSWindowController, NSWindowDelegate {
     override func windowDidLoad() {
         super.windowDidLoad()
         window?.styleMask.remove(.resizable)
+        window?.center()
         window?.title = "Change Name"
         configurePopUp()
     }

@@ -17,7 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     static let shared = AppDelegate()
     
     // MARK: - Properties
-    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    var statusItem = NSStatusBar.system.statusItem(withLength: 15.0)
     let listener = Listener.shared
     var menu = NSMenu()
     var lastMenuItems = [NSMenuItem]()
@@ -45,16 +45,25 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     // MARK: - Life Cycle
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        XcodeProjectManager.checkAndRemoveDuplicates()
+        beginPostLaunchSequence()
         registerDefaults()
         configureStatusItem()
         menu.delegate = self
-        lastMenuItems = launchingMenuItems
+        lastMenuItems = self.launchingMenuItems
         startFetchLoop()
+    }
+    
+    
+    private func beginPostLaunchSequence() {
+        StatusItemAnimationManager(statusItem: statusItem).loadingItem.menu = menu
+        XcodeProjectManager.checkAndRemoveDuplicates()
+        XcodeProjectManager.mergeProjectsIfNecessary()
+
     }
     
     // MARK: - Menu Bar Icon
     private func configureStatusItem() {
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         let image = NSImage(named: "hammer")
         image?.size = NSMakeSize(17.0, 17.0)
         statusItem.button?.image = image
@@ -191,7 +200,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             project.fetchBuilds()
         }
         FetchingMenuItemManager.finish()
-        XcodeProjectManager.mergeProjectsIfNecessary()
         lastFetchDate = Date()
     }
     

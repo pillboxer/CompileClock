@@ -16,6 +16,9 @@ public class XcodeProject: NSManagedObject {
     
     // MARK: - Creation And Fetching
     static func createNewProjectWithFolderName(_ folderName: String) -> XcodeProject? {
+        guard FileManager.folderIsValid(folderName) else {
+            return nil
+        }
         let project: XcodeProject
         if let existingProject = existingProjectWithFolderName(folderName) {
             project = existingProject
@@ -277,6 +280,18 @@ public class XcodeProject: NSManagedObject {
         return buildsForPeriod(period)?.count ?? 0
     }
     
+    func checkAndRemoveDuplicates() {
+        guard let xcodeBuilds = xcodeBuilds, let setBuilds = xcodeBuilds as? Set<XcodeBuild> else {
+            return
+        }
+        let noDuplicates = setBuilds.removingDuplicateBuilds()
+        if builds.count > noDuplicates.count {
+            removeFromXcodeBuilds(xcodeBuilds)
+            addToXcodeBuilds(noDuplicates as NSSet)
+        }
+        print("Done checking and removing")
+    }
+    
     // MARK: - Private Methods
     private func buildDictIsNew(_ dict: [String : Any]) -> Bool {
         guard let timeStarted = dict["timeStartedRecording"] as? Double else {
@@ -297,12 +312,5 @@ public class XcodeProject: NSManagedObject {
         }
     }
     
-    func checkAndRemoveDuplicates() {
-        let noDupes = NSSet(array: builds.removingDuplicateBuilds())
-        if builds.count > noDupes.count, let setBuilds = xcodeBuilds {
-            removeFromXcodeBuilds(setBuilds)
-            addToXcodeBuilds(noDupes)
-        }
-        
-    }
+
 }

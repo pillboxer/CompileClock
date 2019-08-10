@@ -24,11 +24,13 @@ class XcodeProjectMenuItemHelper {
     }
     
     @objc static private func showAlternateNamesController(_ sender: XcodeProjectMenuItem) {
+        NSApp.activate(ignoringOtherApps: true)
+        alternateNamesController?.close()
         alternateNamesController = AlternateNamesWindowController(sender.project)
         alternateNamesController?.showWindow(nil)
     }
     
-    // MARK: - Exposed MEthods
+    // MARK: - Exposed Methods
     static func submenuForMenuItem(_ item: XcodeProjectMenuItem) -> NSMenu? {
         let submenu = NSMenu()
         var items = String.BuildTimePeriod.allCases.flatMap() { itemsForTimePeriod($0, project: item.project) }
