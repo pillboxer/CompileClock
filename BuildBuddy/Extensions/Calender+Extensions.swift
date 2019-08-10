@@ -15,7 +15,6 @@ extension Calendar {
         let date1 = calender.startOfDay(for: date1)
         let date2 = calender.startOfDay(for: date2)
         let differenceOfDays = calender.dateComponents([.day], from: date1, to: date2).day ?? 0
-        print(abs(differenceOfDays))
         return abs(differenceOfDays)
     }
     

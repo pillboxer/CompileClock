@@ -21,7 +21,6 @@ class StatusItemAnimationManager {
     
     var loadingItem: NSStatusItem {
         let layer = CALayer()
-        print(layer.position)
         statusItem.button?.layer = layer
         
         let image = NSImage(named: "rotatingClock")

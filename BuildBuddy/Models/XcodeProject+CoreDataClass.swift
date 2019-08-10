@@ -289,7 +289,6 @@ public class XcodeProject: NSManagedObject {
             removeFromXcodeBuilds(xcodeBuilds)
             addToXcodeBuilds(noDuplicates as NSSet)
         }
-        print("Done checking and removing")
     }
     
     // MARK: - Private Methods

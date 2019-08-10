@@ -58,10 +58,8 @@ extension UserDefaults {
     private static func get(_ dateKey: DefaultsDateKey) -> Date {
         let date = UserDefaults.standard.double(forKey: dateKey.rawValue)
         guard date != 0 else {
-            print("No custom date")
             return Date()
         }
-        print(Date(timeIntervalSinceReferenceDate: date))
         return Date(timeIntervalSinceReferenceDate: date)
     }
     
