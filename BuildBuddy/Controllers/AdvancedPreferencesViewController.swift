@@ -60,7 +60,7 @@ class AdvancedPreferencesViewController: NSViewController {
         }
         addDisplayTextStackView()
         addResetPreferencesUI()
-
+        addViewLog()
     }
     
     private func addLabelAndStackViewForStepperKey(_ key: UserDefaults.DefaultsStepperKey) {
@@ -137,8 +137,17 @@ class AdvancedPreferencesViewController: NSViewController {
         stackView.addArrangedSubview(label)
         let button = NSButton(title: "Reset", target: self, action: #selector(showResetPreferencesConfirmationAlert))
         stackView.addArrangedSubview(button)
+        addSeparator()
     }
     
+    private func addViewLog() {
+        let button = NSButton(title: "View Log", target: self, action: #selector(viewLog))
+        stackView.addArrangedSubview(button)
+    }
+    
+    @objc private func viewLog() {
+        FetchLogUtility.openLog()
+    }
     @objc private func resetPreferences() {
         closeAlert()
         UserDefaults.setInitialDefaults()

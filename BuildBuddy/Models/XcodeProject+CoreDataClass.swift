@@ -160,6 +160,10 @@ public class XcodeProject: NSManagedObject {
     var logStoreHasBeenUpdated: Bool {
         let logUpdateTime = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
         // If the time of the last update to the log was after the last modification date, then it has been updated
+        let updated = logUpdateTime > lastModificationDate
+        if updated {
+            FetchLogUtility.updateLogWithEvent(.logStoreManifestUpdated(name))
+        }
         return logUpdateTime > lastModificationDate
     }
     
@@ -228,8 +232,12 @@ public class XcodeProject: NSManagedObject {
     
     // MARK: - Exposed Methods
     func fetchBuilds() {
+        
+        FetchLogUtility.updateLogWithEvent(.fetchingBuilds(name))
         guard let folderName = folderName,
             let logs = logs else {
+                FetchLogUtility.updateLogWithEvent(.noLogs(name))
+                XcodeProject.deleteProjectWithFolderName(self.folderName ?? "")
                 return
         }
         for (buildKey, buildDict) in logs {
@@ -242,12 +250,16 @@ public class XcodeProject: NSManagedObject {
                 newBuild.wasSuccessful = typeAndSuccessTuple.success
                 newBuild.buildType = typeAndSuccessTuple.type
                 addToXcodeBuilds(newBuild)
+                FetchLogUtility.updateLogWithEvent(.newBuild(newBuild.buildDate))
             }
         }
+        
         // We can have this here, as even if there are no new builds, we are just replacing the date with the same date!
         lastModificationDate = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
+        FetchLogUtility.updateLogWithEvent(.lastModificationDateUpdated(name))
         CoreDataManager.save()
     }
+    
     
     func buildsForPeriod(_ period: String.BuildTimePeriod) -> [XcodeBuild]? {
         guard
@@ -286,6 +298,8 @@ public class XcodeProject: NSManagedObject {
         }
         let noDuplicates = setBuilds.removingDuplicateBuilds()
         if builds.count > noDuplicates.count {
+            let difference = builds.count - noDuplicates.count
+            FetchLogUtility.updateLogWithEvent(.duplicatesFound(difference))
             removeFromXcodeBuilds(xcodeBuilds)
             addToXcodeBuilds(noDuplicates as NSSet)
         }

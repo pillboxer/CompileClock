@@ -17,6 +17,7 @@
 		BA5EC74522DE010C009632E3 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5EC74322DE010C009632E3 /* StatsViewController.swift */; };
 		BA5EC74622DE010C009632E3 /* StatsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA5EC74422DE010C009632E3 /* StatsViewController.xib */; };
 		BA743AFD22DA1D18009A6748 /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA743AFC22DA1D18009A6748 /* FileManager+Extensions.swift */; };
+		BA7848B923004361005BD748 /* FetchLogUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7848B823004361005BD748 /* FetchLogUtility.swift */; };
 		BA8C3FCE22DCC1B30051BFD5 /* StatsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8C3FCD22DCC1B30051BFD5 /* StatsManager.swift */; };
 		BA8C3FD022DCC5260051BFD5 /* StatsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8C3FCF22DCC5260051BFD5 /* StatsWindowController.swift */; };
 		BA8C3FD222DCC53F0051BFD5 /* StatsWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA8C3FD122DCC53F0051BFD5 /* StatsWindowController.xib */; };
@@ -78,6 +79,7 @@
 		BA5EC74322DE010C009632E3 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		BA5EC74422DE010C009632E3 /* StatsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatsViewController.xib; sourceTree = "<group>"; };
 		BA743AFC22DA1D18009A6748 /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
+		BA7848B823004361005BD748 /* FetchLogUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchLogUtility.swift; sourceTree = "<group>"; };
 		BA8C3FCD22DCC1B30051BFD5 /* StatsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsManager.swift; sourceTree = "<group>"; };
 		BA8C3FCF22DCC5260051BFD5 /* StatsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsWindowController.swift; sourceTree = "<group>"; };
 		BA8C3FD122DCC53F0051BFD5 /* StatsWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatsWindowController.xib; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				BABD833F22D8D94F0072A263 /* XcodeProjectMenuItemHelper.swift */,
 				BABD834122D8D94F0072A263 /* XcodeProjectManager.swift */,
 				BABD834222D8D94F0072A263 /* PreferencesManager.swift */,
+				BA7848B823004361005BD748 /* FetchLogUtility.swift */,
 				BAEBA9E822EB75FA000A7FE0 /* FetchingMenuItemManager.swift */,
 				BA8C3FCD22DCC1B30051BFD5 /* StatsManager.swift */,
 				BA0A41B922E3586800D5C1B0 /* DerivedDataPanelManager.swift */,
@@ -394,6 +397,7 @@
 				BAE9EDD322D8E2D600DFFA7D /* XcodeBuild+CoreDataClass.swift in Sources */,
 				BA0A41BC22E35D0100D5C1B0 /* WelcomeManager.swift in Sources */,
 				BA8C3FD022DCC5260051BFD5 /* StatsWindowController.swift in Sources */,
+				BA7848B923004361005BD748 /* FetchLogUtility.swift in Sources */,
 				BAE9EDD622D8E2D600DFFA7D /* XcodeProject+CoreDataProperties.swift in Sources */,
 				BAE9EDD522D8E2D600DFFA7D /* XcodeProject+CoreDataClass.swift in Sources */,
 				BA0A41BA22E3586800D5C1B0 /* DerivedDataPanelManager.swift in Sources */,

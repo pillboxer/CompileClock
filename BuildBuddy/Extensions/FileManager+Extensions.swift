@@ -10,6 +10,14 @@ import Foundation
 
 extension FileManager {
     
+    private static var applicationSupport: URL {
+        return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+    }
+    
+    static var buildBuddyApplicationSupportFolder: URL {
+        return applicationSupport.appendingPathComponent("BuildBuddy")
+    }
+    
     static func lastModificationDateForFile(_ file: String) -> Date {
         if let attributes = try? FileManager.default.attributesOfItem(atPath: file),
             let modificationDate = attributes[FileAttributeKey.modificationDate] as? Date {
@@ -21,4 +29,43 @@ extension FileManager {
     static func folderIsValid(_ folder: String) -> Bool {
         return FileManager.default.fileExists(atPath: folder)
     }
+    
+    static func deleteFile(_ file: URL) {
+        let manager = FileManager.default
+        do {
+            try manager.removeItem(at: file)
+        }
+        catch let error {
+            print(error)
+        }
+    }
+    
+    static func updateFile(_ file: URL, withText text: String) {
+                
+        guard let textData = text.data(using: .utf8) else {
+            return
+        }
+        
+        purgeFileIfNecessary(file)
+        
+        if folderIsValid(file.path),
+            let fileHandle = try? FileHandle(forWritingTo: file) {
+            fileHandle.seekToEndOfFile()
+            fileHandle.write(textData)
+            fileHandle.closeFile()
+        }
+        else {
+            try? textData.write(to: file, options: .atomic)
+        }
+    }
+    
+    private static func purgeFileIfNecessary(_ file: URL) {
+        if let text = try? String(contentsOf: file), text.count > 15000 {
+            deleteFile(file)
+            let purgeText = "File Purged At \(Date().description)\n\n"
+            let filePurgedInfo = purgeText.data(using: .utf8)
+            try? filePurgedInfo?.write(to: file, options: .atomic)
+        }
+    }
+    
 }

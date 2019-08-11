@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14835.7" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14845" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14835.7"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14845"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,23 +19,23 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="320" height="432"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
+            <rect key="contentRect" x="196" y="240" width="329" height="437"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
             <view key="contentView" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="432"/>
+                <rect key="frame" x="0.0" y="0.0" width="329" height="437"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <tabView appearanceType="aqua" initialItem="gZc-25-SOU" translatesAutoresizingMaskIntoConstraints="NO" id="uTq-Kx-osT">
-                        <rect key="frame" x="9" y="6" width="302" height="416"/>
+                        <rect key="frame" x="9" y="6" width="311" height="421"/>
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="Menu" identifier="Menu" image="NSAdvanced" id="gZc-25-SOU">
                                 <view key="view" id="Bap-Zo-S5s">
-                                    <rect key="frame" x="10" y="33" width="282" height="370"/>
+                                    <rect key="frame" x="10" y="33" width="317" height="438"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="gx0-Kn-XzO" userLabel="MenuContainerView">
-                                            <rect key="frame" x="0.0" y="0.0" width="282" height="370"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="317" height="438"/>
                                         </customView>
                                     </subviews>
                                     <constraints>
@@ -48,11 +48,11 @@
                             </tabViewItem>
                             <tabViewItem label="Advanced" identifier="" image="failure" id="KZd-Jw-jNz">
                                 <view key="view" id="fiF-Em-s4a">
-                                    <rect key="frame" x="10" y="33" width="282" height="370"/>
+                                    <rect key="frame" x="10" y="33" width="291" height="375"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="vDu-gK-Nuo" userLabel="AdvancedContainerView">
-                                            <rect key="frame" x="0.0" y="0.0" width="282" height="370"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="291" height="375"/>
                                         </customView>
                                     </subviews>
                                     <constraints>
@@ -79,7 +79,7 @@
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
             </connections>
-            <point key="canvasLocation" x="160" y="128"/>
+            <point key="canvasLocation" x="259.5" y="130.5"/>
         </window>
     </objects>
     <resources>

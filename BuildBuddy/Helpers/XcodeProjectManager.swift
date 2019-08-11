@@ -142,6 +142,7 @@ class XcodeProjectManager {
         }
         var sortedByModificationDate = filtered.sorted() { $0.lastModificationDate < $1.lastModificationDate }
         if let newest = sortedByModificationDate.last {
+            FetchLogUtility.updateLogWithEvent(.mergingProject(newest.name))
             while sortedByModificationDate.count > 1 {
                 let currentOldest = sortedByModificationDate.removeFirst()
                 for build in currentOldest.builds {
