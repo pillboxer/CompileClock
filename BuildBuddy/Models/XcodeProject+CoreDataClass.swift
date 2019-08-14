@@ -237,7 +237,8 @@ public class XcodeProject: NSManagedObject {
         guard let folderName = folderName,
             let logs = logs else {
                 FetchLogUtility.updateLogWithEvent(.noLogs(name))
-                XcodeProject.deleteProjectWithFolderName(self.folderName ?? "")
+                lastModificationDate = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
+
                 return
         }
         for (buildKey, buildDict) in logs {

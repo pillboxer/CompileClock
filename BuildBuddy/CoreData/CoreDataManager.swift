@@ -55,6 +55,7 @@ final class CoreDataManager {
         do {
             try moc.save()
         } catch let error {
+            FetchLogUtility.updateLogWithEvent(.coreDataSaveFailed(error.localizedDescription))
             print(error.localizedDescription)
         }
     }

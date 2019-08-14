@@ -169,7 +169,11 @@ class XcodeProjectManager {
         return enumerator.map() { ($0 as! URL).buildFolder.path }
     }
 
-
+    static func fetchBuilds() {
+        projects.forEach {
+            $0.fetchBuilds()
+        }
+    }
     
     static private func retrieveProjects() -> [XcodeProject] {
         // First, get all the saved projects

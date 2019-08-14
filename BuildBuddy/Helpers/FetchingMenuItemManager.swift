@@ -55,7 +55,7 @@ class FetchingMenuItemManager {
     
     static func updateMenuItem(withText text: String) {
         DispatchQueue.main.async {
-            controller.label.stringValue = text
+            controller.label?.stringValue = text
             item.view = controller.view
         }
     }

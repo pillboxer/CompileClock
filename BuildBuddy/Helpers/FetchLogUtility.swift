@@ -11,16 +11,15 @@ import Cocoa
 class FetchLogUtility {
     
     private static var fetchLog: URL {
-         return FileManager.buildBuddyApplicationSupportFolder.appendingPathComponent("fetchLog")
-     }
+        return FileManager.buildBuddyApplicationSupportFolder.appendingPathComponent("fetchLog")
+    }
     
     enum FetchLogEvent: Equatable {
         case appLaunched
-        case reloadMenu(Bool)
         case derivedDataIsValid(Bool)
         case duplicatesFound(Int)
         case needsFetch(Bool)
-        case startingFetch
+        case startingFetch(Bool)
         case logStoreManifestUpdated(String)
         case fetchingBuilds(String)
         case noLogs(String)
@@ -28,7 +27,8 @@ class FetchLogUtility {
         case lastModificationDateUpdated(String)
         case fetchComplete
         case mergingProject(String)
-        
+        case coreDataSaveFailed(String)
+        case alreadyFetching
         var isProgressEvent: Bool {
             return self != .appLaunched && self != .fetchComplete
         }
@@ -56,14 +56,12 @@ class FetchLogUtility {
         switch event {
         case .appLaunched:
             return "---------App Launched--------- \(Date().description)"
-        case .reloadMenu(let hasFetched):
-            return hasFetched ? "Reloading" : "First Build Of The Day: \(Date().description)"
         case .derivedDataIsValid(let bool):
             return bool ? "Derived data is valid" : "Derived data is invalid"
         case .needsFetch(let bool):
             return bool ? "Needs fetch" : "No need for fetch"
-        case .startingFetch:
-            return "Starting fetching builds"
+        case .startingFetch(let hasFetched):
+            return hasFetched ? "Starting fetching builds" : "First Fetch Of The Day: \(Date().description)"
         case .duplicatesFound(let difference):
             return "\(difference) duplicate build(s) found"
         case .logStoreManifestUpdated(let projectName):
@@ -78,6 +76,10 @@ class FetchLogUtility {
             return "Last modification date updated for \(projectName)"
         case .mergingProject(let projectName):
             return "Multiple instances of \(projectName) found. Merging"
+        case .coreDataSaveFailed(let reason):
+            return "Core Data Saved Failed: \(reason)"
+        case .alreadyFetching:
+            return "Attempted Concurrent Fetch Averted"
         case .fetchComplete:
             return "---------------Fetch Complete----------------"
         }
