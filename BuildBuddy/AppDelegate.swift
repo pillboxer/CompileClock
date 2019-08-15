@@ -202,11 +202,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     
     private func fetchBuilds() {
-        print("Fetching")
         FetchLogUtility.updateLogWithEvent(.startingFetch(hasFetchedToday))
         FetchingMenuItemManager.start()
         XcodeProjectManager.fetchBuilds()
-        print("Finished")
         FetchingMenuItemManager.finish()
         lastFetchDate = Date()
         XcodeProjectManager.mergeProjectsIfNecessary()

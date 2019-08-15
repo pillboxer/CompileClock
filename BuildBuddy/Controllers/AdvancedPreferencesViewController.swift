@@ -139,6 +139,7 @@ class AdvancedPreferencesViewController: NSViewController {
     private func addResetPreferencesUI() {
         let label = NSTextField(labelWithString: "Reset Preferences")
         #error("Do better")
+
         label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
         stackView.addArrangedSubview(label)
         let button = NSButton(title: "Reset", target: self, action: #selector(showResetPreferencesConfirmationAlert))
