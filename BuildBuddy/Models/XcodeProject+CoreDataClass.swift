@@ -159,6 +159,7 @@ public class XcodeProject: NSManagedObject {
     
     var logStoreHasBeenUpdated: Bool {
         let logUpdateTime = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
+        FetchLogUtility.updateLogWithEvent(.lastModificationDateLog(Date(timeIntervalSinceReferenceDate: lastModificationDate)))
         // If the time of the last update to the log was after the last modification date, then it has been updated
         let updated = logUpdateTime > lastModificationDate
         if updated {
@@ -238,7 +239,6 @@ public class XcodeProject: NSManagedObject {
             let logs = logs else {
                 FetchLogUtility.updateLogWithEvent(.noLogs(name))
                 lastModificationDate = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
-
                 return
         }
         for (buildKey, buildDict) in logs {

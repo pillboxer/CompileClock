@@ -28,6 +28,7 @@ class FetchLogUtility {
         case fetchComplete
         case mergingProject(String)
         case coreDataSaveFailed(String)
+        case lastModificationDateLog(Date)
         case alreadyFetching
         var isProgressEvent: Bool {
             return self != .appLaunched && self != .fetchComplete
@@ -80,6 +81,9 @@ class FetchLogUtility {
             return "Core Data Saved Failed: \(reason)"
         case .alreadyFetching:
             return "Attempted Concurrent Fetch Averted"
+        case .lastModificationDateLog(let date):
+            #warning("Remove once bug fetching bug fixed")
+            return "Internal last modification date was \(date)"
         case .fetchComplete:
             return "---------------Fetch Complete----------------"
         }

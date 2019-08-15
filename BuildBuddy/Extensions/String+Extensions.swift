@@ -8,6 +8,7 @@
 
 import Foundation
 import Gzip
+import Cocoa
 extension String {
     
     // MARK: - Enums
@@ -60,6 +61,12 @@ extension String {
     }
     
     // MARK: - Exposed Methods
+    var tintedForDarkModeIfNecessary: NSAttributedString {
+        let color = NSAppearance.isDarkMode ? NSColor.white : NSColor.black
+            return NSAttributedString(string: self, attributes: [ NSAttributedString.Key.foregroundColor : color])
+    }
+    
+    
     static func prettyTime(_ time: Double, shortened: Bool = false) -> String {
         let timeValue = time.prettyTime.time
         let timeBlock = time.prettyTime.timeBlock

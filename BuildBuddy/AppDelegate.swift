@@ -191,22 +191,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // If the projects have been updated, or we have changed stuff in preferences, we should update.
         // Otherwise, just show the last items we were showing
         guard needsUpdating else {
-            print("No need")
             menu.items = lastMenuItems
             return
         }
         
         // we have new builds so load the menu
-        FetchLogUtility.updateLogWithEvent(.derivedDataIsValid(true))
         FetchLogUtility.updateLogWithEvent(.needsFetch(true))
         loadMenu()
     }
     
     
     private func fetchBuilds() {
+        print("Fetching")
         FetchLogUtility.updateLogWithEvent(.startingFetch(hasFetchedToday))
         FetchingMenuItemManager.start()
         XcodeProjectManager.fetchBuilds()
+        print("Finished")
         FetchingMenuItemManager.finish()
         lastFetchDate = Date()
         XcodeProjectManager.mergeProjectsIfNecessary()

@@ -24,6 +24,7 @@
 		BA8D506F22E0609A005EE413 /* AdvancedPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8D506D22E0609A005EE413 /* AdvancedPreferencesViewController.swift */; };
 		BA8D507022E0609A005EE413 /* AdvancedPreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA8D506E22E0609A005EE413 /* AdvancedPreferencesViewController.xib */; };
 		BA8D507222E1E136005EE413 /* StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8D507122E1E136005EE413 /* StatsViewModel.swift */; };
+		BA9579E52305D3EF00445804 /* NSAppearance+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9579E42305D3EF00445804 /* NSAppearance+Extensions.swift */; };
 		BA9AF57E22EDA9540014790C /* Calender+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9AF57D22EDA9540014790C /* Calender+Extensions.swift */; };
 		BAA7F9B822FEF59300C37E26 /* StatusItemAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA7F9B722FEF59300C37E26 /* StatusItemAnimationManager.swift */; };
 		BABD831722D8D91F0072A263 /* BuildBuddy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BABD831522D8D91F0072A263 /* BuildBuddy.xcdatamodeld */; };
@@ -86,6 +87,7 @@
 		BA8D506D22E0609A005EE413 /* AdvancedPreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedPreferencesViewController.swift; sourceTree = "<group>"; };
 		BA8D506E22E0609A005EE413 /* AdvancedPreferencesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdvancedPreferencesViewController.xib; sourceTree = "<group>"; };
 		BA8D507122E1E136005EE413 /* StatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
+		BA9579E42305D3EF00445804 /* NSAppearance+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAppearance+Extensions.swift"; sourceTree = "<group>"; };
 		BA9AF57D22EDA9540014790C /* Calender+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calender+Extensions.swift"; sourceTree = "<group>"; };
 		BAA7F9B722FEF59300C37E26 /* StatusItemAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemAnimationManager.swift; sourceTree = "<group>"; };
 		BABD831022D8D91F0072A263 /* BuildBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuildBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -237,6 +239,7 @@
 				BABD834E22D8D95E0072A263 /* Double+Extensions.swift */,
 				BA743AFC22DA1D18009A6748 /* FileManager+Extensions.swift */,
 				BA9AF57D22EDA9540014790C /* Calender+Extensions.swift */,
+				BA9579E42305D3EF00445804 /* NSAppearance+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -403,6 +406,7 @@
 				BA0A41BA22E3586800D5C1B0 /* DerivedDataPanelManager.swift in Sources */,
 				BABD834F22D8D95E0072A263 /* String+Extensions.swift in Sources */,
 				BAE9EDD422D8E2D600DFFA7D /* XcodeBuild+CoreDataProperties.swift in Sources */,
+				BA9579E52305D3EF00445804 /* NSAppearance+Extensions.swift in Sources */,
 				BA35A19B22E5EA01000ABC5E /* NSWindow+Extensions.swift in Sources */,
 				BABD836322D8D96F0072A263 /* BuildListWindowController.swift in Sources */,
 				BAC2213122F5C2C300025361 /* AlternateNamesWindowController.swift in Sources */,

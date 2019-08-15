@@ -27,7 +27,7 @@
                         <rect key="frame" x="130" y="17" width="38" height="25"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="Wbb-Sk-ECB">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" id="hfo-jj-LI2"/>
                         </popUpButtonCell>
                     </popUpButton>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14835.7" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14845" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14835.7"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14845"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="DatePickerPopoverViewController" customModule="BuildTimes" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="DatePickerPopoverViewController" customModule="BuildBuddy" customModuleProvider="target">
             <connections>
                 <outlet property="endDatePicker" destination="ekD-xi-8Iy" id="rhX-cl-SML"/>
                 <outlet property="startDatePicker" destination="g4Y-iR-L16" id="CQA-Q8-554"/>

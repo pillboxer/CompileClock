@@ -65,6 +65,8 @@ class AdvancedPreferencesViewController: NSViewController {
     
     private func addLabelAndStackViewForStepperKey(_ key: UserDefaults.DefaultsStepperKey) {
         let label = NSTextField(labelWithString: key.rawValue)
+        #error("Do better")
+        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
         stackView.addArrangedSubview(label)
         
         let horizontalStackView = NSStackView()
@@ -101,6 +103,8 @@ class AdvancedPreferencesViewController: NSViewController {
         
         let todayInfoString = UserDefaults.DefaultsAdvancedKey.todayInfoText.rawValue
         let label = NSTextField(labelWithString: todayInfoString)
+        #error("Do better")
+        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
         stackView.addArrangedSubview(label)
         
         let enabledButton = NSButton(checkboxWithTitle: "", target: nil, action: nil)
@@ -134,6 +138,8 @@ class AdvancedPreferencesViewController: NSViewController {
     
     private func addResetPreferencesUI() {
         let label = NSTextField(labelWithString: "Reset Preferences")
+        #error("Do better")
+        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
         stackView.addArrangedSubview(label)
         let button = NSButton(title: "Reset", target: self, action: #selector(showResetPreferencesConfirmationAlert))
         stackView.addArrangedSubview(button)
@@ -175,7 +181,9 @@ class AdvancedPreferencesViewController: NSViewController {
     
     private func addSeparator() {
         let box = NSBox()
-        box.boxType = .separator
+        box.boxType = .custom
+        box.borderColor = NSAppearance.isDarkMode ? .white : .black
+        box.frame = NSRect(x: 0, y: 0, width: view.frame.width, height: 1)
         stackView.addArrangedSubview(box)
     }
     
