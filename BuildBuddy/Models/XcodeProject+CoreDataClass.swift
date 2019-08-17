@@ -233,7 +233,6 @@ public class XcodeProject: NSManagedObject {
     
     // MARK: - Exposed Methods
     func fetchBuilds() {
-        
         FetchLogUtility.updateLogWithEvent(.fetchingBuilds(name))
         guard let folderName = folderName,
             let logs = logs else {
@@ -241,24 +240,38 @@ public class XcodeProject: NSManagedObject {
                 lastModificationDate = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
                 return
         }
-        for (buildKey, buildDict) in logs {
-            // Make sure the build is new, otherwise we don't need to bother with it
-            if let buildDict = buildDict as? [String : Any],
-                buildDictIsNew(buildDict),
-                let newBuild = XcodeBuild(buildDict),
-                let typeAndSuccessTuple = XcodeProjectManager.buildTypeAndSuccessTuple(buildKey, fromFolder: folderName) {
-                FetchingMenuItemManager.changeTextIfAppropriate()
-                newBuild.wasSuccessful = typeAndSuccessTuple.success
-                newBuild.buildType = typeAndSuccessTuple.type
-                addToXcodeBuilds(newBuild)
-                FetchLogUtility.updateLogWithEvent(.newBuild(newBuild.buildDate))
+        let context = CoreDataManager.privateMoc
+        
+        guard let projectForThread = try? context.existingObject(with: objectID) as? XcodeProject else {
+            return
+        }
+        
+        // Have to set this here, because the context is lazy initialised, so it still thinks it's modification date is the value it was when it was first initialised.
+        projectForThread.lastModificationDate = lastModificationDate
+                
+        context.performAndWait {
+            for (buildKey, buildDict) in logs {
+                // Make sure the build is new, otherwise we don't need to bother with it
+                if let buildDict = buildDict as? [String : Any],
+                    projectForThread.buildDictIsNew(buildDict),
+                    let newBuild = XcodeBuild(buildDict, inContext: context),
+                    let typeAndSuccessTuple = XcodeProjectManager.buildTypeAndSuccessTuple(buildKey, fromFolder: folderName) {
+                    FetchingMenuItemManager.changeTextIfAppropriate()
+                    newBuild.wasSuccessful = typeAndSuccessTuple.success
+                    newBuild.buildType = typeAndSuccessTuple.type
+                    projectForThread.addToXcodeBuilds(newBuild)
+                    FetchLogUtility.updateLogWithEvent(.newBuild(newBuild.buildDate))
+                }
             }
         }
+        
+        
+        
         
         // We can have this here, as even if there are no new builds, we are just replacing the date with the same date!
         lastModificationDate = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
         FetchLogUtility.updateLogWithEvent(.lastModificationDateUpdated(name))
-        CoreDataManager.save()
+
     }
     
     
@@ -326,5 +339,5 @@ public class XcodeProject: NSManagedObject {
         }
     }
     
-
+    
 }

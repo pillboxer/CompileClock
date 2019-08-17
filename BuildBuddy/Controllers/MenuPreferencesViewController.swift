@@ -42,7 +42,6 @@ class MenuPreferencesViewController: NSViewController {
     private func addCheckBoxes() {
         for period in String.BuildTimePeriod.allCases {
             let checkbox = NSButton(checkboxWithTitle: period.pretty, target: self, action: nil)
-            #error("Do better")
             checkbox.attributedTitle = period.pretty.tintedForDarkModeIfNecessary
             checkbox.bind(.value, to: NSUserDefaultsController.shared, withKeyPath: "values.\(period.defaultsBoolKey.rawValue)", options: [NSBindingOption.continuouslyUpdatesValue: true])
             if period == .custom {

@@ -14,6 +14,7 @@ final class CoreDataManager {
     private let modelName: String
     private static let shared = CoreDataManager(modelName: "BuildBuddy")
     static let moc = CoreDataManager.shared.managedObjectContext
+    static let privateMoc = CoreDataManager.shared.privateManagedObjectContext
     
     // MARK: - Initialisation
     init(modelName: String) {
@@ -36,7 +37,7 @@ final class CoreDataManager {
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
         let peristentStoreURL = FileManager.buildBuddyApplicationSupportFolder.appendingPathComponent(persistentStoreName)
         let options = [ NSInferMappingModelAutomaticallyOption : true,
-                           NSMigratePersistentStoresAutomaticallyOption : true]
+                        NSMigratePersistentStoresAutomaticallyOption : true]
         try! persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: peristentStoreURL, options: options)
         return persistentStoreCoordinator
     }()
@@ -48,17 +49,33 @@ final class CoreDataManager {
         return managedObjectContext
     }()
     
+    private lazy var privateManagedObjectContext: NSManagedObjectContext = {
+        let newMoc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        newMoc.parent = managedObjectContext
+        newMoc.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+        return newMoc
+    }()
+    
     static func save() {
-        guard moc.hasChanges else {
-            return
+        privateMoc.performAndWait {
+            do {
+                try privateMoc.save()
+            }
+            catch let error {
+                print(error.localizedDescription)
+            }
+                        
+            do {
+                try moc.save()
+            }
+            catch let error {
+                print(error.localizedDescription)
+            }
         }
-        do {
-            try moc.save()
-        } catch let error {
-            FetchLogUtility.updateLogWithEvent(.coreDataSaveFailed(error.localizedDescription))
-            print(error.localizedDescription)
-        }
+
     }
+        
+
     
     private func createApplicationSupportFolderIfNeeded() {
         let url = FileManager.buildBuddyApplicationSupportFolder

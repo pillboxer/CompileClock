@@ -67,15 +67,14 @@ public class XcodeBuild: NSManagedObject {
     }
     
     // MARK: - Initialisation
-    convenience init?(_ dict: [String: Any]) {
+    convenience init?(_ dict: [String: Any], inContext context: NSManagedObjectContext) {
         guard let started = dict[XcodeBuild.timeStartedRecording] as? Double,
             let stopped = dict[XcodeBuild.timeStoppedRecording] as? Double,
             let name = dict[XcodeBuild.schemeName] as? String else {
                 return nil
         }
-        let moc = CoreDataManager.moc
-        let entity = NSEntityDescription.entity(forEntityName: "XcodeBuild", in: moc)!
-        self.init(entity: entity, insertInto: moc)
+        let entity = NSEntityDescription.entity(forEntityName: "XcodeBuild", in: context)!
+        self.init(entity: entity, insertInto: context)
         self.name = name
         self.timeStarted = started
         self.timeStopped = stopped
