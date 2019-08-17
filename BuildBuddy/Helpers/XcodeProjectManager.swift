@@ -11,9 +11,7 @@ import Foundation
 class XcodeProjectManager {
     
     // MARK: - Exposed Methods
-    static var projects: [XcodeProject] {
-        return retrieveProjects()
-    }
+    static var projects: [XcodeProject] = []
     
     static var projectsWithBuilds: [XcodeProject] {
         return projects.filter() { $0.builds.count > 0 }
@@ -173,9 +171,10 @@ class XcodeProjectManager {
         projects.forEach {
             $0.fetchBuilds()
         }
+        CoreDataManager.save()
     }
     
-    static private func retrieveProjects() -> [XcodeProject] {
+    static func retrieveNewProjects() {
         // First, get all the saved projects
         let savedProjects = XcodeProject.fetchAll() ?? []
         let savedProjectNames = Set(savedProjects.compactMap() { $0.folderName })
@@ -185,7 +184,13 @@ class XcodeProjectManager {
         }
         // Create new projects if any
         let newProjects = newProjectNames.compactMap() { XcodeProject.createNewProjectWithFolderName($0) }
-        return savedProjects + newProjects
+        projects = savedProjects + newProjects
+    }
+    
+    static func start() {
+        retrieveNewProjects()
+        checkAndRemoveDuplicates()
+        mergeProjectsIfNecessary()
     }
     
     static private var forceUpdate = false

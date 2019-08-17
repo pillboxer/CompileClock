@@ -60,8 +60,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private func beginPostLaunchSequence() {
         StatusItemAnimationManager(statusItem: statusItem).loadingItem.menu = menu
         FetchLogUtility.updateLogWithEvent(.appLaunched)
-        XcodeProjectManager.checkAndRemoveDuplicates()
-        XcodeProjectManager.mergeProjectsIfNecessary()
+        XcodeProjectManager.start()
     }
 
     
@@ -179,6 +178,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     private func reloadMenuIfNecessary() {
+        XcodeProjectManager.retrieveNewProjects()
         // If there's no derivedDataURL, we need to set it. Just show that option and quit
         guard let url = UserDefaults.derivedDataURL, DerivedDataPanelManager.derivedDataLocationIsValid(withUrl: url) else {
             let item = NSMenuItem(title: "Set Derived Data Location...", action: #selector(openPanel), keyEquivalent: "")
