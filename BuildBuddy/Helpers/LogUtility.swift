@@ -8,13 +8,13 @@
 
 import Cocoa
 
-class FetchLogUtility {
+class LogUtility {
     
     private static var fetchLog: URL {
         return FileManager.buildBuddyApplicationSupportFolder.appendingPathComponent("fetchLog")
     }
     
-    enum FetchLogEvent: Equatable {
+    enum LogEvent: Equatable {
         case appLaunched
         case derivedDataIsValid(Bool)
         case duplicatesFound(Int)
@@ -28,7 +28,6 @@ class FetchLogUtility {
         case fetchComplete
         case mergingProject(String)
         case coreDataSaveFailed(String)
-        case lastModificationDateLog(Date)
         case alreadyFetching
         var isProgressEvent: Bool {
             return self != .appLaunched && self != .fetchComplete
@@ -37,7 +36,7 @@ class FetchLogUtility {
     }
     
     
-    static func updateLogWithEvent(_ event: FetchLogEvent) {
+    static func updateLogWithEvent(_ event: LogEvent) {
         var eventString = eventStringForEvent(event)
 
         if event.isProgressEvent {
@@ -53,7 +52,7 @@ class FetchLogUtility {
         FileManager.updateFile(fetchLog, withText: eventString)
     }
     
-    private static func eventStringForEvent(_ event: FetchLogEvent) -> String {
+    private static func eventStringForEvent(_ event: LogEvent) -> String {
         switch event {
         case .appLaunched:
             return "---------App Launched--------- \(Date().description)"
@@ -81,9 +80,6 @@ class FetchLogUtility {
             return "Core Data Saved Failed: \(reason)"
         case .alreadyFetching:
             return "Attempted Concurrent Fetch Averted"
-        case .lastModificationDateLog(let date):
-            #warning("Remove once bug fetching bug fixed")
-            return "Internal last modification date was \(date)"
         case .fetchComplete:
             return "---------------Fetch Complete----------------"
         }

@@ -149,7 +149,7 @@ class AdvancedPreferencesViewController: NSViewController {
     }
     
     @objc private func viewLog() {
-        FetchLogUtility.openLog()
+        LogUtility.openLog()
     }
     @objc private func resetPreferences() {
         closeAlert()

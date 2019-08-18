@@ -117,6 +117,10 @@ public class XcodeProject: NSManagedObject {
         return afterSlash
     }
     
+    var derivedDataFolderName: String? {
+        return folderName?.replacingOccurrences(of: "Logs/Build", with: "")
+    }
+    
     var todaysBuilds: [XcodeBuild] {
         return builds.filter() { $0.buildDateIsToday }
     }
@@ -163,8 +167,7 @@ public class XcodeProject: NSManagedObject {
         // If the time of the last update to the log was after the last modification date, then it has been updated
         let updated = logUpdateTime > lastModificationDate
         if updated {
-            FetchLogUtility.updateLogWithEvent(.lastModificationDateLog(Date(timeIntervalSinceReferenceDate: lastModificationDate)))
-            FetchLogUtility.updateLogWithEvent(.logStoreManifestUpdated(name))
+            LogUtility.updateLogWithEvent(.logStoreManifestUpdated(name))
         }
         return logUpdateTime > lastModificationDate
     }
@@ -234,22 +237,24 @@ public class XcodeProject: NSManagedObject {
     
     // MARK: - Exposed Methods
     func fetchBuilds() {
-        FetchLogUtility.updateLogWithEvent(.fetchingBuilds(name))
+        
+        LogUtility.updateLogWithEvent(.fetchingBuilds(name))
+        
         guard let folderName = folderName,
             let logs = logs else {
-                FetchLogUtility.updateLogWithEvent(.noLogs(name))
+                LogUtility.updateLogWithEvent(.noLogs(name))
                 lastModificationDate = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
                 return
         }
-        let context = CoreDataManager.privateMoc
         
+        let context = CoreDataManager.privateMoc
         guard let projectForThread = try? context.existingObject(with: objectID) as? XcodeProject else {
             return
         }
         
         // Have to set this here, because the context is lazy initialised, so it still thinks it's modification date is the value it was when it was first initialised.
         projectForThread.lastModificationDate = lastModificationDate
-                
+        
         context.performAndWait {
             for (buildKey, buildDict) in logs {
                 // Make sure the build is new, otherwise we don't need to bother with it
@@ -261,18 +266,14 @@ public class XcodeProject: NSManagedObject {
                     newBuild.wasSuccessful = typeAndSuccessTuple.success
                     newBuild.buildType = typeAndSuccessTuple.type
                     projectForThread.addToXcodeBuilds(newBuild)
-                    FetchLogUtility.updateLogWithEvent(.newBuild(newBuild.buildDate))
+                    LogUtility.updateLogWithEvent(.newBuild(newBuild.buildDate))
                 }
             }
         }
         
-        
-        
-        
         // We can have this here, as even if there are no new builds, we are just replacing the date with the same date!
         lastModificationDate = FileManager.lastModificationDateForFile(logStoreManifest).timeIntervalSinceReferenceDate
-        FetchLogUtility.updateLogWithEvent(.lastModificationDateUpdated(name))
-
+        LogUtility.updateLogWithEvent(.lastModificationDateUpdated(name))
     }
     
     
@@ -314,7 +315,7 @@ public class XcodeProject: NSManagedObject {
         let noDuplicates = setBuilds.removingDuplicateBuilds()
         if builds.count > noDuplicates.count {
             let difference = builds.count - noDuplicates.count
-            FetchLogUtility.updateLogWithEvent(.duplicatesFound(difference))
+            LogUtility.updateLogWithEvent(.duplicatesFound(difference))
             removeFromXcodeBuilds(xcodeBuilds)
             addToXcodeBuilds(noDuplicates as NSSet)
         }
@@ -339,6 +340,4 @@ public class XcodeProject: NSManagedObject {
             return UserDefaults.showsSuccess(build.wasSuccessful)
         }
     }
-    
-    
 }

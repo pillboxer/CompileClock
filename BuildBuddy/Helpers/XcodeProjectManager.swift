@@ -112,8 +112,34 @@ class XcodeProjectManager {
         }
     }
     
+    static func fetchBuilds() {
+        projects.forEach {
+            $0.fetchBuilds()
+        }
+        CoreDataManager.save()
+    }
+    
     static func checkAndRemoveDuplicates() {
         projects.forEach() { $0.checkAndRemoveDuplicates() }
+    }
+    
+    static func retrieveNewProjects() {
+        // First, get all the saved projects
+        let savedProjects = XcodeProject.fetchAll() ?? []
+        let savedProjectNames = Set(savedProjects.compactMap() { $0.folderName })
+        // Filter out the saved projects from derivedData
+        let newProjectNames = foldersAtDerivedDataLocation.filter() { folderName in
+            return !savedProjectNames.contains(folderName)
+        }
+        // Create new projects if any
+        let newProjects = newProjectNames.compactMap() { XcodeProject.createNewProjectWithFolderName($0) }
+        projects = savedProjects + newProjects
+    }
+    
+    static func start() {
+        retrieveNewProjects()
+        checkAndRemoveDuplicates()
+        mergeProjectsIfNecessary()
     }
 
     static func buildTypeAndSuccessTuple(_ buildKey: String, fromFolder folder: String) -> (type: XcodeBuild.BuildType, success: Bool)? {
@@ -140,7 +166,7 @@ class XcodeProjectManager {
         }
         var sortedByModificationDate = filtered.sorted() { $0.lastModificationDate < $1.lastModificationDate }
         if let newest = sortedByModificationDate.last {
-            FetchLogUtility.updateLogWithEvent(.mergingProject(newest.name))
+            LogUtility.updateLogWithEvent(.mergingProject(newest.name))
             while sortedByModificationDate.count > 1 {
                 let currentOldest = sortedByModificationDate.removeFirst()
                 for build in currentOldest.builds {
@@ -167,32 +193,7 @@ class XcodeProjectManager {
         return enumerator.map() { ($0 as! URL).buildFolder.path }
     }
 
-    static func fetchBuilds() {
-        projects.forEach {
-            $0.fetchBuilds()
-        }
-        CoreDataManager.save()
-    }
-    
-    static func retrieveNewProjects() {
-        // First, get all the saved projects
-        let savedProjects = XcodeProject.fetchAll() ?? []
-        let savedProjectNames = Set(savedProjects.compactMap() { $0.folderName })
-        // Filter out the saved projects from derivedData
-        let newProjectNames = foldersAtDerivedDataLocation.filter() { folderName in
-            return !savedProjectNames.contains(folderName)
-        }
-        // Create new projects if any
-        let newProjects = newProjectNames.compactMap() { XcodeProject.createNewProjectWithFolderName($0) }
-        projects = savedProjects + newProjects
-    }
-    
-    static func start() {
-        retrieveNewProjects()
-        checkAndRemoveDuplicates()
-        mergeProjectsIfNecessary()
-    }
-    
+
     static private var forceUpdate = false
 }
 

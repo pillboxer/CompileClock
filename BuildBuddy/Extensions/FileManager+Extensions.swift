@@ -30,13 +30,25 @@ extension FileManager {
         return FileManager.default.fileExists(atPath: folder)
     }
     
-    static func deleteFile(_ file: URL) {
+    private static func deleteFile(_ file: URL) {
         let manager = FileManager.default
         do {
             try manager.removeItem(at: file)
         }
         catch let error {
             print(error)
+        }
+    }
+    
+    static func trashFile(_ file: URL) -> Bool {
+        let manager = FileManager.default
+        do {
+            try manager.trashItem(at: file, resultingItemURL: nil)
+            return true
+        }
+        catch let error {
+            print(error.localizedDescription)
+            return false
         }
     }
     

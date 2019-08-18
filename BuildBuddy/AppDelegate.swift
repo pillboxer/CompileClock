@@ -13,7 +13,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     @IBOutlet weak var window: NSWindow!
     
-    
     static let shared = AppDelegate()
     
     // MARK: - Properties
@@ -28,6 +27,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var hasFetchedToday: Bool {
         let date = Date()
         return Calendar.numberOfDaysBetweenDates(date, lastFetchDate) == 0
+    }
+    
+    private var needsUpdating: Bool {
+        return XcodeProjectManager.needsUpdating || listener.defaultsChanged || !hasFetchedToday
     }
     
     
@@ -59,7 +62,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     private func beginPostLaunchSequence() {
         StatusItemAnimationManager(statusItem: statusItem).loadingItem.menu = menu
-        FetchLogUtility.updateLogWithEvent(.appLaunched)
+        LogUtility.updateLogWithEvent(.appLaunched)
         XcodeProjectManager.start()
     }
 
@@ -83,6 +86,28 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     // MARK: - Menu
+    private func reloadMenuIfNecessary() {
+        XcodeProjectManager.retrieveNewProjects()
+        // If there's no derivedDataURL, we need to set it. Just show that option and quit
+        guard let url = UserDefaults.derivedDataURL, DerivedDataPanelManager.derivedDataLocationIsValid(withUrl: url) else {
+            let item = NSMenuItem(title: "Set Derived Data Location...", action: #selector(openPanel), keyEquivalent: "")
+            LogUtility.updateLogWithEvent(.derivedDataIsValid(false))
+            item.image = NSImage(named: "failure")
+            item.image?.size = NSSize(width: 18, height: 18)
+            menu.items = [item, quit]
+            return
+        }
+        // If the projects have been updated, or we have changed stuff in preferences, we should update.
+        // Otherwise, just show the last items we were showing
+        guard needsUpdating else {
+            menu.items = lastMenuItems
+            return
+        }
+        // we have new builds so load the menu
+        LogUtility.updateLogWithEvent(.needsFetch(true))
+        loadMenu()
+    }
+    
     private func loadMenu() {
         // Show the spinner
         showLoadingItem()
@@ -98,11 +123,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 self.semaphore.signal()
             }
         }
-
-    }
-    
-    private var needsUpdating: Bool {
-        return XcodeProjectManager.needsUpdating || listener.defaultsChanged || !hasFetchedToday
     }
     
     private func startFetchLoop() {
@@ -112,14 +132,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
     
-    func loadDisplayText() {
-        if UserDefaults.showsDisplayText && XcodeProjectManager.hasBuiltToday {
-            statusItem.button?.title = XcodeProjectManager.displayText
-            statusItem.button?.imagePosition = .imageLeft
-            
-        } else {
-            statusItem.button?.imagePosition = .imageOnly
-        }
+    private func showLoadingItem() {
+        // Sets the animated loading menu itme
+        menu.items = [FetchingMenuItemManager.menuItem]
+    }
+    
+    private func fetchBuilds() {
+        LogUtility.updateLogWithEvent(.startingFetch(hasFetchedToday))
+        FetchingMenuItemManager.start()
+        XcodeProjectManager.fetchBuilds()
+        FetchingMenuItemManager.finish()
+        lastFetchDate = Date()
+        XcodeProjectManager.mergeProjectsIfNecessary()
+        LogUtility.updateLogWithEvent(.fetchComplete)
     }
     
     private func constructMenu() {
@@ -148,6 +173,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         lastMenuItems = menu.items
     }
     
+    func loadDisplayText() {
+        if UserDefaults.showsDisplayText && XcodeProjectManager.hasBuiltToday {
+            statusItem.button?.title = XcodeProjectManager.displayText
+            statusItem.button?.imagePosition = .imageLeft
+            
+        } else {
+            statusItem.button?.imagePosition = .imageOnly
+        }
+    }
+    
     private func constructSubmenus() {
         // If the item is an XcodeProject, add the submenu that shows our data
         menu.items.forEach() { item in
@@ -167,50 +202,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             showLoadingItem()
             return
         }
-        
         reloadMenuIfNecessary()
-        
     }
     
-    private func showLoadingItem() {
-        // Sets the animated loading menu itme
-        menu.items = [FetchingMenuItemManager.menuItem]
-    }
-    
-    private func reloadMenuIfNecessary() {
-        XcodeProjectManager.retrieveNewProjects()
-        // If there's no derivedDataURL, we need to set it. Just show that option and quit
-        guard let url = UserDefaults.derivedDataURL, DerivedDataPanelManager.derivedDataLocationIsValid(withUrl: url) else {
-            let item = NSMenuItem(title: "Set Derived Data Location...", action: #selector(openPanel), keyEquivalent: "")
-            FetchLogUtility.updateLogWithEvent(.derivedDataIsValid(false))
-            item.image = NSImage(named: "failure")
-            item.image?.size = NSSize(width: 18, height: 18)
-            menu.items = [item, quit]
-            return
-        }
-        // If the projects have been updated, or we have changed stuff in preferences, we should update.
-        // Otherwise, just show the last items we were showing
-        guard needsUpdating else {
-            menu.items = lastMenuItems
-            return
-        }
-        
-        // we have new builds so load the menu
-        FetchLogUtility.updateLogWithEvent(.needsFetch(true))
-        loadMenu()
-    }
-    
-    
-    private func fetchBuilds() {
-        FetchLogUtility.updateLogWithEvent(.startingFetch(hasFetchedToday))
-        FetchingMenuItemManager.start()
-        XcodeProjectManager.fetchBuilds()
-        FetchingMenuItemManager.finish()
-        lastFetchDate = Date()
-        XcodeProjectManager.mergeProjectsIfNecessary()
-        FetchLogUtility.updateLogWithEvent(.fetchComplete)
-    }
-    
+
     
     // MARK: - Selectors
     @objc func openPreferences() {

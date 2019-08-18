@@ -87,7 +87,7 @@ extension UserDefaults {
     }
     
     static private func setInitialTodayText() {
-        UserDefaults.standard.set(false, forKey: UserDefaults.DefaultsBoolKey.showsDisplayText.rawValue)
+        UserDefaults.standard.set(true, forKey: UserDefaults.DefaultsBoolKey.showsDisplayText.rawValue)
         UserDefaults.standard.set(String.DisplayTextOptions.builds.rawValue.capitalized, forKey: UserDefaults.DefaultsAdvancedKey.todayInfoText.rawValue)
     }
     
