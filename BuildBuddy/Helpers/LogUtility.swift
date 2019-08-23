@@ -69,7 +69,7 @@ class LogUtility {
         case .fetchingBuilds(let projectName):
             return "Fetching builds for \(projectName)"
         case .noLogs(let projectName):
-            return "\(projectName) has no logs. Deleting project"
+            return "\(projectName) has no logs."
         case .newBuild(let date):
             return "New Build -----> \(date.description)"
         case .lastModificationDateUpdated(let projectName):

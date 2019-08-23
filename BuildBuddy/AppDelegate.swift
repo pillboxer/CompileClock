@@ -119,15 +119,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             self.semaphore.wait()
             self.fetchBuilds()
             DispatchQueue.main.async {
-                self.constructMenu()
                 self.semaphore.signal()
+                self.constructMenu()
             }
         }
     }
     
     private func startFetchLoop() {
         reloadMenuIfNecessary()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 60.0) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 160.0) {
             self.startFetchLoop()
         }
     }
@@ -198,7 +198,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         WelcomeManager.shared.close()
         
         if FetchingMenuItemManager.isFetching {
-            FetchingMenuItemManager.changeTextIfAppropriate()
             showLoadingItem()
             return
         }

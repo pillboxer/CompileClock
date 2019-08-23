@@ -63,21 +63,21 @@ class XcodeProjectManager {
     }
     
     static private var averageTimeTodayString: String {
-        return String.prettyTime(averageTimeToday, shortened: true)
+        return String.prettyTime(averageTimeToday)
     }
     
     static private var lastBuildTimeString: String {
-        return String.prettyTime(lastBuildTime, shortened: true)
+        return String.prettyTime(lastBuildTime)
     }
     
     static private var totalTimeTodayString: String {
         let buildTimes = projects.map() { $0.todaysBuildTime }
         let total = buildTimes.reduce(0, +)
-        return String.prettyTime(total, shortened: true)
+        return String.prettyTime(total)
     }
     
     static private var allTimeDurationString: String {
-        return String.prettyTime(allTimeDuration, shortened: true)
+        return String.prettyTime(allTimeDuration)
     }
     
     static var needsUpdating: Bool {
@@ -114,7 +114,9 @@ class XcodeProjectManager {
     
     static func fetchBuilds() {
         projects.forEach {
-            $0.fetchBuilds()
+            if $0.logStoreHasBeenUpdated {
+                $0.fetchBuilds()
+            }
         }
         CoreDataManager.save()
     }

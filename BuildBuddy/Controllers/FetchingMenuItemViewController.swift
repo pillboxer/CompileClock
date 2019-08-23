@@ -13,7 +13,8 @@ class FetchingMenuItemViewController: NSViewController {
     // MARK: - IBOutlets
     @IBOutlet var customView: NSView!
     @IBOutlet weak var spinner: NSProgressIndicator!
-    @IBOutlet weak var label: NSTextField!
+    @IBOutlet weak var projectNameLabel: NSTextField!
+    @IBOutlet weak var projectCountLabel: NSTextField!
     
     // MARK: - Properties
     override var nibName: NSNib.Name? {

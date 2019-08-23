@@ -9,17 +9,27 @@
 import Foundation
 
 extension Double {
-
-    var minutesFromSeconds: Double {
-        return self / 60
+    
+    typealias FullTimeValue = (days: Int?, hours: Int?, minutes: Int?, seconds: Int?)
+    
+    var totalSeconds: Int {
+        return Int(self)
+    }
+    
+    var seconds: Int {
+        return totalSeconds % 60
     }
 
-    var hoursFromSeconds: Double {
-        return self / 60 / 60
+    var hoursFromSeconds: Int {
+        return (totalSeconds % 86400) / 3600
     }
 
-    var daysFromSeconds: Double {
-        return self / 60 / 60 / 24
+    var daysFromSeconds: Int {
+        return (totalSeconds % 31536000) / 86400
+    }
+    
+    var minutesFromSeconds: Int {
+        return (totalSeconds % 3600) / 60
     }
     
     var isGreaterThanADay: Bool {
@@ -34,18 +44,18 @@ extension Double {
         return self > 60
     }
     
-    var prettyTime: (time: Double, timeBlock: String.TimeBlock) {
-        if self.isGreaterThanADay {
-            return (self.daysFromSeconds, .days)
+    var prettyTime: (FullTimeValue) {
+        if isGreaterThanADay {
+            return (daysFromSeconds, hoursFromSeconds, minutesFromSeconds, seconds)
         }
-        else if self.isGreaterThanAnHour {
-            return (self.hoursFromSeconds, .hours)
+        else if isGreaterThanAnHour {
+            return (nil, hoursFromSeconds, minutesFromSeconds, seconds)
         }
-        else if self.isGreaterThanAMinute {
-            return (self.minutesFromSeconds, .minutes)
+        else if isGreaterThanAMinute {
+            return (nil, nil, minutesFromSeconds, seconds)
         }
         else {
-            return (self, .seconds)
+            return (nil, nil, nil, seconds)
         }
     }
 }

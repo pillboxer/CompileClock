@@ -21,41 +21,34 @@ class FetchingMenuItemManager {
     }
     
     static func setFetchTimeToNow() {
-        FetchingMenuItemManager.updateMenuItem(withText: "Fetching")
         fetchTime = CFAbsoluteTimeGetCurrent()
     }
     
     static func finish() {
+        updateMenuItem(withText: "Finishing")
         setFetchTimeToNow()
         isFetching = false
     }
     
     static func start() {
+        updateMenuItem(withText: "Starting")
         setFetchTimeToNow()
         isFetching = true
     }
     
-    static func changeTextIfAppropriate() {
-        let startTime = CFAbsoluteTimeGetCurrent()
-        let difference = startTime - FetchingMenuItemManager.fetchTime
-        let text: String
-        
-        if difference >= 8 {
-            text = "Finishing"
+    static func updateMenuItem(withProjectName name: String, projectNumber: Int, numberOfBuilds: Int) {
+        DispatchQueue.main.async {
+            controller.projectCountLabel.isHidden = false
+            controller.projectNameLabel?.stringValue = "\(name):"
+            controller.projectCountLabel.stringValue = "\(projectNumber)/\(numberOfBuilds)"
+            item.view = controller.view
         }
-        else if difference >= 2.5 {
-            text = "Adding"
-        }
-        else {
-            text = "Fetching"
-        }
-        
-        FetchingMenuItemManager.updateMenuItem(withText: text)
     }
     
     static func updateMenuItem(withText text: String) {
         DispatchQueue.main.async {
-            controller.label?.stringValue = text
+            controller.projectCountLabel.isHidden = true
+            controller.projectNameLabel.stringValue = "\(text)"
             item.view = controller.view
         }
     }

@@ -67,13 +67,26 @@ extension String {
     }
     
     
-    static func prettyTime(_ time: Double, shortened: Bool = false) -> String {
-        let timeValue = time.prettyTime.time
-        let timeBlock = time.prettyTime.timeBlock
-        let timeBlockValue = shortened ? timeBlock.shortened : timeBlock.rawValue
-        let decimalPlaces = Int(UserDefaults.customDecimalPlaces)
-        let timeString = String(format: "%.\(decimalPlaces)f \(timeBlockValue)", timeValue)
-        return shortened ? timeString.replacingOccurrences(of: " ", with: "") : timeString
+    static func prettyTime(_ time: Double) -> String {
+        let timeValue = time.prettyTime
+        return prettyTimeFromFullTime(timeValue)
+    }
+    
+    static private func prettyTimeFromFullTime(_ fullTime: Double.FullTimeValue) -> String {
+        var string = ""
+        if let days = fullTime.days {
+            string += "\(days)d:"
+        }
+        if let hours = fullTime.hours {
+            string += "\(hours)h:"
+        }
+        if let minutes = fullTime.minutes {
+            string += "\(minutes)m:"
+        }
+        if let seconds = fullTime.seconds {
+            string += "\(seconds)s"
+        }
+        return string
     }
 
     static func formattedTime(_ time: Double, forPeriod period: String.BuildTimePeriod) -> String {
@@ -82,7 +95,7 @@ extension String {
             return formattedStringForNoBuilds(withPeriod: period)
         }
         let blockForPeriod = UserDefaults.timeBlockForPeriod(period)
-        let timeValue: Double
+        let timeValue: Int
         switch blockForPeriod {
         case .days:
             timeValue = time.daysFromSeconds
@@ -91,12 +104,11 @@ extension String {
         case .minutes:
             timeValue = time.minutesFromSeconds
         case .seconds:
-            timeValue = time
+            timeValue = time.totalSeconds
         case .automatic:
             return prettyTime(time)
         }
-        let decimalPlaces = UserDefaults.customDecimalPlaces
-        return String(format: "%.\(decimalPlaces)f \(blockForPeriod.rawValue)", timeValue)
+        return String(format: "\(timeValue)\(blockForPeriod.shortened)", timeValue)
     }
     
     static func menuItemTitleFormatter(withPeriod period: String.BuildTimePeriod, numberOfBuilds: Int) -> String {

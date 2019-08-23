@@ -16,9 +16,9 @@ import CoreData
 public class XcodeBuild: NSManagedObject {
     
     // MARK: - Properties
-    private static let timeStartedRecording = "timeStartedRecording"
-    private static let timeStoppedRecording = "timeStoppedRecording"
-    private static let schemeName = "schemeIdentifier-schemeName"
+    static let timeStartedRecording = "timeStartedRecording"
+    static let timeStoppedRecording = "timeStoppedRecording"
+    static let schemeName = "schemeIdentifier-schemeName"
     
     enum BuildType: Int {
         case run
