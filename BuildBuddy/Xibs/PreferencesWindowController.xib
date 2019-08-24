@@ -10,6 +10,7 @@
             <connections>
                 <outlet property="advancedContainerView" destination="vDu-gK-Nuo" id="8Kf-7w-d6u"/>
                 <outlet property="menuContainerView" destination="gx0-Kn-XzO" id="Huy-Qe-hS5"/>
+                <outlet property="projectsContainerView" destination="2R1-p2-XfU" id="XZw-BU-JkV"/>
                 <outlet property="tabView" destination="uTq-Kx-osT" id="qa0-qV-vyR"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
@@ -31,11 +32,11 @@
                         <tabViewItems>
                             <tabViewItem label="Menu" identifier="Menu" image="NSAdvanced" id="gZc-25-SOU">
                                 <view key="view" id="Bap-Zo-S5s">
-                                    <rect key="frame" x="10" y="33" width="317" height="438"/>
+                                    <rect key="frame" x="10" y="33" width="291" height="375"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="gx0-Kn-XzO" userLabel="MenuContainerView">
-                                            <rect key="frame" x="0.0" y="0.0" width="317" height="438"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="291" height="375"/>
                                         </customView>
                                     </subviews>
                                     <constraints>
@@ -44,6 +45,12 @@
                                         <constraint firstItem="gx0-Kn-XzO" firstAttribute="top" secondItem="Bap-Zo-S5s" secondAttribute="top" id="HJo-ho-lbH"/>
                                         <constraint firstAttribute="bottom" secondItem="gx0-Kn-XzO" secondAttribute="bottom" id="RiV-nH-xvd"/>
                                     </constraints>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="Projects" identifier="" id="fmE-d3-cXe">
+                                <view key="view" id="2R1-p2-XfU">
+                                    <rect key="frame" x="10" y="33" width="291" height="375"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Advanced" identifier="" image="failure" id="KZd-Jw-jNz">

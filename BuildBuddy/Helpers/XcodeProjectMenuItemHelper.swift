@@ -15,12 +15,12 @@ class XcodeProjectMenuItemHelper {
     static private var alternateNamesController: AlternateNamesWindowController?
     static var menuItemsForProjects: [XcodeProjectMenuItem]  {
         // Get all the projects with builds and sort them by name
-        let items = XcodeProjectManager.projectsWithBuilds.map() { project -> XcodeProjectMenuItem in
-            let item = XcodeProjectMenuItem(project)
-            item.title = project.name
-            return item
+        let items = XcodeProjectManager.visibleProjects.map() { project -> XcodeProjectMenuItem in
+                let item = XcodeProjectMenuItem(project)
+                item.title = project.name
+                return item
         }
-        return items.sorted() { $0.title < $1.title }
+        return items.sorted() { $0.title.lowercased() < $1.title.lowercased() }
     }
     
     @objc static private func showAlternateNamesController(_ sender: XcodeProjectMenuItem) {

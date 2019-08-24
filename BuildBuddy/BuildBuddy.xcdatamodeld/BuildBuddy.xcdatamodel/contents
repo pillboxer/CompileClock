@@ -11,12 +11,13 @@
     </entity>
     <entity name="XcodeProject" representedClassName="XcodeProject" syncable="YES">
         <attribute name="folderName" optional="YES" attributeType="String"/>
+        <attribute name="isVisible" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="lastModificationDate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="userDefinedName" optional="YES" attributeType="String"/>
         <relationship name="xcodeBuilds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="XcodeBuild" inverseName="xcodeProject" inverseEntity="XcodeBuild"/>
     </entity>
     <elements>
         <element name="XcodeBuild" positionX="-63" positionY="-18" width="128" height="148"/>
-        <element name="XcodeProject" positionX="-54" positionY="27" width="128" height="103"/>
+        <element name="XcodeProject" positionX="-54" positionY="27" width="128" height="118"/>
     </elements>
 </model>

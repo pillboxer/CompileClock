@@ -16,7 +16,7 @@ class StatsManager: NSObject, NSWindowDelegate {
     
     // MARK: - Exposed Methods
     func showStats() {
-        let controller = StatsWindowController(XcodeProjectManager.projectsWithBuilds)
+        let controller = StatsWindowController(XcodeProjectManager.visibleProjects)
         controller.window?.delegate = self
         NSApp.activate(ignoringOtherApps: true)
         statsWindowController = controller

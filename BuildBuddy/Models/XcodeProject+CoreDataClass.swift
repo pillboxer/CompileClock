@@ -27,6 +27,7 @@ public class XcodeProject: NSManagedObject {
             let moc = CoreDataManager.moc
             let entityDescription = NSEntityDescription.entity(forEntityName: String.xcodeProject, in: moc)!
             let newProject = self.init(entity: entityDescription, insertInto: moc)
+            newProject.isVisible = true
             newProject.folderName = folderName
             project = newProject
             CoreDataManager.save()

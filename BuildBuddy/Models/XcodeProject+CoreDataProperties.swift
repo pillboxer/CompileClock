@@ -21,6 +21,7 @@ extension XcodeProject {
     @NSManaged public var userDefinedName: String?
     @NSManaged public var xcodeBuilds: NSSet?
     @NSManaged public var lastModificationDate: Double
+    @NSManaged public var isVisible: Bool
 
 }
 

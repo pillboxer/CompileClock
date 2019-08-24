@@ -33,12 +33,11 @@ extension UserDefaults {
     enum DefaultsStepperKey: String, CaseIterable {
         case daysWorkedPerYear = "Days Worked Per Year"
         case hoursWorkedPerDay = "Hours Worked Per Day"
-        case customDecimalPlaces = "Number Of Decimal Places"
     }
     
     enum DefaultsAdvancedKey: String, CaseIterable {
         case derivedDataLocation = "Derived Data Location"
-        case todayInfoText = "Today Information Text"
+        case menuBarText = "Menu Bar Text"
     }
     
 
@@ -78,17 +77,13 @@ extension UserDefaults {
         UserDefaults.standard.set(262, forKey: UserDefaults.DefaultsStepperKey.daysWorkedPerYear.rawValue)
     }
     
-    static private func setInitialDecimalPlaces() {
-        UserDefaults.standard.set(1, forKey: UserDefaults.DefaultsStepperKey.customDecimalPlaces.rawValue)
-    }
-    
     static private func setInitialHoursWorkedPerDay() {
         UserDefaults.standard.set(8, forKey: UserDefaults.DefaultsStepperKey.hoursWorkedPerDay.rawValue)
     }
     
     static private func setInitialTodayText() {
         UserDefaults.standard.set(true, forKey: UserDefaults.DefaultsBoolKey.showsDisplayText.rawValue)
-        UserDefaults.standard.set(String.DisplayTextOptions.builds.rawValue.capitalized, forKey: UserDefaults.DefaultsAdvancedKey.todayInfoText.rawValue)
+        UserDefaults.standard.set(String.DisplayTextOptions.builds.rawValue.capitalized, forKey: UserDefaults.DefaultsAdvancedKey.menuBarText.rawValue)
     }
     
     // MARK: - Getters
@@ -99,10 +94,6 @@ extension UserDefaults {
     
     static var hoursWorkedPerDay: Int {
         return getStepperValueForKey(.hoursWorkedPerDay)
-    }
-    
-    static var customDecimalPlaces: Int {
-        return getStepperValueForKey(.customDecimalPlaces)
     }
     
     static var customStartDate: Date {
@@ -144,7 +135,7 @@ extension UserDefaults {
     }
     
     static var displayTextOption: String.DisplayTextOptions {
-        guard let option = UserDefaults.standard.value(forKey: UserDefaults.DefaultsAdvancedKey.todayInfoText.rawValue) as? String else {
+        guard let option = UserDefaults.standard.value(forKey: UserDefaults.DefaultsAdvancedKey.menuBarText.rawValue) as? String else {
             setInitialTodayText()
             return .builds
         }
@@ -226,7 +217,6 @@ extension UserDefaults {
         }
         setInitialDaysWorkedPerYear()
         setInitialHoursWorkedPerDay()
-        setInitialDecimalPlaces()
         setInitialTodayText()
         set(.automatic)
     }

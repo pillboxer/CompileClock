@@ -50,6 +50,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     // MARK: - Life Cycle
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        NSApp.appearance = NSAppearance(named: .aqua)
         beginPostLaunchSequence()
         registerDefaults()
         configureStatusItem()

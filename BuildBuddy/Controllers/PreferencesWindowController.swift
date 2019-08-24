@@ -13,12 +13,14 @@ class PreferencesWindowController: NSWindowController, NSWindowDelegate {
 
     // MARK: - IBOutlets
     @IBOutlet weak var menuContainerView: NSView!
+    @IBOutlet weak var projectsContainerView: NSView!
     @IBOutlet weak var advancedContainerView: NSView!
     @IBOutlet weak var tabView: NSTabView!
     
     // MARK: - Controllers
     let menuPreferencesController = MenuPreferencesViewController()
     let advancedPreferencesController = AdvancedPreferencesViewController()
+    let projectsPreferencesController = ProjectPreferencesViewController()
     
     // MARK: - Properties
     override var windowNibName: NSNib.Name? {
@@ -48,5 +50,7 @@ class PreferencesWindowController: NSWindowController, NSWindowDelegate {
         menuPreferencesController.view.frame = menuContainerView.bounds
         advancedContainerView.addSubview(advancedPreferencesController.view)
         advancedPreferencesController.view.frame = advancedContainerView.bounds
+        projectsContainerView.addSubview(projectsPreferencesController.view)
+        projectsPreferencesController.view.frame = projectsContainerView.bounds
     }
 }

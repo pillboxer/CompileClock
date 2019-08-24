@@ -29,12 +29,6 @@ class AdvancedPreferencesViewController: NSViewController {
             UserDefaults.standard.set(hoursWorkedPerDay, forKey: UserDefaults.DefaultsStepperKey.hoursWorkedPerDay.rawValue)
         }
     }
-    
-    @objc private var customDecimalPlaces = UserDefaults.customDecimalPlaces {
-        didSet {
-            UserDefaults.standard.set(customDecimalPlaces, forKey: UserDefaults.DefaultsStepperKey.customDecimalPlaces.rawValue)
-        }
-    }
 
     
     // MARK: - Initialisation
@@ -65,7 +59,7 @@ class AdvancedPreferencesViewController: NSViewController {
     
     private func addLabelAndStackViewForStepperKey(_ key: UserDefaults.DefaultsStepperKey) {
         let label = NSTextField(labelWithString: key.rawValue)
-        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
+//        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
         stackView.addArrangedSubview(label)
         
         let horizontalStackView = NSStackView()
@@ -79,9 +73,6 @@ class AdvancedPreferencesViewController: NSViewController {
         stepper.valueWraps = false
         
         switch key {
-        case .customDecimalPlaces:
-            stepper.minValue = 0
-            stepper.maxValue = 4
         case .daysWorkedPerYear:
             stepper.minValue = 1
             stepper.maxValue = 365
@@ -100,9 +91,9 @@ class AdvancedPreferencesViewController: NSViewController {
         let horizontalStackView = NSStackView()
         horizontalStackView.orientation = .horizontal
         
-        let todayInfoString = UserDefaults.DefaultsAdvancedKey.todayInfoText.rawValue
-        let label = NSTextField(labelWithString: todayInfoString)
-        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
+        let menuBarText = UserDefaults.DefaultsAdvancedKey.menuBarText.rawValue
+        let label = NSTextField(labelWithString: menuBarText)
+//        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
         stackView.addArrangedSubview(label)
         
         let enabledButton = NSButton(checkboxWithTitle: "", target: nil, action: nil)
@@ -113,7 +104,7 @@ class AdvancedPreferencesViewController: NSViewController {
         enabledButton.action = #selector(updateStatusItem)
         
         displayOptionsPopUp.bind(.enabled, to: enabledButton, withKeyPath: "cell.state", options: [NSBindingOption.continuouslyUpdatesValue : true])
-        displayOptionsPopUp.bind(.selectedValue, to: NSUserDefaultsController.shared, withKeyPath: "values.\(todayInfoString)", options: [NSBindingOption.continuouslyUpdatesValue : true])
+        displayOptionsPopUp.bind(.selectedValue, to: NSUserDefaultsController.shared, withKeyPath: "values.\(menuBarText)", options: [NSBindingOption.continuouslyUpdatesValue : true])
         
         horizontalStackView.addArrangedSubview(displayOptionsPopUp)
         stackView.addArrangedSubview(horizontalStackView)
@@ -136,7 +127,7 @@ class AdvancedPreferencesViewController: NSViewController {
     
     private func addResetPreferencesUI() {
         let label = NSTextField(labelWithString: "Reset Preferences")
-        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
+//        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
         stackView.addArrangedSubview(label)
         let button = NSButton(title: "Reset", target: self, action: #selector(showResetPreferencesConfirmationAlert))
         stackView.addArrangedSubview(button)
@@ -178,9 +169,9 @@ class AdvancedPreferencesViewController: NSViewController {
     
     private func addSeparator() {
         let box = NSBox()
-        box.boxType = .custom
-        box.borderColor = NSAppearance.isDarkMode ? .white : .black
-        box.frame = NSRect(x: 0, y: 0, width: view.frame.width, height: 1)
+        box.boxType = .separator
+//        box.borderColor = NSAppearance.isDarkMode ? .white : .lightGray
+//        box.frame = NSRect(x: 0, y: 0, width: view.frame.width, height: 1)
         stackView.addArrangedSubview(box)
     }
     
@@ -188,8 +179,6 @@ class AdvancedPreferencesViewController: NSViewController {
         let keyPath: String
         
         switch key {
-        case .customDecimalPlaces:
-            keyPath = "customDecimalPlaces"
         case .daysWorkedPerYear:
             keyPath = "daysWorkedPerYear"
         case .hoursWorkedPerDay:

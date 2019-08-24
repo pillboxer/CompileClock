@@ -14,7 +14,12 @@ class XcodeProjectManager {
     static var projects: [XcodeProject] = []
     
     static var projectsWithBuilds: [XcodeProject] {
-        return projects.filter() { $0.builds.count > 0 }
+        let projectsWithBuilds = projects.filter() { $0.builds.count > 0 }
+        return projectsWithBuilds.sorted() { $0.builds.count > $1.builds.count }
+    }
+    
+    static var visibleProjects: [XcodeProject] {
+        return projectsWithBuilds.filter() { $0.isVisible }
     }
     
     static var hasBuiltToday: Bool {

@@ -25,13 +25,13 @@ class FetchingMenuItemManager {
     }
     
     static func finish() {
-        updateMenuItem(withText: "Finishing")
+        updateMenuItem(withText: "Reloading")
         setFetchTimeToNow()
         isFetching = false
     }
     
     static func start() {
-        updateMenuItem(withText: "Starting")
+        updateMenuItem(withText: "Initializing")
         setFetchTimeToNow()
         isFetching = true
     }
