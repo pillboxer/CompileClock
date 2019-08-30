@@ -17,6 +17,7 @@
 		BA51957A22D8DB0600947899 /* Gzip in Frameworks */ = {isa = PBXBuildFile; productRef = BA51957922D8DB0600947899 /* Gzip */; };
 		BA5EC74522DE010C009632E3 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5EC74322DE010C009632E3 /* StatsViewController.swift */; };
 		BA5EC74622DE010C009632E3 /* StatsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA5EC74422DE010C009632E3 /* StatsViewController.xib */; };
+		BA5FAC5A23193BC900074668 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FAC5923193BC900074668 /* Date+Extensions.swift */; };
 		BA743AFD22DA1D18009A6748 /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA743AFC22DA1D18009A6748 /* FileManager+Extensions.swift */; };
 		BA7848B923004361005BD748 /* LogUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7848B823004361005BD748 /* LogUtility.swift */; };
 		BA8C3FCE22DCC1B30051BFD5 /* StatsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8C3FCD22DCC1B30051BFD5 /* StatsManager.swift */; };
@@ -61,6 +62,8 @@
 		BAE9EDD522D8E2D600DFFA7D /* XcodeProject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE9EDD122D8E2D600DFFA7D /* XcodeProject+CoreDataClass.swift */; };
 		BAE9EDD622D8E2D600DFFA7D /* XcodeProject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE9EDD222D8E2D600DFFA7D /* XcodeProject+CoreDataProperties.swift */; };
 		BAEBA9E922EB75FA000A7FE0 /* FetchingMenuItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEBA9E822EB75FA000A7FE0 /* FetchingMenuItemManager.swift */; };
+		BAEBBB3A231701530043A0B0 /* UploadLogWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAEBBB39231701530043A0B0 /* UploadLogWindowController.xib */; };
+		BAEBBB3C231701C30043A0B0 /* UploadLogWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEBBB3B231701C30043A0B0 /* UploadLogWindowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +86,7 @@
 		BA4E630322DB6B0C00F54E20 /* Listener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Listener.swift; sourceTree = "<group>"; };
 		BA5EC74322DE010C009632E3 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		BA5EC74422DE010C009632E3 /* StatsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatsViewController.xib; sourceTree = "<group>"; };
+		BA5FAC5923193BC900074668 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		BA743AFC22DA1D18009A6748 /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
 		BA7848B823004361005BD748 /* LogUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogUtility.swift; sourceTree = "<group>"; };
 		BA8C3FCD22DCC1B30051BFD5 /* StatsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsManager.swift; sourceTree = "<group>"; };
@@ -132,6 +136,8 @@
 		BAE9EDD122D8E2D600DFFA7D /* XcodeProject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XcodeProject+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BAE9EDD222D8E2D600DFFA7D /* XcodeProject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XcodeProject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BAEBA9E822EB75FA000A7FE0 /* FetchingMenuItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingMenuItemManager.swift; sourceTree = "<group>"; };
+		BAEBBB39231701530043A0B0 /* UploadLogWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UploadLogWindowController.xib; sourceTree = "<group>"; };
+		BAEBBB3B231701C30043A0B0 /* UploadLogWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadLogWindowController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,6 +252,7 @@
 				BABD834E22D8D95E0072A263 /* Double+Extensions.swift */,
 				BA743AFC22DA1D18009A6748 /* FileManager+Extensions.swift */,
 				BA9AF57D22EDA9540014790C /* Calender+Extensions.swift */,
+				BA5FAC5923193BC900074668 /* Date+Extensions.swift */,
 				BA9579E42305D3EF00445804 /* NSAppearance+Extensions.swift */,
 			);
 			path = Extensions;
@@ -265,6 +272,7 @@
 				BABD835622D8D9680072A263 /* MenuPreferencesViewController.xib */,
 				BA8D506E22E0609A005EE413 /* AdvancedPreferencesViewController.xib */,
 				BACEFC5023101A1A00819815 /* ProjectPreferencesViewController.xib */,
+				BAEBBB39231701530043A0B0 /* UploadLogWindowController.xib */,
 				BABD835422D8D9680072A263 /* MainMenu.xib */,
 			);
 			path = Xibs;
@@ -284,6 +292,7 @@
 				BA0A41B722E3482C00D5C1B0 /* WelcomeWindowController.swift */,
 				BABD836222D8D96F0072A263 /* MenuPreferencesViewController.swift */,
 				BA8D506D22E0609A005EE413 /* AdvancedPreferencesViewController.swift */,
+				BAEBBB3B231701C30043A0B0 /* UploadLogWindowController.swift */,
 				BACEFC4F23101A1A00819815 /* ProjectPreferencesViewController.swift */,
 			);
 			path = Controllers;
@@ -389,6 +398,7 @@
 				BACEFC5223101A1A00819815 /* ProjectPreferencesViewController.xib in Resources */,
 				BABF851A22DB25550032FF16 /* FetchingMenuItemView.xib in Resources */,
 				BAC2213522F5C33500025361 /* AlternateNamesWindowController.xib in Resources */,
+				BAEBBB3A231701530043A0B0 /* UploadLogWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,11 +437,13 @@
 				BAD6584922DB38600004DF1F /* FetchingMenuItemViewController.swift in Sources */,
 				BA743AFD22DA1D18009A6748 /* FileManager+Extensions.swift in Sources */,
 				BA9AF57E22EDA9540014790C /* Calender+Extensions.swift in Sources */,
+				BAEBBB3C231701C30043A0B0 /* UploadLogWindowController.swift in Sources */,
 				BABD836522D8D96F0072A263 /* PreferencesWindowController.swift in Sources */,
 				BABD834722D8D94F0072A263 /* PreferencesManager.swift in Sources */,
 				BA8D507222E1E136005EE413 /* StatsViewModel.swift in Sources */,
 				BAA7F9B822FEF59300C37E26 /* StatusItemAnimationManager.swift in Sources */,
 				BABD836822D8D9800072A263 /* AppDelegate.swift in Sources */,
+				BA5FAC5A23193BC900074668 /* Date+Extensions.swift in Sources */,
 				BA8C3FCE22DCC1B30051BFD5 /* StatsManager.swift in Sources */,
 				BABD836422D8D96F0072A263 /* DatePickerPopoverViewController.swift in Sources */,
 				BABD831722D8D91F0072A263 /* BuildBuddy.xcdatamodeld in Sources */,

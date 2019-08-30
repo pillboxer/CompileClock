@@ -17,5 +17,4 @@ extension Calendar {
         let differenceOfDays = calender.dateComponents([.day], from: date1, to: date2).day ?? 0
         return abs(differenceOfDays)
     }
-    
 }

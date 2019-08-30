@@ -11,14 +11,17 @@ import Cocoa
 extension NSAlert {
     
     static func showSimpleAlert(title: String, message: String, isError: Bool = false, completionHandler: (() -> Void)?) {
-        let alert = NSAlert()
-        alert.messageText = title
-        alert.informativeText = message
-        alert.alertStyle = isError ? .critical : .informational
-        let run = alert.runModal()
-        if run == .cancel {
-            completionHandler?()
+        DispatchQueue.main.async {
+            let alert = NSAlert()
+            alert.messageText = title
+            alert.informativeText = message
+            alert.alertStyle = isError ? .critical : .informational
+            let run = alert.runModal()
+            if run == .cancel {
+                completionHandler?()
+            }
         }
+        
     }
     
 }

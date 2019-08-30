@@ -61,21 +61,17 @@ final class CoreDataManager {
             do {
                 try privateMoc.save()
             }
-            catch let error {
-                LogUtility.updateLogWithEvent(.coreDataSaveFailed(error.localizedDescription))
+            catch let error {                LogUtility.updateLogWithEvent(.coreDataSaveFailed(error.localizedDescription))
             }
-                        
+            
             do {
                 try moc.save()
             }
-            catch let error {
-                LogUtility.updateLogWithEvent(.coreDataSaveFailed(error.localizedDescription))
+            catch let error {                LogUtility.updateLogWithEvent(.coreDataSaveFailed(error.localizedDescription))
             }
         }
-
-    }
         
-
+    }
     
     private func createApplicationSupportFolderIfNeeded() {
         let url = FileManager.buildBuddyApplicationSupportFolder

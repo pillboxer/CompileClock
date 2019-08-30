@@ -9,15 +9,14 @@
 import Cocoa
 
 class AdvancedPreferencesViewController: NSViewController {
-
     // MARK: - IBOutlets
     @IBOutlet weak var stackView: NSStackView!
-
+    
     // MARK: - Properties
     override var nibName: NSNib.Name? {
         return "AdvancedPreferencesViewController"
     }
-
+    
     @objc private var daysWorkedPerYear = UserDefaults.numberOfDaysWorkedPerYear {
         didSet {
             UserDefaults.standard.set(daysWorkedPerYear, forKey: UserDefaults.DefaultsStepperKey.daysWorkedPerYear.rawValue)
@@ -29,7 +28,7 @@ class AdvancedPreferencesViewController: NSViewController {
             UserDefaults.standard.set(hoursWorkedPerDay, forKey: UserDefaults.DefaultsStepperKey.hoursWorkedPerDay.rawValue)
         }
     }
-
+    
     
     // MARK: - Initialisation
     init() {
@@ -47,19 +46,19 @@ class AdvancedPreferencesViewController: NSViewController {
         
     }
     
-   // MARK : - Private Methods
+    // MARK: - Private
     private func configureUI() {
         for key in UserDefaults.DefaultsStepperKey.allCases {
             addLabelAndStackViewForStepperKey(key)
         }
         addDisplayTextStackView()
         addResetPreferencesUI()
-        addViewLog()
+        addLogButtons()
     }
     
     private func addLabelAndStackViewForStepperKey(_ key: UserDefaults.DefaultsStepperKey) {
         let label = NSTextField(labelWithString: key.rawValue)
-//        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
+        //        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
         stackView.addArrangedSubview(label)
         
         let horizontalStackView = NSStackView()
@@ -93,7 +92,7 @@ class AdvancedPreferencesViewController: NSViewController {
         
         let menuBarText = UserDefaults.DefaultsAdvancedKey.menuBarText.rawValue
         let label = NSTextField(labelWithString: menuBarText)
-//        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
+        //        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
         stackView.addArrangedSubview(label)
         
         let enabledButton = NSButton(checkboxWithTitle: "", target: nil, action: nil)
@@ -120,27 +119,59 @@ class AdvancedPreferencesViewController: NSViewController {
         return popUp
     }()
     
-    @objc private func updateStatusItem() {
-        let appDelegate = NSApp.delegate as? AppDelegate
-        appDelegate?.loadDisplayText()
-    }
-    
     private func addResetPreferencesUI() {
         let label = NSTextField(labelWithString: "Reset Preferences")
-//        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
+        //        label.attributedStringValue = label.stringValue.tintedForDarkModeIfNecessary
         stackView.addArrangedSubview(label)
         let button = NSButton(title: "Reset", target: self, action: #selector(showResetPreferencesConfirmationAlert))
         stackView.addArrangedSubview(button)
         addSeparator()
     }
     
-    private func addViewLog() {
-        let button = NSButton(title: "View Log", target: self, action: #selector(viewLog))
+    private func addSeparator() {
+        let box = NSBox()
+        box.boxType = .separator
+        //        box.borderColor = NSAppearance.isDarkMode ? .white : .lightGray
+        //        box.frame = NSRect(x: 0, y: 0, width: view.frame.width, height: 1)
+        stackView.addArrangedSubview(box)
+    }
+    
+    private func bind(stepper: NSStepper, to textField: NSTextField, forKey key: UserDefaults.DefaultsStepperKey) {
+        let keyPath: String
+        
+        switch key {
+        case .daysWorkedPerYear:
+            keyPath = "daysWorkedPerYear"
+        case .hoursWorkedPerDay:
+            keyPath = "hoursWorkedPerDay"
+        }
+        
+        stepper.bind(.value, to: self, withKeyPath: keyPath, options: [NSBindingOption.continuouslyUpdatesValue : true])
+        textField.bind(.value, to: self, withKeyPath: keyPath, options: [NSBindingOption.continuouslyUpdatesValue : true])
+    }
+    
+    
+    private func addLogButtons() {
+        let horizontalStackView = NSStackView()
+        horizontalStackView.orientation = .horizontal
+        addButton(title: "View Log", action: #selector(viewLog), to: horizontalStackView)
+        addButton(title: "Send Log", action: #selector(sendLog), to: horizontalStackView)
+        stackView.addArrangedSubview(horizontalStackView)
+    }
+    
+    private func addButton(title: String, action: Selector?, to stackView: NSStackView) {
+        let button = NSButton(title: title, target: self, action: action)
         stackView.addArrangedSubview(button)
     }
     
+    // MARK: - Actions
     @objc private func viewLog() {
         LogUtility.openLog()
+    }
+    
+    @objc private func sendLog() {
+        LogUtility.showUploadLogController()
+        view.window?.close()
     }
     @objc private func resetPreferences() {
         closeAlert()
@@ -163,31 +194,12 @@ class AdvancedPreferencesViewController: NSViewController {
         }
     }
     
+    @objc private func updateStatusItem() {
+        let appDelegate = NSApp.delegate as? AppDelegate
+        appDelegate?.loadDisplayText()
+    }
+    
     @objc private func closeAlert() {
         NSApp.mainWindow?.attachedSheet?.close()
     }
-    
-    private func addSeparator() {
-        let box = NSBox()
-        box.boxType = .separator
-//        box.borderColor = NSAppearance.isDarkMode ? .white : .lightGray
-//        box.frame = NSRect(x: 0, y: 0, width: view.frame.width, height: 1)
-        stackView.addArrangedSubview(box)
-    }
-    
-    private func bind(stepper: NSStepper, to textField: NSTextField, forKey key: UserDefaults.DefaultsStepperKey) {
-        let keyPath: String
-        
-        switch key {
-        case .daysWorkedPerYear:
-            keyPath = "daysWorkedPerYear"
-        case .hoursWorkedPerDay:
-            keyPath = "hoursWorkedPerDay"
-        }
-        
-        stepper.bind(.value, to: self, withKeyPath: keyPath, options: [NSBindingOption.continuouslyUpdatesValue : true])
-        textField.bind(.value, to: self, withKeyPath: keyPath, options: [NSBindingOption.continuouslyUpdatesValue : true])
-    }
-
-    
 }

@@ -10,10 +10,27 @@ import Cocoa
 
 class LogUtility {
     
-    private static var fetchLog: URL {
-        return FileManager.buildBuddyApplicationSupportFolder.appendingPathComponent("fetchLog")
+    // MARK: - Properties
+    enum LogUploadError {
+        case tooManyRequests
+        case logNotFound
+        case urlInvalid
+        case uploadError(String)
+        
+        var description: String {
+            switch self {
+            case .logNotFound:
+                return "Could not find log"
+            case .tooManyRequests:
+                return "Too many requests, please try again later"
+            case .uploadError(let error):
+                return "Something went wrong uploading: \(error)"
+            case .urlInvalid:
+                return "URL was invalid"
+            }
+        }
     }
-    
+        
     enum LogEvent: Equatable {
         case appLaunched
         case derivedDataIsValid(Bool)
@@ -29,13 +46,20 @@ class LogUtility {
         case mergingProject(String)
         case coreDataSaveFailed(String)
         case alreadyFetching
+        case logUploaded
         var isProgressEvent: Bool {
             return self != .appLaunched && self != .fetchComplete
         }
         
     }
     
+    private static var logController: UploadLogWindowController?
+    private static var fetchLog: URL {
+        return FileManager.buildBuddyApplicationSupportFolder.appendingPathComponent("fetchLog")
+    }
+
     
+    // MARK: - Exposed Methods
     static func updateLogWithEvent(_ event: LogEvent) {
         var eventString = eventStringForEvent(event)
 
@@ -52,6 +76,57 @@ class LogUtility {
         FileManager.updateFile(fetchLog, withText: eventString)
     }
     
+    static func openLog() {
+        NSWorkspace.shared.open(fetchLog)
+    }
+    
+    static func showUploadLogController() {
+        logController = UploadLogWindowController()
+        logController?.showWindow(nil)
+    }
+    
+    static func uploadLog(withEmail email: String, completion: @escaping (LogUploadError?) -> Void) {
+        
+        guard !UserDefaults.lastLogUploadDate.isWithinLastNumberOfHours(1) else {
+            completion(.tooManyRequests)
+            return
+        }
+        
+        guard let log = log else {
+            completion(.logNotFound)
+            return
+        }
+        
+        guard let url = URL(string: "http://freddybean.compileclock.com/emaillog.php") else {
+            completion(.urlInvalid)
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = "logContents=\(log)&name=\(email)".data(using: .utf8)
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.uploadError(error.localizedDescription))
+                return
+            }
+            else if let response = response as? HTTPURLResponse {
+                if response.statusCode != 200 {
+                    completion(.uploadError("Received: \(response.statusCode)"))
+                }
+                else {
+                    UserDefaults.lastLogUploadDate = Date()
+                    completion(nil)
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    static var log: String? {
+        return FileManager.stringFromFile(fetchLog)
+    }
+    
+    // MARK: - Private Methods
     private static func eventStringForEvent(_ event: LogEvent) -> String {
         switch event {
         case .appLaunched:
@@ -80,13 +155,13 @@ class LogUtility {
             return "Core Data Saved Failed: \(reason)"
         case .alreadyFetching:
             return "Attempted Concurrent Fetch Averted"
+        case .logUploaded:
+            return "Uploaded Log"
         case .fetchComplete:
             return "---------------Fetch Complete----------------"
         }
     }
     
-    static func openLog() {
-        NSWorkspace.shared.open(fetchLog)
-    }
+
     
 }

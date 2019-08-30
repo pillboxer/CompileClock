@@ -15,7 +15,6 @@ class PreferencesWindowController: NSWindowController, NSWindowDelegate {
     @IBOutlet weak var menuContainerView: NSView!
     @IBOutlet weak var projectsContainerView: NSView!
     @IBOutlet weak var advancedContainerView: NSView!
-    @IBOutlet weak var tabView: NSTabView!
     
     // MARK: - Controllers
     let menuPreferencesController = MenuPreferencesViewController()

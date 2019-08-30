@@ -28,6 +28,7 @@ extension UserDefaults {
     private enum DefaultsDateKey: String, CaseIterable {
         case customStartDate
         case customEndDate
+        case lastLogUploadDate
     }
     
     enum DefaultsStepperKey: String, CaseIterable {
@@ -56,9 +57,6 @@ extension UserDefaults {
     
     private static func get(_ dateKey: DefaultsDateKey) -> Date {
         let date = UserDefaults.standard.double(forKey: dateKey.rawValue)
-        guard date != 0 else {
-            return Date()
-        }
         return Date(timeIntervalSinceReferenceDate: date)
     }
     
@@ -72,6 +70,11 @@ extension UserDefaults {
         return UserDefaults.standard.integer(forKey: key.rawValue)
     }
 
+    static private func setInitialCustomDate() {
+        let dateInt = Date().timeIntervalSinceReferenceDate
+        UserDefaults.standard.set(dateInt, forKey: DefaultsDateKey.customStartDate.rawValue)
+        UserDefaults.standard.set(dateInt, forKey: DefaultsDateKey.customEndDate.rawValue)
+    }
     
     static private func setInitialDaysWorkedPerYear() {
         UserDefaults.standard.set(262, forKey: UserDefaults.DefaultsStepperKey.daysWorkedPerYear.rawValue)
@@ -102,6 +105,15 @@ extension UserDefaults {
     
     static var customEndDate: Date {
         return get(.customEndDate)
+    }
+    
+    static var lastLogUploadDate: Date {
+        get {
+            return get(.lastLogUploadDate)
+        }
+        set {
+            UserDefaults.standard.set(newValue.timeIntervalSinceReferenceDate, forKey: DefaultsDateKey.lastLogUploadDate.rawValue)
+        }
     }
     
     static func get(_ period: String.BuildTimePeriod) -> Bool {
@@ -200,12 +212,10 @@ extension UserDefaults {
     }
     
     static func set(startDate: Date, endDate: Date) {
-        UserDefaults.standard.set(startDate.timeIntervalSinceReferenceDate, forKey: "customStartDate")
-        UserDefaults.standard.set(endDate.timeIntervalSinceReferenceDate, forKey: "customEndDate")
+        UserDefaults.standard.set(startDate.timeIntervalSinceReferenceDate, forKey: DefaultsDateKey.customStartDate.rawValue)
+        UserDefaults.standard.set(endDate.timeIntervalSinceReferenceDate, forKey: DefaultsDateKey.customEndDate.rawValue)
     }
-    
 
-    
     static func setInitialDefaults() {
         for key in DefaultsBoolKey.allCases {
             if key == .showsCustomInMenu {
@@ -215,6 +225,7 @@ extension UserDefaults {
                 set(key, bool: true)
             }
         }
+        setInitialCustomDate()
         setInitialDaysWorkedPerYear()
         setInitialHoursWorkedPerDay()
         setInitialTodayText()

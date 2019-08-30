@@ -52,6 +52,17 @@ extension FileManager {
         }
     }
     
+    static func stringFromFile(_ file: URL) -> String? {
+        
+        do {
+            return try String(contentsOf: file)
+        }
+        catch let error {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
+    
     static func updateFile(_ file: URL, withText text: String) {
                 
         guard let textData = text.data(using: .utf8) else {

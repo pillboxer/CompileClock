@@ -66,6 +66,11 @@ extension String {
             return NSAttributedString(string: self, attributes: [ NSAttributedString.Key.foregroundColor : color])
     }
     
+    var isValidEmail: Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: self)
+    }
     
     static func prettyTime(_ time: Double) -> String {
         let timeValue = time.prettyTime

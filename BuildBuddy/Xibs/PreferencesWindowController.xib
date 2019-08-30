@@ -11,7 +11,6 @@
                 <outlet property="advancedContainerView" destination="vDu-gK-Nuo" id="8Kf-7w-d6u"/>
                 <outlet property="menuContainerView" destination="gx0-Kn-XzO" id="Huy-Qe-hS5"/>
                 <outlet property="projectsContainerView" destination="2R1-p2-XfU" id="XZw-BU-JkV"/>
-                <outlet property="tabView" destination="uTq-Kx-osT" id="qa0-qV-vyR"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
