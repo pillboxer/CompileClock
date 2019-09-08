@@ -63,7 +63,6 @@ final class CoreDataManager {
             }
             catch let error {                LogUtility.updateLogWithEvent(.coreDataSaveFailed(error.localizedDescription))
             }
-            
             do {
                 try moc.save()
             }

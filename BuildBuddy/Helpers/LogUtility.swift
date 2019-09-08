@@ -11,7 +11,7 @@ import Cocoa
 class LogUtility {
     
     // MARK: - Properties
-    enum LogUploadError {
+    enum LogUploadError: Error {
         case tooManyRequests
         case logNotFound
         case urlInvalid
@@ -87,39 +87,7 @@ class LogUtility {
     
     static func uploadLog(withEmail email: String, completion: @escaping (LogUploadError?) -> Void) {
         
-        guard !UserDefaults.lastLogUploadDate.isWithinLastNumberOfHours(1) else {
-            completion(.tooManyRequests)
-            return
-        }
-        
-        guard let log = log else {
-            completion(.logNotFound)
-            return
-        }
-        
-        guard let url = URL(string: "http://freddybean.compileclock.com/emaillog.php") else {
-            completion(.urlInvalid)
-            return
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.httpBody = "logContents=\(log)&name=\(email)".data(using: .utf8)
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(.uploadError(error.localizedDescription))
-                return
-            }
-            else if let response = response as? HTTPURLResponse {
-                if response.statusCode != 200 {
-                    completion(.uploadError("Received: \(response.statusCode)"))
-                }
-                else {
-                    UserDefaults.lastLogUploadDate = Date()
-                    completion(nil)
-                }
-            }
-        }
-        task.resume()
+        #warning("Upload log start again")
     }
     
     static var log: String? {
