@@ -11,6 +11,8 @@ typealias JSONResponse = [String : Any]
 
 class API {
     
+    static let shared = API()
+    
     enum APIError: Error {
         case invalidURL
         case urlDoesNotExit
@@ -65,13 +67,31 @@ class API {
         case users
     }
     
-    static func get(resource: APIResource, apiVersion: APIVersion, parameters: [String : Any], completionHandler: @escaping (Data?, HTTPURLResponse?, APIError?) -> Void) {
+    func get(resource: APIResource, apiVersion: APIVersion, parameters: [String : Any], completionHandler: @escaping (Data?, HTTPURLResponse?, APIError?) -> Void) {
         let endpoint = Endpoint(version: apiVersion, resource: resource, parameters: parameters)
         guard let url = endpoint.url else {
             completionHandler(nil, nil, .invalidURL)
             return
         }
-        NetworkManager.makeRequest(type: .get, to: url) { (data, response, error) in
+        let networkManager = NetworkManager.shared
+        networkManager.makeRequest(type: .get, to: url) { (data, response, error) in
+            var apiError: APIError?
+            if let error = error {
+                apiError = .genericRequestError(error)
+            }
+            completionHandler(data, response, apiError)
+        }
+    }
+    
+    func post(resource: APIResource, apiVersion: APIVersion, body: Data?, headers: [NetworkManager.PostHeader]?, completionHandler: @escaping (Data?, HTTPURLResponse?, APIError?) -> Void) {
+        let endpoint = Endpoint(version: apiVersion, resource: resource, parameters: nil)
+        guard let url = endpoint.url else {
+            completionHandler(nil, nil, .invalidURL)
+            return
+        }
+        let networkManager = NetworkManager.shared
+        
+        networkManager.makeRequest(type: .post, to: url, headers: headers, body: body) { (data , response, error) in
             var apiError: APIError?
             if let error = error {
                 apiError = .genericRequestError(error)

@@ -34,6 +34,17 @@ class UserManager {
         let statusCode: Int
         let success: Bool
         let errorMessage: String?
+        let data: UserResponsePayload?
+    }
+    
+    private struct UserResponsePayload: Decodable {
+        let idCreated: String
+        let numberOfProjects: Int
+    }
+    
+    private struct UserData: Encodable {
+        let id: String
+        let numberOfProjects: Int
     }
     
     static func startPostLaunchUserFlow() {
@@ -41,12 +52,12 @@ class UserManager {
         guard let user = User.existingUser else {
             fatalError("Could not find user after creating")
         }
-        addUserToDatabaseIfNecessary(user) { (shouldAdd, error) in
+        performDatabaseCheckOnUser(user) { (shouldAdd, error) in
             if let error = error {
                 LogUtility.updateLogWithEvent(.apiResponseError(error.localizedDescription))
             }
             if shouldAdd {
-                print("Should add")
+                addToDatabase(user)
             }
         }
     }
@@ -60,12 +71,12 @@ class UserManager {
         }
     }
     
-    static func addUserToDatabaseIfNecessary(_ user: User, completionHandler: @escaping (Bool, UserError?) -> Void) {
+    static func performDatabaseCheckOnUser(_ user: User, completionHandler: @escaping (Bool, UserError?) -> Void) {
         guard let id = user.id?.uuidString else {
             completionHandler(false, .missingUUID)
             return
         }
-        API.get(resource: .users, apiVersion: .v1, parameters: ["uuid" : id]) { (data, response, error) in
+        API.shared.get(resource: .users, apiVersion: .v1, parameters: ["uuid" : id]) { (data, response, error) in
             
             if let error = error {
                 completionHandler(false, .apiError(error))
@@ -95,7 +106,18 @@ class UserManager {
     }
     
     static func addToDatabase(_ user: User) {
-        print("POSTING NOW")
+        guard let id = user.id?.uuidString else {
+            return
+        }
+        
+        let numberOfProjects = XcodeProjectManager.projectsWithBuilds.count
+        let userData = UserData(id: id, numberOfProjects: numberOfProjects)
+        let body = try? JSONEncoder().encode(userData)
+        
+        API.shared.post(resource: .users, apiVersion: .v1, body: body, headers: [.jsonContentType]) { (data, response, error) in
+            let userResponse = try? JSONDecoder().decode(UserResponse.self, from: data!)
+            print(userResponse)
+        }
     }
     
 }

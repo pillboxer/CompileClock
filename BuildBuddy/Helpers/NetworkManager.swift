@@ -10,17 +10,23 @@ import Foundation
 
 class NetworkManager {
     
+    static let shared = NetworkManager()
+    
     enum RequestType: String {
         case get = "GET"
         case post = "POST"
     }
     
-    static func makeRequest(type: RequestType, to url: URL, headers: [String : String]? = nil, body: Data? = nil, completionHandler: @escaping (Data?, HTTPURLResponse?, Error?) -> Void) {
+    enum PostHeader {
+        case jsonContentType
+    }
+    
+    func makeRequest(type: RequestType, to url: URL, headers: [PostHeader]? = nil, body: Data? = nil, completionHandler: @escaping (Data?, HTTPURLResponse?, Error?) -> Void) {
         
         var request = URLRequest(url: url)
         if let headers = headers {
-            for (key, value) in headers {
-                request.addValue(key, forHTTPHeaderField: value)
+            for header in headers {
+                request.addPostHeader(header)
             }
         }
 
@@ -33,6 +39,17 @@ class NetworkManager {
         }
         session.resume()
         
+    }
+    
+}
+
+extension URLRequest {
+    
+    mutating func addPostHeader(_ header: NetworkManager.PostHeader) {
+        switch header {
+        case .jsonContentType:
+            addValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
     }
     
 }
