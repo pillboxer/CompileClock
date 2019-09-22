@@ -13,21 +13,10 @@ import CoreData
 @objc(User)
 public class User: NSManagedObject {
     
-    // MARK: - Creation
-    
-    static func createNewUserIfNecessary() {
-        if existingUser() == nil {
-            let user = User(context: CoreDataManager.moc)
-            user.id = UUID()
-            CoreDataManager.save()
-            UserManager.addToDatabase(user)
-        }
-    }
-    
-    static func existingUser(inContext context: NSManagedObjectContext = CoreDataManager.moc) -> User? {
+    static var existingUser: User? {
         do {
             let fetchRequest: NSFetchRequest<User> = self.fetchRequest()
-            let results = try context.fetch(fetchRequest)
+            let results = try CoreDataManager.moc.fetch(fetchRequest)
             return results.first
         }
         catch {

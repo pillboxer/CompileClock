@@ -11,8 +11,10 @@
 		BA0A41B822E3482C00D5C1B0 /* WelcomeWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0A41B722E3482C00D5C1B0 /* WelcomeWindowController.swift */; };
 		BA0A41BA22E3586800D5C1B0 /* DerivedDataPanelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0A41B922E3586800D5C1B0 /* DerivedDataPanelManager.swift */; };
 		BA0A41BC22E35D0100D5C1B0 /* WelcomeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0A41BB22E35D0100D5C1B0 /* WelcomeManager.swift */; };
+		BA201611232E736300190D46 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA201610232E736300190D46 /* API.swift */; };
 		BA30DC1C2321174B0017030D /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA30DC1A2321174B0017030D /* User+CoreDataClass.swift */; };
 		BA30DC1D2321174B0017030D /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA30DC1B2321174B0017030D /* User+CoreDataProperties.swift */; };
+		BA3309192337755F008FDC8E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3309182337755F008FDC8E /* NetworkManager.swift */; };
 		BA35A19B22E5EA01000ABC5E /* NSWindow+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA35A19A22E5EA01000ABC5E /* NSWindow+Extensions.swift */; };
 		BA4D96D3230982A0007820EC /* NSAlert+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4D96D2230982A0007820EC /* NSAlert+Extensions.swift */; };
 		BA4E630422DB6B0C00F54E20 /* Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E630322DB6B0C00F54E20 /* Listener.swift */; };
@@ -85,8 +87,10 @@
 		BA0A41B722E3482C00D5C1B0 /* WelcomeWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeWindowController.swift; sourceTree = "<group>"; };
 		BA0A41B922E3586800D5C1B0 /* DerivedDataPanelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerivedDataPanelManager.swift; sourceTree = "<group>"; };
 		BA0A41BB22E35D0100D5C1B0 /* WelcomeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeManager.swift; sourceTree = "<group>"; };
+		BA201610232E736300190D46 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		BA30DC1A2321174B0017030D /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BA30DC1B2321174B0017030D /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BA3309182337755F008FDC8E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		BA35A19A22E5EA01000ABC5E /* NSWindow+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWindow+Extensions.swift"; sourceTree = "<group>"; };
 		BA4D96D2230982A0007820EC /* NSAlert+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAlert+Extensions.swift"; sourceTree = "<group>"; };
 		BA4E630322DB6B0C00F54E20 /* Listener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Listener.swift; sourceTree = "<group>"; };
@@ -167,6 +171,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BA20160F232E734F00190D46 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				BA201610232E736300190D46 /* API.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		BABD830722D8D91F0072A263 = {
 			isa = PBXGroup;
 			children = (
@@ -188,6 +200,7 @@
 		BABD831222D8D91F0072A263 /* BuildBuddy */ = {
 			isa = PBXGroup;
 			children = (
+				BA20160F232E734F00190D46 /* API */,
 				BABD836722D8D9800072A263 /* AppDelegate.swift */,
 				BABD831D22D8D9200072A263 /* Info.plist */,
 				BABD831E22D8D9200072A263 /* BuildBuddy.entitlements */,
@@ -241,6 +254,7 @@
 				BA0A41BB22E35D0100D5C1B0 /* WelcomeManager.swift */,
 				BAA7F9B722FEF59300C37E26 /* StatusItemAnimationManager.swift */,
 				BA94A3FE23213A740075423A /* UserManager.swift */,
+				BA3309182337755F008FDC8E /* NetworkManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -432,6 +446,7 @@
 				BA4D96D3230982A0007820EC /* NSAlert+Extensions.swift in Sources */,
 				BAE9EDD322D8E2D600DFFA7D /* XcodeBuild+CoreDataClass.swift in Sources */,
 				BAB38AEC232557AE0057F635 /* URLRequest+Extensions.swift in Sources */,
+				BA3309192337755F008FDC8E /* NetworkManager.swift in Sources */,
 				BA0A41BC22E35D0100D5C1B0 /* WelcomeManager.swift in Sources */,
 				BA30DC1D2321174B0017030D /* User+CoreDataProperties.swift in Sources */,
 				BACEFC5123101A1A00819815 /* ProjectPreferencesViewController.swift in Sources */,
@@ -466,6 +481,7 @@
 				BA5EC74522DE010C009632E3 /* StatsViewController.swift in Sources */,
 				BABD835122D8D95E0072A263 /* Double+Extensions.swift in Sources */,
 				BABD836622D8D96F0072A263 /* MenuPreferencesViewController.swift in Sources */,
+				BA201611232E736300190D46 /* API.swift in Sources */,
 				BA8D506F22E0609A005EE413 /* AdvancedPreferencesViewController.swift in Sources */,
 				BABD834622D8D94F0072A263 /* XcodeProjectManager.swift in Sources */,
 				BABD834322D8D94F0072A263 /* ActivityLogManager.swift in Sources */,
