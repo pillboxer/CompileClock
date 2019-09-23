@@ -57,7 +57,13 @@ class UserManager {
                 LogUtility.updateLogWithEvent(.apiResponseError(error.localizedDescription))
             }
             if shouldAdd {
-                addToDatabase(user)
+                addToDatabase(user) { (error) in
+                    if let error = error {
+                        LogUtility.updateLogWithEvent(.apiResponseError(error.localizedDescription))
+                        return
+                    }
+                    LogUtility.updateLogWithEvent(.userSuccessfullyAddedToDatabase)
+                }
             }
         }
     }
@@ -88,11 +94,10 @@ class UserManager {
                     let response = try JSONDecoder().decode(UserResponse.self, from: data)
                     if !response.success {
                         completionHandler(false, .responseError(response.statusCode, response.errorMessage))
+                        return
                     }
-                    else {
-                        // If we return a 404, it means the user needs to be added to the DB
-                        completionHandler(response.statusCode == 404, nil)
-                    }
+                    // If we return a 404, it means the user needs to be added to the DB
+                    completionHandler(response.statusCode == 404, nil)
                 }
                 catch let error {
                     if response?.statusCode == 404 {
@@ -105,18 +110,34 @@ class UserManager {
         }
     }
     
-    static func addToDatabase(_ user: User) {
+    static func addToDatabase(_ user: User, completionHandler: @escaping (UserError?) -> Void) {
         guard let id = user.id?.uuidString else {
             return
         }
-        
         let numberOfProjects = XcodeProjectManager.projectsWithBuilds.count
         let userData = UserData(id: id, numberOfProjects: numberOfProjects)
         let body = try? JSONEncoder().encode(userData)
         
         API.shared.post(resource: .users, apiVersion: .v1, body: body, headers: [.jsonContentType]) { (data, response, error) in
-            let userResponse = try? JSONDecoder().decode(UserResponse.self, from: data!)
-            print(userResponse)
+            if let error = error {
+                completionHandler(.apiError(error))
+                return
+            }
+            
+            if let data = data {
+                do {
+                    let userResponse = try JSONDecoder().decode(UserResponse.self, from: data)
+                    print(userResponse)
+                    if !userResponse.success {
+                        completionHandler(.responseError(userResponse.statusCode, userResponse.errorMessage))
+                        return
+                    }
+                    completionHandler(nil)
+                }
+                catch let error {
+                    completionHandler(.decodingError(error))
+                }
+            }
         }
     }
     

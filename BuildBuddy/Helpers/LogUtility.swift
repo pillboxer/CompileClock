@@ -34,6 +34,7 @@ class LogUtility {
     enum LogEvent: Equatable {
         case appLaunched
         case apiResponseError(String)
+        case userSuccessfullyAddedToDatabase
         case derivedDataIsValid(Bool)
         case duplicatesFound(Int)
         case needsFetch(Bool)
@@ -108,6 +109,8 @@ class LogUtility {
             return hasFetched ? "Starting fetching builds" : "First Fetch Of The Day: \(Date().description)"
         case .apiResponseError(let message):
             return "API Response Error: \(message)"
+        case .userSuccessfullyAddedToDatabase:
+            return "User successfully added to database"
         case .duplicatesFound(let difference):
             return "\(difference) duplicate build(s) found"
         case .logStoreManifestUpdated(let projectName):
