@@ -64,8 +64,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private func beginPostLaunchSequence() {
         StatusItemAnimationManager(statusItem: statusItem).loadingItem.menu = menu
         LogUtility.updateLogWithEvent(.appLaunched)
-        UserManager.startPostLaunchUserFlow()
         XcodeProjectManager.start()
+        DatabaseManager.shared.startPostLaunchUserFlow()
     }
 
     

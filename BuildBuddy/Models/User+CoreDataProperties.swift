@@ -17,6 +17,6 @@ extension User {
         return NSFetchRequest<User>(entityName: "User")
     }
 
-    @NSManaged public var id: UUID?
+    @NSManaged public var uuid: String?
 
 }

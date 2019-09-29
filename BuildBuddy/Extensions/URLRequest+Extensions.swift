@@ -8,16 +8,16 @@
 
 import Foundation
 
+enum PostHeader {
+    case jsonContentType
+}
+
 extension URLRequest {
-    
-    static func postRequestToURL(_ url: URL, data: Data?, completion: @escaping ( HTTPURLResponse?, Error?) -> Void) {
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.httpBody = data
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            completion(response as? HTTPURLResponse, error)
+
+    mutating func addPostHeader(_ header: PostHeader) {
+        switch header {
+        case .jsonContentType:
+            addValue("application/json", forHTTPHeaderField: "Content-Type")
         }
-        task.resume()
     }
-    
 }
