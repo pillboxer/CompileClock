@@ -65,6 +65,7 @@
 		BABD836822D8D9800072A263 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD836722D8D9800072A263 /* AppDelegate.swift */; };
 		BABD836A22D8D98B0072A263 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BABD836922D8D98B0072A263 /* Assets.xcassets */; };
 		BABF851A22DB25550032FF16 /* FetchingMenuItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BABF851922DB25550032FF16 /* FetchingMenuItemView.xib */; };
+		BAC193E32348FDB9008A4D80 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC193E22348FDB9008A4D80 /* Environment.swift */; };
 		BAC2213122F5C2C300025361 /* AlternateNamesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC2213022F5C2C300025361 /* AlternateNamesWindowController.swift */; };
 		BAC2213522F5C33500025361 /* AlternateNamesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAC2213422F5C33500025361 /* AlternateNamesWindowController.xib */; };
 		BACEFC5123101A1A00819815 /* ProjectPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACEFC4F23101A1A00819815 /* ProjectPreferencesViewController.swift */; };
@@ -152,6 +153,7 @@
 		BABD836722D8D9800072A263 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BABD836922D8D98B0072A263 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BABF851922DB25550032FF16 /* FetchingMenuItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FetchingMenuItemView.xib; sourceTree = "<group>"; };
+		BAC193E22348FDB9008A4D80 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		BAC2213022F5C2C300025361 /* AlternateNamesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternateNamesWindowController.swift; sourceTree = "<group>"; };
 		BAC2213422F5C33500025361 /* AlternateNamesWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlternateNamesWindowController.xib; sourceTree = "<group>"; };
 		BACEFC4F23101A1A00819815 /* ProjectPreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPreferencesViewController.swift; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 				BA0A41BB22E35D0100D5C1B0 /* WelcomeManager.swift */,
 				BAA7F9B722FEF59300C37E26 /* StatusItemAnimationManager.swift */,
 				BA94A3FE23213A740075423A /* DatabaseManager.swift */,
+				BAC193E22348FDB9008A4D80 /* Environment.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -516,6 +519,7 @@
 				BA30DC1C2321174B0017030D /* User+CoreDataClass.swift in Sources */,
 				BA9AF57E22EDA9540014790C /* Calender+Extensions.swift in Sources */,
 				BAEBBB3C231701C30043A0B0 /* UploadLogWindowController.swift in Sources */,
+				BAC193E32348FDB9008A4D80 /* Environment.swift in Sources */,
 				BABD836522D8D96F0072A263 /* PreferencesWindowController.swift in Sources */,
 				BA87B378233FC7DB00B5330F /* URLParameterEncoder.swift in Sources */,
 				BABD834722D8D94F0072A263 /* PreferencesManager.swift in Sources */,
@@ -629,7 +633,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG DEV";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -672,6 +676,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

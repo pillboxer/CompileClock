@@ -13,37 +13,35 @@ struct APIManager {
     
     static let shared = APIManager()
     
-    func addUserToDatabase(projectCount: Int, completion: @escaping (UserError?, UserResponse?) -> Void) {
+    func addUserToDatabase(projectCount: Int, completion: @escaping (UserResponse?, APIError?) -> Void) {
         let router = Router<UsersEndpoint>()
         let request = UsersEndpoint.UserRequest(numberOfProjects: projectCount)
         let endpoint = UsersEndpoint.add(request)
-        router.request(endpoint) { (data, response, error) in
-            if let error = error {
-                completion(.routerError(error), nil)
-                return
-            }
-            
-            if let response = response as? HTTPURLResponse {
-                if response.statusCode == 404 {
-                    completion(.APIError(.urlDoesNotExist), nil)
-                    return
-                }
-            }
-            
-            if let data = data {
-                do {
-                    let response = try JSONDecoder().decode(UserResponse.self, from: data)
-                    if !response.success {
-                        completion(.responseError(response.statusCode, response.errorMessage), nil)
-                        return
-                    }
-                    completion(nil, response)
-                }
-                catch let error {
-                    completion(.decodingError(error.localizedDescription), nil)
-                }
-            }
+        router.request(endpoint, decoding: UserResponse.self) { response, error in
+            completion(response as? UserResponse, error)
         }
     }
     
+    func createOrUpdateDatabaseProjects(_ projects: [XcodeProject], shouldCreate: Bool, completion: @escaping (Bool) -> Void) {
+        guard projects.count > 0, let userid = User.existingUser?.uuid else {
+            return
+        }
+        let request = ProjectsEndpoint.ProjectsRequest.createProjectRequestFromProjects(projects, id: userid)
+        let endpoint = shouldCreate ? ProjectsEndpoint.add(request) : ProjectsEndpoint.update(request)
+        let router = Router<ProjectsEndpoint>()
+        router.request(endpoint, decoding: ProjectsResponse.self) { (response, error) in
+            guard let response = response as? ProjectsResponse else {
+                completion(false)
+                LogUtility.updateLogWithEvent(.projectsAddedToDatabase(false))
+                return
+            }
+            if response.success {
+                completion(true)
+                XcodeProject.updateProjectsFromResponse(projects: projects, response: response)
+            }
+            LogUtility.updateLogWithEvent(.projectsAddedToDatabase(response.success))
+        }
+        
+    }
+        
 }

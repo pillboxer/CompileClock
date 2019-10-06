@@ -17,11 +17,12 @@
         <attribute name="isVisible" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="lastModificationDate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="userDefinedName" optional="YES" attributeType="String"/>
+        <attribute name="uuid" optional="YES" attributeType="String"/>
         <relationship name="xcodeBuilds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="XcodeBuild" inverseName="xcodeProject" inverseEntity="XcodeBuild"/>
     </entity>
     <elements>
         <element name="User" positionX="-63" positionY="54" width="128" height="58"/>
         <element name="XcodeBuild" positionX="-63" positionY="-18" width="128" height="148"/>
-        <element name="XcodeProject" positionX="-54" positionY="27" width="128" height="118"/>
+        <element name="XcodeProject" positionX="-54" positionY="27" width="128" height="133"/>
     </elements>
 </model>

@@ -8,9 +8,9 @@
 
 import Foundation
 
-typealias NetworkRouterCompletion = (Data?, URLResponse?, Error?) -> ()
+typealias NetworkRouterCompletion = (APIResponse?, APIError?) -> ()
 
 protocol NetworkRouter: class {
     associatedtype EndPoint: EndpointType
-    func request(_ route: EndPoint, completion: @escaping NetworkRouterCompletion)
+    func request<Response: APIResponse>(_ route: EndPoint, decoding response: Response.Type, completion: @escaping NetworkRouterCompletion)
 }

@@ -49,6 +49,17 @@ public class XcodeProject: NSManagedObject {
         return try? CoreDataManager.moc.fetch(fetchRequest).first
     }
     
+    static func updateProjectsFromResponse(projects: [XcodeProject], response: ProjectsResponse) {
+        guard let responseArray = response.data,
+            responseArray.count == projects.count else {
+            return
+        }
+        for i in 0..<projects.count {
+            projects[i].uuid = responseArray[i].uuid
+        }
+        
+    }
+    
     static func fetchAll() -> [XcodeProject]? {
         let fetchRequest = NSFetchRequest<XcodeProject>(entityName: String.xcodeProject)
         return try? CoreDataManager.moc.fetch(fetchRequest)
@@ -137,9 +148,13 @@ public class XcodeProject: NSManagedObject {
         return builds.sorted() { $0.totalBuildTime > $1.totalBuildTime }.first
     }
     
+    var longestBuildTime: Double? {
+        return longestBuild?.totalBuildTime
+    }
+    
     var dailyAverageNumberOfBuilds: Double {
         // Return how many times a project is built each day, on average
-        return totalNumberOfBuilds / Double(numberOfDaysWithBuilds)
+        return Double(totalNumberOfBuilds) / Double(numberOfDaysWithBuilds)
     }
     
     var numberOfDaysWithBuilds: Int {
@@ -175,7 +190,7 @@ public class XcodeProject: NSManagedObject {
     }
     
     var averageBuildTime: Double {
-        return totalBuildTime / totalNumberOfBuilds
+        return Double(totalBuildTime) / Double(totalNumberOfBuilds)
     }
     
     
@@ -205,8 +220,8 @@ public class XcodeProject: NSManagedObject {
         return formatter
     }()
     
-    private var totalNumberOfBuilds: Double {
-        return Double(builds.count)
+    var totalNumberOfBuilds: Int {
+        return builds.count
     }
     
     var totalBuildTime: Double {

@@ -33,7 +33,7 @@ extension EndpointType {
     var baseURL: URL {
         var components = URLComponents()
         components.scheme = "http"
-        components.host = "freddybean.compileclock.com"
+        components.host = Environment.isDev ? "localhost" : "freddybean.compileclock.com"
         return components.url!
     }
     
@@ -53,4 +53,5 @@ extension EndpointType {
 enum HTTPMethod: String {
     case get = "GET"
     case post = "POST"
+    case patch = "PATCH"
 }

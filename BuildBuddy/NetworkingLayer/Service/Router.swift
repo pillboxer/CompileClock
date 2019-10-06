@@ -12,16 +12,41 @@ class Router<EndPoint: EndpointType>: NetworkRouter {
     
     private var task: URLSessionTask?
     
-    func request(_ route: EndPoint, completion: @escaping NetworkRouterCompletion) {
+    func request<Response: APIResponse>(_ route: EndPoint, decoding response: Response.Type, completion: @escaping NetworkRouterCompletion) {
         let session = URLSession.shared
         do {
             let request = try buildRequest(from: route)
-            task = session.dataTask(with: request) { data, response, error in
-                completion(data, response, error)
+            task = session.dataTask(with: request) { data, urlResponse, error in
+                if let error = error {
+                    completion(nil, .routerError(error))
+                    return
+                }
+                
+                if let urlResponse = urlResponse as? HTTPURLResponse {
+                    if urlResponse.statusCode == 404 {
+                        completion(nil, .urlDoesNotExist)
+                        return
+                    }
+                }
+                
+                if let data = data {
+                    do {
+                        let response = try JSONDecoder().decode(response.self, from: data)
+                        if !response.success {
+                            completion(nil, .responseError(response.statusCode, response.errorMessage))
+                            return
+                        }
+                        completion(response, nil)
+                    }
+                    catch let error {
+                        print(error)
+                        completion(nil, .decodingError(error.localizedDescription))
+                    }
+                }
             }
         }
         catch {
-            completion(nil, nil, error)
+            completion(nil, .routerError(error))
         }
         task?.resume()
     }

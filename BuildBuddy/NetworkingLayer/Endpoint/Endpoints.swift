@@ -11,18 +11,33 @@ import Foundation
 enum APIError: Error {
     case invalidURL
     case urlDoesNotExist
-    case genericRequestError(Error)
+    case routerError(Error)
+    case decodingError(String)
+    case responseError(Int, String?)
+    case missingUserID
     
     var localizedDescription: String {
         switch self {
+        case .responseError(let code, let message):
+            return "Returned with code \(code): \(message ?? "No message returned")"
         case .invalidURL:
             return "The URL Provided was invalid"
         case .urlDoesNotExist:
             return "The URL Does Not Exist On The Server"
-        case .genericRequestError(let error):
-            return error.localizedDescription
+        case .routerError(let error):
+            return "Router error: \(error.localizedDescription)"
+        case .decodingError(let message):
+            return "Could not decode JSON: \(message)"
+        case .missingUserID:
+            return "Could not find a userid"
         }
     }
+}
+
+protocol APIResponse: Decodable {
+    var statusCode: Int { get }
+    var success: Bool { get }
+    var errorMessage: String? { get }
 }
 
 // MARK: - USERS
@@ -31,7 +46,7 @@ enum UsersEndpoint: EndpointType {
     case add(_ request: UserRequest)
 }
 
-struct UserResponse: Decodable {
+struct UserResponse: APIResponse {
     let statusCode: Int
     let success: Bool
     let errorMessage: String?
@@ -40,29 +55,6 @@ struct UserResponse: Decodable {
     struct UserResponsePayload: Decodable {
         let id: String
         let numberOfProjects: Int
-    }
-}
-
-enum UserError: Error {
-    case responseError(Int, String?)
-    case missingUUID
-    case routerError(Error)
-    case decodingError(String)
-    case APIError(APIError)
-    
-    var localizedDescription: String {
-        switch self {
-        case .responseError(let code, let message):
-            return "Returned with code \(code): \(message ?? "No message returned")"
-        case .missingUUID:
-            return "No UUID Provided"
-        case .routerError(let error):
-            return "Router error: \(error.localizedDescription)"
-        case .decodingError(let message):
-            return "Could not decode JSON: \(message)"
-        case .APIError(let apiError):
-            return apiError.localizedDescription
-        }
     }
 }
 
@@ -98,24 +90,54 @@ extension UsersEndpoint {
 
 // MARK: - PROJECTS
 
-struct ProjectsResponse: Decodable {
-    let uuid: String
-    let userid: String
-    let longestBuildTime: Double?
-    let averageBuildTime: Double?
-}
-
-enum ProjectsEndpoint: EndpointType {
-    case add(_ request: ProjectRequest)
-}
-
-extension ProjectsEndpoint {
+struct ProjectsResponse: APIResponse {
+    let statusCode: Int
+    let success: Bool
+    let errorMessage: String?
+    let data: [ProjectsResponsePayload]?
     
-    struct ProjectRequest: Encodable {
+    struct ProjectsResponsePayload: Decodable {
+        let uuid: String
+        let userid: String
         let numberOfBuilds: Int
         let longestBuildTime: Double?
         let averageBuildTime: Double?
         let workingTimePercentage: Double?
+    }
+}
+
+enum ProjectsEndpoint: EndpointType {
+    case add(_ request: ProjectsRequest)
+    case update(_ request: ProjectsRequest)
+}
+
+extension ProjectsEndpoint {
+    
+    struct ProjectsRequest: Encodable {
+        let projects: [ProjectRequest]
+        
+        static func createProjectRequestFromProjects(_ projects: [XcodeProject], id: String) -> ProjectsRequest {
+            let projects = projects.map { project -> ProjectRequest in
+                return ProjectRequest(userid: id,
+                                      uuid: project.uuid,
+                                      numberOfBuilds: project.totalNumberOfBuilds,
+                                      longestBuildTime: project.longestBuildTime,
+                                      averageBuildTime: project.averageBuildTime,
+                                      workingTimePercentage: project.percentageOfWorkingTimeSpentBuilding)
+            }
+            return ProjectsRequest(projects: projects)
+        }
+    }
+    
+    struct ProjectRequest: Encodable {
+        let userid: String
+        let uuid: String?
+        let numberOfBuilds: Int
+        let longestBuildTime: Double?
+        let averageBuildTime: Double?
+        let workingTimePercentage: Double?
+        
+
     }
     
     var resource: APIResource {
@@ -126,12 +148,14 @@ extension ProjectsEndpoint {
         switch self {
         case .add:
             return .post
+        case .update:
+            return .patch
         }
     }
     
     var task: HTTPTask {
         switch self {
-        case .add(let request):
+        case .add(let request), .update(let request):
             return .request(body: request, urlParameters: nil)
         }
     }

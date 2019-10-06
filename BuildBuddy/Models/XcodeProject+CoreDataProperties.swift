@@ -22,6 +22,7 @@ extension XcodeProject {
     @NSManaged public var xcodeBuilds: NSSet?
     @NSManaged public var lastModificationDate: Double
     @NSManaged public var isVisible: Bool
+    @NSManaged public var uuid: String?
 
 }
 

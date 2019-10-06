@@ -35,6 +35,7 @@ class LogUtility {
         case appLaunched
         case apiResponseError(String)
         case userSuccessfullyAddedToDatabase
+        case projectsAddedToDatabase(Bool)
         case derivedDataIsValid(Bool)
         case duplicatesFound(Int)
         case needsFetch(Bool)
@@ -103,6 +104,8 @@ class LogUtility {
             return "---------App Launched--------- \(Date().description)"
         case .derivedDataIsValid(let bool):
             return bool ? "Derived data is valid" : "Derived data is invalid"
+        case .projectsAddedToDatabase(let bool):
+            return "Database inserted or updated result: \(bool)"
         case .needsFetch(let bool):
             return bool ? "Needs fetch" : "No need for fetch"
         case .startingFetch(let hasFetched):

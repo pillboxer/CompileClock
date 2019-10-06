@@ -12,31 +12,42 @@ class DatabaseManager {
     
     static let shared = DatabaseManager()
     
-    func startPostLaunchUserFlow() {
+    func startPostLaunchUserFlow(completion: @escaping (Bool) -> Void) {
         createNewUserIfNecessary { (error) in
-            #error("YOU ARE HERE!")
             if error == nil {
-                print(User.existingUser?.uuid)
+                self.updateProjects { (success) in
+                    completion(success)
+                }
             }
             else {
-                print(error?.localizedDescription)
+                completion(false)
             }
         }
     }
     
-    private func createNewUserIfNecessary(completion: @escaping (UserError?) -> Void) {
+    private func updateProjects(completion: @escaping (Bool) -> Void) {
+        let projectsToInsert = XcodeProjectManager.projectsWithBuilds.filter() { $0.uuid == nil }
+        let projectsToUpdate = XcodeProjectManager.projectsWithBuilds.filter() { $0.uuid != nil }
+        APIManager.shared.createOrUpdateDatabaseProjects(projectsToInsert, shouldCreate: true, completion: completion)
+        APIManager.shared.createOrUpdateDatabaseProjects(projectsToUpdate, shouldCreate: false, completion: completion)
+    }
+    
+    private func createNewUserIfNecessary(completion: @escaping (APIError?) -> Void) {
         let projectCount = XcodeProjectManager.projectsWithBuilds.count
         
         if User.existingUser == nil {
             
-            APIManager.shared.addUserToDatabase(projectCount: projectCount) { (error, response) in
+            APIManager.shared.addUserToDatabase(projectCount: projectCount) { (response, error) in
                 if let error = error {
                     completion(error)
                     LogUtility.updateLogWithEvent(.apiResponseError(error.localizedDescription))
                 }
                 else {
                     let newUser = User(context: CoreDataManager.moc)
-                    newUser.uuid = response?.data?.id
+                    guard let id = response?.data?.id else {
+                        fatalError("Somehow have not received id back")
+                    }
+                    newUser.uuid = id
                     CoreDataManager.save()
                     LogUtility.updateLogWithEvent(.userSuccessfullyAddedToDatabase)
                     completion(nil)
@@ -47,5 +58,5 @@ class DatabaseManager {
             completion(nil)
         }
     }
-
+    
 }

@@ -65,7 +65,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         StatusItemAnimationManager(statusItem: statusItem).loadingItem.menu = menu
         LogUtility.updateLogWithEvent(.appLaunched)
         XcodeProjectManager.start()
-        DatabaseManager.shared.startPostLaunchUserFlow()
+        DatabaseManager.shared.startPostLaunchUserFlow { (success) in
+            print(success)
+        }
     }
 
     
