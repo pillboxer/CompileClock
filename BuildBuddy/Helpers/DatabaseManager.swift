@@ -15,8 +15,8 @@ class DatabaseManager {
     func startPostLaunchUserFlow(completion: @escaping (Bool) -> Void) {
         createNewUserIfNecessary { (error) in
             if error == nil {
-                self.updateProjects { (success) in
-                    completion(success)
+                self.updateProjects { (error) in
+                    completion(error == nil)
                 }
             }
             else {
@@ -25,11 +25,27 @@ class DatabaseManager {
         }
     }
     
-    private func updateProjects(completion: @escaping (Bool) -> Void) {
+    private func updateProjects(completion: @escaping (APIError?) -> Void) {
+        
         let projectsToInsert = XcodeProjectManager.projectsWithBuilds.filter() { $0.uuid == nil }
         let projectsToUpdate = XcodeProjectManager.projectsWithBuilds.filter() { $0.uuid != nil }
-        APIManager.shared.createOrUpdateDatabaseProjects(projectsToInsert, shouldCreate: true, completion: completion)
-        APIManager.shared.createOrUpdateDatabaseProjects(projectsToUpdate, shouldCreate: false, completion: completion)
+        
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+        var lastError: APIError?
+        
+        APIManager.shared.createOrUpdateDatabaseProjects(projectsToInsert, shouldCreate: true) { (error) in
+            lastError = error
+            dispatchGroup.leave()
+        }
+        APIManager.shared.createOrUpdateDatabaseProjects(projectsToUpdate, shouldCreate: false) { (error) in
+            lastError = error
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            completion(lastError)
+        }
     }
     
     private func createNewUserIfNecessary(completion: @escaping (APIError?) -> Void) {

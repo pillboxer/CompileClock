@@ -22,21 +22,24 @@ struct APIManager {
         }
     }
     
-    func createOrUpdateDatabaseProjects(_ projects: [XcodeProject], shouldCreate: Bool, completion: @escaping (Bool) -> Void) {
+    func createOrUpdateDatabaseProjects(_ projects: [XcodeProject], shouldCreate: Bool, completion: @escaping (APIError?) -> Void) {
+        
         guard projects.count > 0, let userid = User.existingUser?.uuid else {
             return
         }
+        
         let request = ProjectsEndpoint.ProjectsRequest.createProjectRequestFromProjects(projects, id: userid)
         let endpoint = shouldCreate ? ProjectsEndpoint.add(request) : ProjectsEndpoint.update(request)
         let router = Router<ProjectsEndpoint>()
+        
         router.request(endpoint, decoding: ProjectsResponse.self) { (response, error) in
             guard let response = response as? ProjectsResponse else {
-                completion(false)
+                completion(error)
                 LogUtility.updateLogWithEvent(.projectsAddedToDatabase(false))
                 return
             }
             if response.success {
-                completion(true)
+                completion(error)
                 XcodeProject.updateProjectsFromResponse(projects: projects, response: response)
             }
             LogUtility.updateLogWithEvent(.projectsAddedToDatabase(response.success))
