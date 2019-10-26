@@ -12,6 +12,7 @@
 		BA0A41BA22E3586800D5C1B0 /* DerivedDataPanelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0A41B922E3586800D5C1B0 /* DerivedDataPanelManager.swift */; };
 		BA0A41BC22E35D0100D5C1B0 /* WelcomeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0A41BB22E35D0100D5C1B0 /* WelcomeManager.swift */; };
 		BA201611232E736300190D46 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA201610232E736300190D46 /* APIManager.swift */; };
+		BA2D34A123520E6500E085B7 /* NSManagedObject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2D34A023520E6500E085B7 /* NSManagedObject+Extensions.swift */; };
 		BA30DC1C2321174B0017030D /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA30DC1A2321174B0017030D /* User+CoreDataClass.swift */; };
 		BA30DC1D2321174B0017030D /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA30DC1B2321174B0017030D /* User+CoreDataProperties.swift */; };
 		BA35A19B22E5EA01000ABC5E /* NSWindow+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA35A19A22E5EA01000ABC5E /* NSWindow+Extensions.swift */; };
@@ -96,6 +97,7 @@
 		BA0A41B922E3586800D5C1B0 /* DerivedDataPanelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerivedDataPanelManager.swift; sourceTree = "<group>"; };
 		BA0A41BB22E35D0100D5C1B0 /* WelcomeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeManager.swift; sourceTree = "<group>"; };
 		BA201610232E736300190D46 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		BA2D34A023520E6500E085B7 /* NSManagedObject+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Extensions.swift"; sourceTree = "<group>"; };
 		BA30DC1A2321174B0017030D /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BA30DC1B2321174B0017030D /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BA35A19A22E5EA01000ABC5E /* NSWindow+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWindow+Extensions.swift"; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 				BA9AF57D22EDA9540014790C /* Calender+Extensions.swift */,
 				BA5FAC5923193BC900074668 /* Date+Extensions.swift */,
 				BA9579E42305D3EF00445804 /* NSAppearance+Extensions.swift */,
+				BA2D34A023520E6500E085B7 /* NSManagedObject+Extensions.swift */,
 				BAB38AEB232557AE0057F635 /* URLRequest+Extensions.swift */,
 			);
 			path = Extensions;
@@ -496,6 +499,7 @@
 				BAE9EDD322D8E2D600DFFA7D /* XcodeBuild+CoreDataClass.swift in Sources */,
 				BA87B37E2340B14800B5330F /* Router.swift in Sources */,
 				BA87B37A233FCA8400B5330F /* JSONBodyEncoder.swift in Sources */,
+				BA2D34A123520E6500E085B7 /* NSManagedObject+Extensions.swift in Sources */,
 				BAB38AEC232557AE0057F635 /* URLRequest+Extensions.swift in Sources */,
 				BA0A41BC22E35D0100D5C1B0 /* WelcomeManager.swift in Sources */,
 				BA30DC1D2321174B0017030D /* User+CoreDataProperties.swift in Sources */,

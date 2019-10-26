@@ -95,6 +95,7 @@ struct ProjectsResponse: APIResponse {
     let success: Bool
     let errorMessage: String?
     let data: [ProjectsResponsePayload]?
+    let comparisonPayload: ProjectComparisonPayload?
     
     struct ProjectsResponsePayload: Decodable {
         let uuid: String
@@ -104,12 +105,29 @@ struct ProjectsResponse: APIResponse {
         let averageBuildTime: Double?
         let workingTimePercentage: Double?
     }
+    
+    struct ProjectComparisonPayload: Decodable {
+        let averageBuildTime: Double?
+        let longestBuildTime: Double?
+        let workingTimePercentage: Double?
+        let averageBuildsPerDay: Double?
+        let mostBuilds: Double?
+        
+        enum CodingKeys: String, CodingKey {
+            case averageBuildTime = "average_build_time"
+            case longestBuildTime = "longest_build_time"
+            case workingTimePercentage = "working_time_percentage"
+            case averageBuildsPerDay = "average_builds"
+            case mostBuilds = "most_builds"
+        }
+    }
 }
 
 enum ProjectsEndpoint: EndpointType {
     case add(_ request: ProjectsRequest)
-    case update(_ request: ProjectsRequest)
+    case compareAverage(_ uuid: String)
 }
+
 
 extension ProjectsEndpoint {
     
@@ -123,7 +141,9 @@ extension ProjectsEndpoint {
                                       numberOfBuilds: project.totalNumberOfBuilds,
                                       longestBuildTime: project.longestBuildTime,
                                       averageBuildTime: project.averageBuildTime,
-                                      workingTimePercentage: project.percentageOfWorkingTimeSpentBuilding)
+                                      workingTimePercentage: project.percentageOfWorkingTimeSpentBuilding,
+                                      averageBuilds: project.dailyAverageNumberOfBuilds, mostBuilds: project.mostBuildsInADay?.recurrances
+                                      )
             }
             return ProjectsRequest(projects: projects)
         }
@@ -136,8 +156,8 @@ extension ProjectsEndpoint {
         let longestBuildTime: Double?
         let averageBuildTime: Double?
         let workingTimePercentage: Double?
-        
-
+        let averageBuilds: Double?
+        let mostBuilds: Int?
     }
     
     var resource: APIResource {
@@ -148,17 +168,21 @@ extension ProjectsEndpoint {
         switch self {
         case .add:
             return .post
-        case .update:
-            return .patch
+        case .compareAverage:
+            return .get
         }
     }
     
     var task: HTTPTask {
         switch self {
-        case .add(let request), .update(let request):
+        case .add(let request):
             return .request(body: request, urlParameters: nil)
+        case .compareAverage(let uuid):
+            let params = ["compareid": uuid]
+            return .request(body: nil, urlParameters: params)
         }
     }
+
     
     
     

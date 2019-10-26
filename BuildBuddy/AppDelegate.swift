@@ -66,7 +66,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         LogUtility.updateLogWithEvent(.appLaunched)
         XcodeProjectManager.start()
         DatabaseManager.shared.startPostLaunchUserFlow { (success) in
-            print(success)
+            LogUtility.updateLogWithEvent(.databasePostLaunchOperationCompleted(success))
         }
     }
 
@@ -125,6 +125,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             DispatchQueue.main.async {
                 self.semaphore.signal()
                 self.constructMenu()
+                DatabaseManager.shared.updateProjects(completion: nil)
             }
         }
     }

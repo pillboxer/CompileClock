@@ -11,6 +11,8 @@ import Foundation
 class DatabaseManager {
     
     static let shared = DatabaseManager()
+    private var isUpdatingProjects = false
+    var payloadCache = [String : ProjectsResponse.ProjectComparisonPayload]()
     
     func startPostLaunchUserFlow(completion: @escaping (Bool) -> Void) {
         createNewUserIfNecessary { (error) in
@@ -25,26 +27,44 @@ class DatabaseManager {
         }
     }
     
-    private func updateProjects(completion: @escaping (APIError?) -> Void) {
-        
-        let projectsToInsert = XcodeProjectManager.projectsWithBuilds.filter() { $0.uuid == nil }
-        let projectsToUpdate = XcodeProjectManager.projectsWithBuilds.filter() { $0.uuid != nil }
-        
-        let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
-        var lastError: APIError?
-        
-        APIManager.shared.createOrUpdateDatabaseProjects(projectsToInsert, shouldCreate: true) { (error) in
-            lastError = error
-            dispatchGroup.leave()
-        }
-        APIManager.shared.createOrUpdateDatabaseProjects(projectsToUpdate, shouldCreate: false) { (error) in
-            lastError = error
-            dispatchGroup.leave()
+    func updateProjects(completion: ((APIError?) -> Void)?) {
+        if isUpdatingProjects {
+            return
         }
         
-        dispatchGroup.notify(queue: .main) {
-            completion(lastError)
+        let projects = XcodeProjectManager.projectsWithBuilds
+        
+        isUpdatingProjects = true
+        APIManager.shared.createOrUpdateDatabaseProjects(projects) {
+            (error) in
+            LogUtility.updateLogWithEvent(.databaseUpdateSucceeded(error?.localizedDescription))
+            self.isUpdatingProjects = false
+            completion?(error)
+        }
+    }
+    
+    private func clearCache() {
+        payloadCache.removeAll()
+    }
+    
+    func compareProject(_ uuid: String, completion: @escaping (ProjectsResponse.ProjectComparisonPayload?) -> Void) {
+        if let payload = payloadCache[uuid] {
+            completion(payload)
+            return
+        }
+        
+        APIManager.shared.compareProject(uuid: uuid) { (payload, error) in
+            if let error = error {
+                LogUtility.updateLogWithEvent(.apiResponseError(error.localizedDescription))
+                completion(nil)
+            }
+            else if let payload = payload {
+                self.payloadCache[uuid] = payload
+                completion(payload)
+            }
+            else {
+                completion(nil)
+            }
         }
     }
     
@@ -64,7 +84,6 @@ class DatabaseManager {
                         fatalError("Somehow have not received id back")
                     }
                     newUser.uuid = id
-                    CoreDataManager.save()
                     LogUtility.updateLogWithEvent(.userSuccessfullyAddedToDatabase)
                     completion(nil)
                 }

@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14835.7" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14835.7"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="StatsViewController" customModule="BuildBuddy" customModuleProvider="target">
             <connections>
-                <outlet property="averageBuildTimeLabel" destination="Yms-xo-ly5" id="1yK-74-Ohr"/>
-                <outlet property="dailyAverageLabel" destination="h4x-hf-fqZ" id="ic4-Cx-axa"/>
+                <outlet property="fifthLabel" destination="WKv-o8-Hs6" id="9yD-AS-zxJ"/>
+                <outlet property="fifthLabelTitle" destination="vcc-jK-wIL" id="3Mh-77-oBq"/>
+                <outlet property="fourthLabel" destination="h4x-hf-fqZ" id="ic4-Cx-axa"/>
                 <outlet property="improveAccuracyLabel" destination="syA-jn-KXX" id="7ey-m6-46p"/>
-                <outlet property="inaccurateDataLabel" destination="z92-Qp-YIc" id="Z4S-ug-0XS"/>
-                <outlet property="longestBuildTimeLabel" destination="j1z-YO-UhT" id="PPj-4D-G8r"/>
-                <outlet property="mostBuildsLabel" destination="ff6-vg-moH" id="aZs-wC-UTN"/>
                 <outlet property="peekButton" destination="MYi-qZ-7Sc" id="gRy-eZ-ijL"/>
-                <outlet property="timeSpentLabel" destination="WKv-o8-Hs6" id="9yD-AS-zxJ"/>
-                <outlet property="timeSpentTitleLabel" destination="vcc-jK-wIL" id="3Mh-77-oBq"/>
+                <outlet property="secondLabel" destination="Yms-xo-ly5" id="1yK-74-Ohr"/>
+                <outlet property="secondLabelTitle" destination="77u-YY-wdc" id="T9o-pk-p6h"/>
+                <outlet property="thirdLabel" destination="ff6-vg-moH" id="aZs-wC-UTN"/>
                 <outlet property="titleLabel" destination="m32-3p-bUa" id="m6D-4d-5TY"/>
+                <outlet property="topLabel" destination="j1z-YO-UhT" id="PPj-4D-G8r"/>
+                <outlet property="topLabelTitle" destination="iB2-NP-3A5" id="sLw-5v-bhu"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -195,30 +196,21 @@
                         <action selector="peekButtonTapped:" target="-2" id="Onm-MO-1i1"/>
                     </connections>
                 </button>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="z92-Qp-YIc">
-                    <rect key="frame" x="131" y="217" width="156" height="11"/>
-                    <textFieldCell key="cell" alignment="center" title="Data Shown May Not Be Accurate" id="6wp-fL-bc5">
-                        <font key="font" metaFont="miniSystem"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
             </subviews>
             <constraints>
                 <constraint firstItem="MYi-qZ-7Sc" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="1Nz-MJ-Z6S"/>
-                <constraint firstItem="6w2-3D-esl" firstAttribute="top" secondItem="z92-Qp-YIc" secondAttribute="bottom" constant="24" id="68V-Ds-b39"/>
-                <constraint firstItem="OKt-Jj-0M2" firstAttribute="top" secondItem="z92-Qp-YIc" secondAttribute="bottom" constant="24" id="88g-Dx-86R"/>
+                <constraint firstItem="IYL-gm-8gK" firstAttribute="leading" secondItem="OKt-Jj-0M2" secondAttribute="trailing" constant="14" id="1XT-pz-8eL"/>
                 <constraint firstItem="m32-3p-bUa" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="8St-tY-0SI"/>
-                <constraint firstItem="IYL-gm-8gK" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="9ME-oq-YN9"/>
-                <constraint firstItem="z92-Qp-YIc" firstAttribute="top" secondItem="m32-3p-bUa" secondAttribute="bottom" constant="8" id="JhV-mN-2oH"/>
-                <constraint firstItem="IYL-gm-8gK" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="KMp-RL-a15"/>
+                <constraint firstItem="OKt-Jj-0M2" firstAttribute="top" secondItem="m32-3p-bUa" secondAttribute="bottom" constant="43" id="Epa-Zt-Lc2"/>
+                <constraint firstItem="ff6-vg-moH" firstAttribute="top" secondItem="m32-3p-bUa" secondAttribute="bottom" constant="91" id="JWX-X1-4Oe"/>
                 <constraint firstAttribute="bottom" secondItem="MYi-qZ-7Sc" secondAttribute="bottom" constant="16" id="OG4-3V-jLZ"/>
                 <constraint firstItem="6w2-3D-esl" firstAttribute="leading" secondItem="IYL-gm-8gK" secondAttribute="trailing" constant="20" id="PXk-jH-TIU"/>
-                <constraint firstItem="z92-Qp-YIc" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="Uad-Ro-heN"/>
+                <constraint firstItem="MYi-qZ-7Sc" firstAttribute="top" secondItem="syA-jn-KXX" secondAttribute="bottom" constant="8" id="QvE-bf-Vwx"/>
                 <constraint firstItem="syA-jn-KXX" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="XO2-06-rxa"/>
+                <constraint firstItem="IYL-gm-8gK" firstAttribute="top" secondItem="m32-3p-bUa" secondAttribute="bottom" constant="42" id="Zo9-Sd-bka"/>
                 <constraint firstItem="m32-3p-bUa" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="20" id="b2k-6A-GoH"/>
                 <constraint firstItem="IYL-gm-8gK" firstAttribute="height" secondItem="OKt-Jj-0M2" secondAttribute="height" id="bhE-mD-4xd"/>
-                <constraint firstItem="syA-jn-KXX" firstAttribute="top" secondItem="IYL-gm-8gK" secondAttribute="bottom" constant="15" id="ehQ-yp-ohh"/>
+                <constraint firstItem="6w2-3D-esl" firstAttribute="leading" secondItem="IYL-gm-8gK" secondAttribute="trailing" constant="20" id="pad-hE-lry"/>
                 <constraint firstItem="OKt-Jj-0M2" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="um5-IV-2B4"/>
             </constraints>
             <point key="canvasLocation" x="108" y="154"/>

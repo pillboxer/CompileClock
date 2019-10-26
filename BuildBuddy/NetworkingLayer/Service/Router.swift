@@ -39,7 +39,6 @@ class Router<EndPoint: EndpointType>: NetworkRouter {
                         completion(response, nil)
                     }
                     catch let error {
-                        print(error)
                         completion(nil, .decodingError(error.localizedDescription))
                     }
                 }
@@ -87,7 +86,6 @@ class Router<EndPoint: EndpointType>: NetworkRouter {
             }
         }
         catch let error {
-            print(error)
             throw error
         }
     }

@@ -43,13 +43,17 @@ public class XcodeProject: NSManagedObject {
         CoreDataManager.save()
     }
     
-    private static func existingProjectWithFolderName(_ folderName: String) -> XcodeProject? {
-        let fetchRequest = NSFetchRequest<XcodeProject>(entityName: String.xcodeProject)
-        fetchRequest.predicate = NSPredicate(format: "folderName == %@", folderName)
-        return try? CoreDataManager.moc.fetch(fetchRequest).first
+    static func existingProjectWithFolderName(_ folderName: String, on context: NSManagedObjectContext? = CoreDataManager.moc) -> XcodeProject? {
+        let predicate = NSPredicate(format: "folderName == %@", folderName)
+        return existingProject(withPredicate: predicate, sortDescriptors: nil, inContext: context)
+    }
+    
+    static func existingProject(withPredicate predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, inContext context: NSManagedObjectContext?) -> XcodeProject? {
+        return self.existingObject(withPredicate: predicate, sortDescriptors: sortDescriptors, inContext: context) as? XcodeProject
     }
     
     static func updateProjectsFromResponse(projects: [XcodeProject], response: ProjectsResponse) {
+                
         guard let responseArray = response.data,
             responseArray.count == projects.count else {
             return
@@ -98,6 +102,7 @@ public class XcodeProject: NSManagedObject {
             CoreDataManager.save()
         }
     }
+
     
     var closestName: String? {
         if let strippedFolder = strippedFolder {
@@ -183,7 +188,6 @@ public class XcodeProject: NSManagedObject {
         // If the time of the last update to the log was after the last modification date, then it has been updated
         let updated = logUpdateTime > lastModificationDate
         if updated {
-            print("\(Date(timeIntervalSinceReferenceDate: logUpdateTime)) is greater than \(Date(timeIntervalSinceReferenceDate: lastModificationDate))")
             LogUtility.updateLogWithEvent(.logStoreManifestUpdated(name))
         }
         return logUpdateTime > lastModificationDate
@@ -263,6 +267,7 @@ public class XcodeProject: NSManagedObject {
                 return
         }
         
+        // This method is used in the background, that's why we use the private moc
         let context = CoreDataManager.privateMoc
         let id = objectID
         

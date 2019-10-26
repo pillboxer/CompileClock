@@ -12,20 +12,20 @@ class StatsViewController: NSViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var titleLabel: NSTextField!
-    @IBOutlet weak var averageBuildTimeLabel: NSTextField!
-    @IBOutlet weak var longestBuildTimeLabel: NSTextField!
-    @IBOutlet weak var mostBuildsLabel: NSTextField!
-    @IBOutlet weak var dailyAverageLabel: NSTextField!
-    @IBOutlet weak var timeSpentTitleLabel: NSTextField!
-    @IBOutlet weak var timeSpentLabel: NSTextField!
+    @IBOutlet weak var topLabel: NSTextField!
+    @IBOutlet weak var secondLabel: NSTextField!
+    @IBOutlet weak var thirdLabel: NSTextField!
+    @IBOutlet weak var fourthLabel: NSTextField!
+    @IBOutlet weak var fifthLabel: NSTextField!
+    
+    @IBOutlet weak var topLabelTitle: NSTextField!
+    @IBOutlet weak var secondLabelTitle: NSTextField!
+    @IBOutlet weak var fifthLabelTitle: NSTextField!
     @IBOutlet weak var improveAccuracyLabel: NSTextField!
-    @IBOutlet weak var inaccurateDataLabel: NSTextField!
     @IBOutlet weak var peekButton: NSButton!
     
     // MARK: - Action Methods
     @IBAction func peekButtonTapped(_ sender: Any) {
-        viewModel.bypassChecks = (peekButton.state == .on)
-        inaccurateDataLabel.isHidden = (peekButton.state == .off)
         reloadUI()
     }
     // MARK: - Properties
@@ -46,7 +46,6 @@ class StatsViewController: NSViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        inaccurateDataLabel.isHidden = true
     }
     
     // MARK: - Exposed Methods
@@ -57,13 +56,20 @@ class StatsViewController: NSViewController {
     
     // MARK : - Private Methods
     private func reloadUI() {
+        configureLabelsForPeekState(peekButton.state)
         titleLabel.stringValue = viewModel.project.name
-        configurePeekButton()
-        configureLongestBuildLabel()
-        configureDynamicLabels()
-        configureImproveAccuracyLabel()
-        configureTimeSpentTitleLabel()
-        configureMostBuildsLabel()
+        
+    }
+    
+    private func configureLabelsForPeekState(_ state: NSControl.StateValue) {
+        if state == .off {
+            configurePeekStateOffLabels()
+            configureImproveAccuracyLabel()
+            configureTimeSpentTitleLabel()
+        }
+        else {
+            configurePeekStateOnLabels()
+        }
     }
     
     private func configureTimeSpentTitleLabel() {
@@ -71,13 +77,7 @@ class StatsViewController: NSViewController {
         let superFont = NSFont.systemFont(ofSize: 11)
         let string = NSMutableAttributedString(string: "Working Time Spent Building*", attributes: [.font:font])
         string.setAttributes([.font: superFont, .baselineOffset: 3], range: NSRange(location: 27, length: 1))
-        timeSpentTitleLabel.attributedStringValue = string
-    }
-    
-    private func configureLongestBuildLabel() {
-        if let longestBuildString = viewModel.longestBuildString {
-            longestBuildTimeLabel.stringValue = longestBuildString
-        }
+        fifthLabelTitle.attributedStringValue = string
     }
     
     private func configureImproveAccuracyLabel() {
@@ -89,21 +89,40 @@ class StatsViewController: NSViewController {
         improveAccuracyLabel.attributedStringValue = string
     }
     
-    private func configurePeekButton() {
-        peekButton.isHidden = !viewModel.peekButtonShouldShow
+    private func configurePeekStateOffLabels() {
+        topLabel.stringValue = viewModel.longestBuildString
+        secondLabel.stringValue = viewModel.averageBuildTimeString
+        thirdLabel.stringValue = viewModel.mostBuildsInADayString
+        fourthLabel.stringValue = viewModel.dailyAverageBuildsString
+        fifthLabel.stringValue = viewModel.workingTimePercentageString
+        
+        configureTimeSpentTitleLabel()
+        configureImproveAccuracyLabel()
     }
     
-    private func configureDynamicLabels() {
-        averageBuildTimeLabel.stringValue = viewModel.averageBuildTimeString
-        dailyAverageLabel.stringValue = viewModel.dailyAverageBuildsString
-        timeSpentLabel.stringValue = viewModel.workingTimePercentageString
-    }
-    
-    private func configureMostBuildsLabel() {
-        guard let mostBuildsString = viewModel.mostBuildsInADayString else {
-            return
+    private func configurePeekStateOnLabels() {
+        topLabel.setLoading()
+        secondLabel.setLoading()
+        fifthLabel.setLoading()
+        viewModel.compare { (payload) in
+            if let payload = payload {
+                let comparisonData = self.viewModel.comparisonData(payload)
+                DispatchQueue.main.async {
+                    self.topLabel.attributedStringValue = comparisonData.comparedAverageTimeString
+                    self.secondLabel.attributedStringValue = comparisonData.comparedLongestString
+                    self.thirdLabel.attributedStringValue = comparisonData.comparedMostString
+                    self.fourthLabel.attributedStringValue = comparisonData.comparedAverageBuildsString
+                    self.fifthLabel.attributedStringValue = comparisonData.comparedPercentageString
+                }
+            }
         }
-        mostBuildsLabel.stringValue = mostBuildsString
     }
     
+}
+
+extension NSTextField {
+    
+    func setLoading() {
+        stringValue = "Loading"
+    }
 }

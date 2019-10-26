@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 typealias JSONResponse = [String : Any]
 
 struct APIManager {
@@ -22,29 +23,62 @@ struct APIManager {
         }
     }
     
-    func createOrUpdateDatabaseProjects(_ projects: [XcodeProject], shouldCreate: Bool, completion: @escaping (APIError?) -> Void) {
-        
-        guard projects.count > 0, let userid = User.existingUser?.uuid else {
+    func createOrUpdateDatabaseProjects(_ projects: [XcodeProject], completion: @escaping (APIError?) -> Void) {
+        // Still on main thread
+        guard let userid = User.existingUser?.uuid else {
+            completion(.missingUserID)
             return
         }
         
+        guard projects.count > 0 else {
+            completion(nil)
+            return
+        }
+            
+        let privateMoc = CoreDataManager.privateMoc
+        
         let request = ProjectsEndpoint.ProjectsRequest.createProjectRequestFromProjects(projects, id: userid)
-        let endpoint = shouldCreate ? ProjectsEndpoint.add(request) : ProjectsEndpoint.update(request)
+        let endpoint = ProjectsEndpoint.add(request)
+        let router = Router<ProjectsEndpoint>()
+        let projectNames = projects.compactMap() { $0.folderName }
+        
+        privateMoc.perform {
+            router.request(endpoint, decoding: ProjectsResponse.self) { (response, error) in
+                guard let response = response as? ProjectsResponse else {
+                    completion(error)
+                    return
+                }
+                if response.success {
+                    var threadSafeProjects = [XcodeProject]()
+                    for name in projectNames {
+                        if let project = XcodeProject.existingProjectWithFolderName(name, on: privateMoc) {
+                            threadSafeProjects.append(project)
+                        }
+                    }
+                    XcodeProject.updateProjectsFromResponse(projects: threadSafeProjects, response: response)
+                    CoreDataManager.save()
+                    completion(error)
+                }
+            }
+        }
+    }
+    
+    func compareProject(uuid: String, completion: @escaping (ProjectsResponse.ProjectComparisonPayload?, APIError?) -> Void) {
+        let endpoint = ProjectsEndpoint.compareAverage(uuid)
         let router = Router<ProjectsEndpoint>()
         
         router.request(endpoint, decoding: ProjectsResponse.self) { (response, error) in
             guard let response = response as? ProjectsResponse else {
-                completion(error)
-                LogUtility.updateLogWithEvent(.projectsAddedToDatabase(false))
+                completion(nil, error)
                 return
             }
-            if response.success {
-                completion(error)
-                XcodeProject.updateProjectsFromResponse(projects: projects, response: response)
+            
+            if let payload = response.comparisonPayload {
+                completion(payload, nil)
+                return
             }
-            LogUtility.updateLogWithEvent(.projectsAddedToDatabase(response.success))
+            
         }
-        
     }
         
 }
