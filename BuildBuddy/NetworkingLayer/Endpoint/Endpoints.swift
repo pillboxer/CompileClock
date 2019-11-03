@@ -17,6 +17,7 @@ enum APIError: Error {
     case responseError(Int, String?)
     case missingUserID
     case missingIntegralData
+    case certificateFailure
     
     var localizedDescription: String {
         switch self {
@@ -34,6 +35,8 @@ enum APIError: Error {
             return "Could not find a userid"
         case .missingIntegralData:
             return "Some integral data was missing."
+        case .certificateFailure:
+            return "Certificate failure. Are you using a proxy?"
         }
     }
 }

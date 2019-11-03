@@ -18,6 +18,10 @@ class Router<EndPoint: EndpointType>: NSObject, NetworkRouter, URLSessionDelegat
             let request = try buildRequest(from: route)
             task = session.dataTask(with: request) { data, urlResponse, error in
                 if let error = error {
+                    let nsError = error as NSError
+                    if nsError.code == -999 {
+                        return completion(nil, .certificateFailure)
+                    }
                     completion(nil, .routerError(error))
                     return
                 }
