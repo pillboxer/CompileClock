@@ -26,14 +26,15 @@ protocol EndpointType {
     var method: HTTPMethod { get }
     var headers: [PostHeader]? { get }
     var task: HTTPTask { get }
+    var requiresUserApiKey: Bool { get }
 }
 
 extension EndpointType {
     
     var baseURL: URL {
         var components = URLComponents()
-        components.scheme = "http"
-        components.host = Environment.isDev ? "localhost" : "freddybean.compileclock.com"
+        components.scheme = Environment.isDev ? "http" : "https"
+        components.host = Environment.isDev ? "localhost" : "api.compileclock.com"
         return components.url!
     }
     
@@ -46,7 +47,16 @@ extension EndpointType {
     }
     
     var headers: [PostHeader]? {
-        return nil
+        if requiresUserApiKey {
+            if let key = KeychainManager.shared.getData(.apiKey) {
+                return [.authorization(key)]
+            }
+        }
+        return nil 
+    }
+    
+    var requiresUserApiKey: Bool {
+        return true
     }
 }
 

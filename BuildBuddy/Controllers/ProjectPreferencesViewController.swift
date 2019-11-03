@@ -25,7 +25,20 @@ class ProjectPreferencesViewController: NSViewController {
     }
     
     private func addProjectCheckboxes() {
-        for project in XcodeProjectManager.projectsWithBuilds {
+        
+        let sorted: [XcodeProject] = XcodeProjectManager.projectsWithBuilds.sorted { proj1, proj2 in
+            if proj1.isVisible && !proj2.isVisible {
+                return true
+            }
+            if proj2.isVisible && !proj1.isVisible {
+                return false
+            }
+            else {
+                return proj1.name.lowercased() < proj2.name.lowercased()
+            }
+        }
+        
+        for project in sorted {
             createCheckboxForProject(project)
         }
     }

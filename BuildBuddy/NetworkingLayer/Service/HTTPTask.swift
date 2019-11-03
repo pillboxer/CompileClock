@@ -10,5 +10,5 @@ import Foundation
 
 /// This enum is responsible for configuring parameters for a specific endpoint.
 enum HTTPTask {
-    case request(body: RequestBody?, urlParameters: Parameters?, headers: [PostHeader]? = nil)
+    case request(body: RequestBody?, urlParameters: Parameters?, headers: [PostHeader]?)
 }

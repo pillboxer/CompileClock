@@ -10,6 +10,7 @@ import Foundation
 
 enum PostHeader {
     case jsonContentType
+    case authorization(String)
 }
 
 extension URLRequest {
@@ -18,6 +19,8 @@ extension URLRequest {
         switch header {
         case .jsonContentType:
             addValue("application/json", forHTTPHeaderField: "Content-Type")
+        case .authorization(let key):
+            addValue(key, forHTTPHeaderField: "Authorization")
         }
     }
 }

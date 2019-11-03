@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CryptoKit
 
 enum APIError: Error {
     case invalidURL
@@ -15,6 +16,7 @@ enum APIError: Error {
     case decodingError(String)
     case responseError(Int, String?)
     case missingUserID
+    case missingIntegralData
     
     var localizedDescription: String {
         switch self {
@@ -30,6 +32,8 @@ enum APIError: Error {
             return "Could not decode JSON: \(message)"
         case .missingUserID:
             return "Could not find a userid"
+        case .missingIntegralData:
+            return "Some integral data was missing."
         }
     }
 }
@@ -55,6 +59,7 @@ struct UserResponse: APIResponse {
     struct UserResponsePayload: Decodable {
         let id: String
         let numberOfProjects: Int
+        let apiKey: String
     }
 }
 
@@ -62,6 +67,10 @@ extension UsersEndpoint {
     
     struct UserRequest: Encodable {
         let numberOfProjects: Int
+        
+        init(numberOfProjects: Int) {
+            self.numberOfProjects = numberOfProjects
+        }
     }
     
     var method: HTTPMethod {
@@ -74,7 +83,7 @@ extension UsersEndpoint {
     var task: HTTPTask {
         switch self {
         case .add(let request):
-            return .request(body: request, urlParameters: nil)
+            return .request(body: request, urlParameters: nil, headers: headers)
         }
     }
     
@@ -82,8 +91,25 @@ extension UsersEndpoint {
         return .users
     }
     
+    var requiresUserApiKey: Bool {
+        return false
+    }
+    
     var headers: [PostHeader]? {
-        return nil
+        switch self {
+        case .add(let request):
+            let key = createApiKey(request.numberOfProjects)
+            return [.authorization(key)]
+        }
+    }
+    
+    private func createApiKey(_ numberOfProjects: Int) -> String {
+        let numProjectsString = String(numberOfProjects)
+        let calendar = Calendar(identifier: .gregorian)
+        let today = Date()
+        let midnight = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: today) ?? today
+        let apiBaseString = numProjectsString + String(Int(midnight.timeIntervalSince1970))
+        return apiBaseString
     }
     
 }
@@ -176,10 +202,10 @@ extension ProjectsEndpoint {
     var task: HTTPTask {
         switch self {
         case .add(let request):
-            return .request(body: request, urlParameters: nil)
+            return .request(body: request, urlParameters: nil, headers: headers)
         case .compareAverage(let uuid):
             let params = ["compareid": uuid]
-            return .request(body: nil, urlParameters: params)
+            return .request(body: nil, urlParameters: params, headers: headers)
         }
     }
 

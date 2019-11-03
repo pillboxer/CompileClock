@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import KeychainAccess
 
 class DatabaseManager {
     
@@ -28,7 +29,7 @@ class DatabaseManager {
     }
     
     func updateProjects(completion: ((APIError?) -> Void)?) {
-        if isUpdatingProjects {
+        if isUpdatingProjects || User.existingUser == nil {
             return
         }
         
@@ -38,6 +39,7 @@ class DatabaseManager {
         APIManager.shared.createOrUpdateDatabaseProjects(projects) {
             (error) in
             LogUtility.updateLogWithEvent(.databaseUpdateSucceeded(error?.localizedDescription))
+            self.clearCache()
             self.isUpdatingProjects = false
             completion?(error)
         }
@@ -80,10 +82,12 @@ class DatabaseManager {
                 }
                 else {
                     let newUser = User(context: CoreDataManager.moc)
-                    guard let id = response?.data?.id else {
-                        fatalError("Somehow have not received id back")
+                    guard let id = response?.data?.id, let apiKey = response?.data?.apiKey else {
+                        completion(.missingIntegralData)
+                        return
                     }
                     newUser.uuid = id
+                    KeychainManager.shared.storeData(.apiKey, value: apiKey)
                     LogUtility.updateLogWithEvent(.userSuccessfullyAddedToDatabase)
                     completion(nil)
                 }

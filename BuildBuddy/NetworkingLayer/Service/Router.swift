@@ -8,12 +8,12 @@
 
 import Foundation
 
-class Router<EndPoint: EndpointType>: NetworkRouter {
+class Router<EndPoint: EndpointType>: NSObject, NetworkRouter, URLSessionDelegate {
     
     private var task: URLSessionTask?
     
     func request<Response: APIResponse>(_ route: EndPoint, decoding response: Response.Type, completion: @escaping NetworkRouterCompletion) {
-        let session = URLSession.shared
+        let session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
         do {
             let request = try buildRequest(from: route)
             task = session.dataTask(with: request) { data, urlResponse, error in
@@ -87,6 +87,31 @@ class Router<EndPoint: EndpointType>: NetworkRouter {
         }
         catch let error {
             throw error
+        }
+    }
+    
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        
+        if let serverTrust = challenge.protectionSpace.serverTrust {
+            let isTrusted = SecTrustEvaluateWithError(serverTrust, nil)
+            
+            if isTrusted {
+                if let certificate = SecTrustGetCertificateAtIndex(serverTrust, 0) {
+                    let certData = SecCertificateCopyData(certificate)
+                    let data = CFDataGetBytePtr(certData)
+                    let size = CFDataGetLength(certData)
+                    let cert1 = NSData(bytes: data, length: size)
+                    let file_der = Bundle.main.path(forResource: "compileclock.com", ofType: "der")
+                    
+                    if let file = file_der,
+                        let cert2 = NSData(contentsOfFile: file),
+                        cert1 == cert2 {
+                        completionHandler(.useCredential, URLCredential(trust: serverTrust))
+                        return
+                    }
+                }
+            }
+            completionHandler(.cancelAuthenticationChallenge, nil)
         }
     }
     
