@@ -20,7 +20,6 @@ public class User: NSManagedObject {
             return results.first
         }
         catch {
-            #warning("Log error")
             return nil
         }
     }

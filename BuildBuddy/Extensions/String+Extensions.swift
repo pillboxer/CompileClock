@@ -25,9 +25,9 @@ extension String {
     }
     
     enum DisplayTextOptions: String, CaseIterable {
-        case builds
-        case time
-        case average
+        case builds = "builds today"
+        case time = "time today"
+        case average = "average today"
         case last
         case allTimeCount = "all time (builds)"
         case allTimeDuration = "all time (duration)"

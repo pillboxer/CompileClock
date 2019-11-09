@@ -77,7 +77,17 @@ struct APIManager {
                 completion(payload, nil)
                 return
             }
-            
+        }
+    }
+    
+    func uploadLog(_ log: String, withEmail email: String) {
+        let request = LogRequest(logText: log, email: email)
+        let endpoint = LogEndpoint.upload(request)
+        let router = Router<LogEndpoint>()
+        
+        router.request(endpoint, decoding: LogResponse.self) { (response, error) in
+            print(error)
+            print(response)
         }
     }
         

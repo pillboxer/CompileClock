@@ -90,8 +90,10 @@ class LogUtility {
     }
     
     static func uploadLog(withEmail email: String, completion: @escaping (LogUploadError?) -> Void) {
-        
-        #warning("Upload log start again")
+        guard let log = log else {
+            return
+        }
+        APIManager.shared.uploadLog(log, withEmail: email)
     }
     
     static var log: String? {

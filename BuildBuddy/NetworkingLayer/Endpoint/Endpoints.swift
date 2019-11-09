@@ -114,10 +114,14 @@ extension UsersEndpoint {
         let apiBaseString = numProjectsString + String(Int(midnight.timeIntervalSince1970))
         return apiBaseString
     }
-    
 }
 
 // MARK: - PROJECTS
+
+enum ProjectsEndpoint: EndpointType {
+    case add(_ request: ProjectsRequest)
+    case compareAverage(_ uuid: String)
+}
 
 struct ProjectsResponse: APIResponse {
     let statusCode: Int
@@ -151,12 +155,6 @@ struct ProjectsResponse: APIResponse {
         }
     }
 }
-
-enum ProjectsEndpoint: EndpointType {
-    case add(_ request: ProjectsRequest)
-    case compareAverage(_ uuid: String)
-}
-
 
 extension ProjectsEndpoint {
     
@@ -212,7 +210,43 @@ extension ProjectsEndpoint {
         }
     }
 
+}
+
+// MARK: - LOG
+
+enum LogEndpoint: EndpointType {
+    case upload(_ request: LogRequest)
+}
+
+struct LogRequest: Encodable {
+    let logText: String
+    let email: String
+}
+
+struct LogResponse: APIResponse {
+    let statusCode: Int
+    let success: Bool
+    let errorMessage: String?
+}
+
+extension LogEndpoint {
     
+    var method: HTTPMethod {
+        switch self {
+        case .upload:
+            return .post
+        }
+    }
     
+    var resource: APIResource {
+        return .uploadlog
+    }
+    
+    var task: HTTPTask {
+        switch self {
+        case .upload(let request):
+            return .request(body: request, urlParameters: nil, headers: headers)
+        }
+    }
     
 }
