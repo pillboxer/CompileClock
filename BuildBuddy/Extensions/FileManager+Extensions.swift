@@ -83,7 +83,7 @@ extension FileManager {
     }
     
     private static func purgeFileIfNecessary(_ file: URL) {
-        if let text = try? String(contentsOf: file), text.count > 2000 {
+        if let text = try? String(contentsOf: file), text.count > 20000 {
             deleteFile(file)
             let purgeText = "File Purged At \(Date().description)\n\n"
             let filePurgedInfo = purgeText.data(using: .utf8)

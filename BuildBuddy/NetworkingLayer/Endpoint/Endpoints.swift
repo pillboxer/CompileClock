@@ -221,12 +221,18 @@ enum LogEndpoint: EndpointType {
 struct LogRequest: Encodable {
     let logText: String
     let email: String
+    let userid: String 
 }
 
 struct LogResponse: APIResponse {
     let statusCode: Int
     let success: Bool
     let errorMessage: String?
+    let data: LogResponsePayload
+    
+    struct LogResponsePayload: Decodable {
+        let lastRequestTime: Double
+    }
 }
 
 extension LogEndpoint {

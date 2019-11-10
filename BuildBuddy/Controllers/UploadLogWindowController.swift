@@ -44,6 +44,7 @@ class UploadLogWindowController: NSWindowController, NSWindowDelegate {
     private func configureUI() {
         window?.center()
         window?.title = "Upload Log"
+        sendButton.isEnabled = shouldEnableSendButton
     }
     
     private func configureTextView() {
@@ -52,18 +53,25 @@ class UploadLogWindowController: NSWindowController, NSWindowDelegate {
         }
     }
     
+    private var shouldEnableSendButton: Bool {
+        let lastUploadDate = UserDefaults.lastLogUploadDate.timeIntervalSince1970
+        return lastUploadDate == 0 || Date().timeIntervalSince1970 - lastUploadDate > 60
+    }
+    
     private func uploadLog() {
         LogUtility.uploadLog(withEmail: emailTextField.stringValue) { (error) in
             if let error = error {
+                LogUtility.updateLogWithEvent(.logUploaded(false))
                 NSAlert.showSimpleAlert(title: "Error", message: error.description, isError: true, completionHandler: nil)
             }
             else {
+                LogUtility.updateLogWithEvent(.logUploaded(true))
                 NSAlert.showSimpleAlert(title: "Success", message: "Log Uploaded") {
                     self.window?.close()
                 }
             }
             DispatchQueue.main.async {
-                self.sendButton.isEnabled = true
+                self.sendButton.isEnabled = self.shouldEnableSendButton
                 self.spinner.isHidden = true
             }
         }
@@ -78,7 +86,7 @@ extension UploadLogWindowController: NSControlTextEditingDelegate, NSTextFieldDe
     }
     
     private func validateTextField() {
-        sendButton.isEnabled = !emailTextField.stringValue.isEmpty && emailTextField.stringValue.isValidEmail
+        sendButton.isEnabled = !emailTextField.stringValue.isEmpty && emailTextField.stringValue.isValidEmail && shouldEnableSendButton
     }
     
 }

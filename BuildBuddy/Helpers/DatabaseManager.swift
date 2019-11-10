@@ -32,10 +32,9 @@ class DatabaseManager {
         if isUpdatingProjects || User.existingUser == nil {
             return
         }
-        
+        isUpdatingProjects = true
         let projects = XcodeProjectManager.projectsWithBuilds
         
-        isUpdatingProjects = true
         APIManager.shared.createOrUpdateDatabaseProjects(projects) {
             (error) in
             LogUtility.updateLogWithEvent(.databaseUpdateSucceeded(error?.localizedDescription))

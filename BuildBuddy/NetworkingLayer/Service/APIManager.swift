@@ -34,7 +34,7 @@ struct APIManager {
             completion(nil)
             return
         }
-            
+        
         let privateMoc = CoreDataManager.privateMoc
         
         let request = ProjectsEndpoint.ProjectsRequest.createProjectRequestFromProjects(projects, id: userid)
@@ -48,17 +48,16 @@ struct APIManager {
                     completion(error)
                     return
                 }
-                if response.success {
-                    var threadSafeProjects = [XcodeProject]()
-                    for name in projectNames {
-                        if let project = XcodeProject.existingProjectWithFolderName(name, on: privateMoc) {
-                            threadSafeProjects.append(project)
-                        }
+                var threadSafeProjects = [XcodeProject]()
+                for name in projectNames {
+                    if let project = XcodeProject.existingProjectWithFolderName(name, on: privateMoc) {
+                        threadSafeProjects.append(project)
                     }
                     XcodeProject.updateProjectsFromResponse(projects: threadSafeProjects, response: response)
                     CoreDataManager.save()
-                    completion(error)
                 }
+                completion(error)
+
             }
         }
     }
@@ -80,15 +79,18 @@ struct APIManager {
         }
     }
     
-    func uploadLog(_ log: String, withEmail email: String) {
-        let request = LogRequest(logText: log, email: email)
+    func uploadLog(_ log: String, withEmail email: String, completion: @escaping (LogResponse?, APIError?) -> Void) {
+        
+        guard let userid = User.existingUser?.uuid else {
+            LogUtility.updateLogWithEvent(.logUploaded(false))
+            return
+        }
+        let request = LogRequest(logText: log, email: email, userid: userid)
         let endpoint = LogEndpoint.upload(request)
         let router = Router<LogEndpoint>()
         
         router.request(endpoint, decoding: LogResponse.self) { (response, error) in
-            print(error)
-            print(response)
+            completion(response as? LogResponse, error)
         }
     }
-        
 }

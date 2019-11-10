@@ -50,7 +50,8 @@ class LogUtility {
         case mergingProject(String)
         case coreDataSaveFailed(String)
         case alreadyFetching
-        case logUploaded
+        case logUploaded(Bool)
+        
         var isProgressEvent: Bool {
             return self != .appLaunched && self != .fetchComplete
         }
@@ -93,7 +94,15 @@ class LogUtility {
         guard let log = log else {
             return
         }
-        APIManager.shared.uploadLog(log, withEmail: email)
+        APIManager.shared.uploadLog(log, withEmail: email) { response, error in
+            if let error = error {
+                completion(.uploadError(error.localizedDescription))
+            }
+            else if let response = response {
+                UserDefaults.lastLogUploadDate = Date(timeIntervalSince1970: response.data.lastRequestTime)
+                completion(nil)
+            }
+        }
     }
     
     static var log: String? {
@@ -142,8 +151,8 @@ class LogUtility {
             return "Core Data Saved Failed: \(reason)"
         case .alreadyFetching:
             return "Attempted Concurrent Fetch Averted"
-        case .logUploaded:
-            return "Uploaded Log"
+        case .logUploaded(let bool):
+            return "Uploaded Log -> \(bool)"
         case .fetchComplete:
             return "---------------Fetch Complete----------------"
         }
