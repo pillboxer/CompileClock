@@ -61,7 +61,7 @@ struct UserResponse: APIResponse {
     
     struct UserResponsePayload: Decodable {
         let id: String
-        let numberOfProjects: Int
+        let numberOfProjects: Int?
         let apiKey: String
     }
 }
@@ -70,9 +70,10 @@ extension UsersEndpoint {
     
     struct UserRequest: Encodable {
         let numberOfProjects: Int
-        
-        init(numberOfProjects: Int) {
+        let uuid: String?
+        init(uuid: String?, numberOfProjects: Int) {
             self.numberOfProjects = numberOfProjects
+            self.uuid = uuid
         }
     }
     

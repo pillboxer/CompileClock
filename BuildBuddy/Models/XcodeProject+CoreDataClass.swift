@@ -64,9 +64,9 @@ public class XcodeProject: NSManagedObject {
         
     }
     
-    static func fetchAll() -> [XcodeProject]? {
+    static func fetchAll(inContext context: NSManagedObjectContext? = CoreDataManager.moc) -> [XcodeProject]? {
         let fetchRequest = NSFetchRequest<XcodeProject>(entityName: String.xcodeProject)
-        return try? CoreDataManager.moc.fetch(fetchRequest)
+        return try? context?.fetch(fetchRequest)
     }
     
     // MARK: - Initialisation

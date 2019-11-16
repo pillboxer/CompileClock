@@ -29,7 +29,7 @@ class DatabaseManager {
     }
     
     func updateProjects(completion: ((APIError?) -> Void)?) {
-        if isUpdatingProjects || User.existingUser == nil {
+        if isUpdatingProjects || User.existingUser == nil || FetchingMenuItemManager.isFetching {
             return
         }
         isUpdatingProjects = true
@@ -70,31 +70,34 @@ class DatabaseManager {
     }
     
     private func createNewUserIfNecessary(completion: @escaping (APIError?) -> Void) {
-        let projectCount = XcodeProjectManager.projectsWithBuilds.count
         
-        if User.existingUser == nil {
-            
-            APIManager.shared.addUserToDatabase(projectCount: projectCount) { (response, error) in
-                if let error = error {
-                    completion(error)
-                    LogUtility.updateLogWithEvent(.apiResponseError(error.localizedDescription))
+        let projectCount = XcodeProjectManager.projectsWithBuilds.count
+        let uuid = User.existingUser?.uuid
+        
+        APIManager.shared.addOrUpdateUserInDatabase(uuid: uuid, projectCount: projectCount) { (response, error) in
+            if let error = error {
+                completion(error)
+                LogUtility.updateLogWithEvent(.apiResponseError(error.localizedDescription))
+            }
+            else if let id = response?.data?.id,
+                let apiKey = response?.data?.apiKey {
+                
+                if let user = User.existingUser {
+                    user.uuid = id
                 }
                 else {
-                    let newUser = User(context: CoreDataManager.moc)
-                    guard let id = response?.data?.id, let apiKey = response?.data?.apiKey else {
-                        completion(.missingIntegralData)
-                        return
-                    }
+                    let newUser = User(context: CoreDataManager.privateMoc)
                     newUser.uuid = id
-                    KeychainManager.shared.storeData(.apiKey, value: apiKey)
-                    LogUtility.updateLogWithEvent(.userSuccessfullyAddedToDatabase)
-                    completion(nil)
                 }
+                
+                KeychainManager.shared.storeData(.apiKey, value: apiKey)
+                LogUtility.updateLogWithEvent(.userSuccessfullyAddedToDatabase)
+                completion(nil)
+            }
+            else {
+                completion(nil)
             }
         }
-        else {
-            completion(nil)
-        }
     }
-    
+        
 }

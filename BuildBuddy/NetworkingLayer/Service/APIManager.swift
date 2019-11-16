@@ -14,9 +14,9 @@ struct APIManager {
     
     static let shared = APIManager()
     
-    func addUserToDatabase(projectCount: Int, completion: @escaping (UserResponse?, APIError?) -> Void) {
+    func addOrUpdateUserInDatabase(uuid: String?, projectCount: Int, completion: @escaping (UserResponse?, APIError?) -> Void) {
         let router = Router<UsersEndpoint>()
-        let request = UsersEndpoint.UserRequest(numberOfProjects: projectCount)
+        let request = UsersEndpoint.UserRequest(uuid: uuid, numberOfProjects: projectCount)
         let endpoint = UsersEndpoint.add(request)
         router.request(endpoint, decoding: UserResponse.self) { response, error in
             completion(response as? UserResponse, error)
