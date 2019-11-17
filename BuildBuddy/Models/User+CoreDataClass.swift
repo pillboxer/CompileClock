@@ -13,11 +13,11 @@ import CoreData
 @objc(User)
 public class User: NSManagedObject {
     
-    static var existingUser: User? {
+    static func existingUser(_ context: NSManagedObjectContext? = CoreDataManager.moc) -> User? {
         do {
             let fetchRequest: NSFetchRequest<User> = self.fetchRequest()
-            let results = try CoreDataManager.moc.fetch(fetchRequest)
-            return results.first
+            let results = try context?.fetch(fetchRequest)
+            return results?.first
         }
         catch {
             return nil

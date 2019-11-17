@@ -17,15 +17,16 @@ struct APIManager {
     func addOrUpdateUserInDatabase(uuid: String?, projectCount: Int, completion: @escaping (UserResponse?, APIError?) -> Void) {
         let router = Router<UsersEndpoint>()
         let request = UsersEndpoint.UserRequest(uuid: uuid, numberOfProjects: projectCount)
-        let endpoint = UsersEndpoint.add(request)
+        let endpoint = UsersEndpoint.add(request) 
         router.request(endpoint, decoding: UserResponse.self) { response, error in
             completion(response as? UserResponse, error)
         }
     }
     
     func createOrUpdateDatabaseProjects(_ projects: [XcodeProject], completion: @escaping (APIError?) -> Void) {
-        // Still on main thread
-        guard let userid = User.existingUser?.uuid else {
+        let context = CoreDataManager.privateMoc
+        
+        guard let userid = User.existingUser(context)?.uuid else {
             completion(.missingUserID)
             return
         }
@@ -35,30 +36,29 @@ struct APIManager {
             return
         }
         
-        let privateMoc = CoreDataManager.privateMoc
         
         let request = ProjectsEndpoint.ProjectsRequest.createProjectRequestFromProjects(projects, id: userid)
         let endpoint = ProjectsEndpoint.add(request)
         let router = Router<ProjectsEndpoint>()
         let projectNames = projects.compactMap() { $0.folderName }
-        
-        privateMoc.perform {
-            router.request(endpoint, decoding: ProjectsResponse.self) { (response, error) in
-                guard let response = response as? ProjectsResponse else {
-                    completion(error)
-                    return
-                }
-                var threadSafeProjects = [XcodeProject]()
-                for name in projectNames {
-                    if let project = XcodeProject.existingProjectWithFolderName(name, on: privateMoc) {
+        router.request(endpoint, decoding: ProjectsResponse.self) { (response, error) in
+            guard let response = response as? ProjectsResponse else {
+                completion(error)
+                return
+            }
+
+            var threadSafeProjects = [XcodeProject]()
+            for name in projectNames {
+                context.performAndWait {
+                    if let project = XcodeProject.existingProjectWithFolderName(name, on: context) {
                         threadSafeProjects.append(project)
                     }
                     XcodeProject.updateProjectsFromResponse(projects: threadSafeProjects, response: response)
-                    CoreDataManager.save()
+                    context.saveWithTry()
                 }
-                completion(error)
 
             }
+            completion(error)
         }
     }
     
@@ -81,7 +81,7 @@ struct APIManager {
     
     func uploadLog(_ log: String, withEmail email: String, completion: @escaping (LogResponse?, APIError?) -> Void) {
         
-        guard let userid = User.existingUser?.uuid else {
+        guard let userid = User.existingUser()?.uuid else {
             LogUtility.updateLogWithEvent(.logUploaded(false))
             return
         }

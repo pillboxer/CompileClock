@@ -8,7 +8,7 @@
 
 import Foundation
 import KeychainAccess
-
+import CoreData
 class DatabaseManager {
     
     static let shared = DatabaseManager()
@@ -29,19 +29,31 @@ class DatabaseManager {
     }
     
     func updateProjects(completion: ((APIError?) -> Void)?) {
-        if isUpdatingProjects || User.existingUser == nil || FetchingMenuItemManager.isFetching {
+        let context = CoreDataManager.privateMoc
+        
+        if isUpdatingProjects
+            || User.existingUser(context) == nil
+            || FetchingMenuItemManager.isFetching {
             return
         }
         isUpdatingProjects = true
-        let projects = XcodeProjectManager.projectsWithBuilds
         
-        APIManager.shared.createOrUpdateDatabaseProjects(projects) {
-            (error) in
-            LogUtility.updateLogWithEvent(.databaseUpdateSucceeded(error?.localizedDescription))
-            self.clearCache()
-            self.isUpdatingProjects = false
-            completion?(error)
+        context.perform {
+            
+            guard let projects = XcodeProject.existingProjectsWithBuilds(context) else {
+                return
+            }
+            
+            APIManager.shared.createOrUpdateDatabaseProjects(projects) {
+                (error) in
+                LogUtility.updateLogWithEvent(.databaseUpdateSucceeded(error?.localizedDescription))
+                self.clearCache()
+                self.isUpdatingProjects = false
+                completion?(error)
+            }
         }
+        
+        
     }
     
     private func clearCache() {
@@ -72,22 +84,27 @@ class DatabaseManager {
     private func createNewUserIfNecessary(completion: @escaping (APIError?) -> Void) {
         
         let projectCount = XcodeProjectManager.projectsWithBuilds.count
-        let uuid = User.existingUser?.uuid
+        let uuid = User.existingUser()?.uuid
         
         APIManager.shared.addOrUpdateUserInDatabase(uuid: uuid, projectCount: projectCount) { (response, error) in
             if let error = error {
                 completion(error)
                 LogUtility.updateLogWithEvent(.apiResponseError(error.localizedDescription))
+                return
             }
             else if let id = response?.data?.id,
                 let apiKey = response?.data?.apiKey {
-                
-                if let user = User.existingUser {
-                    user.uuid = id
-                }
-                else {
-                    let newUser = User(context: CoreDataManager.privateMoc)
-                    newUser.uuid = id
+                let context = CoreDataManager.privateMoc
+
+                context.perform {
+                    if let user = User.existingUser(context) {
+                        user.uuid = id
+                    }
+                    else {
+                        let newUser = User(context: context)
+                        newUser.uuid = id
+                    }
+                    context.saveWithTry()
                 }
                 
                 KeychainManager.shared.storeData(.apiKey, value: apiKey)
@@ -99,5 +116,5 @@ class DatabaseManager {
             }
         }
     }
-        
+    
 }

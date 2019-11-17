@@ -62,7 +62,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     
     private func beginPostLaunchSequence() {
-        StatusItemAnimationManager(statusItem: statusItem).loadingItem.menu = menu
         LogUtility.updateLogWithEvent(.appLaunched)
         XcodeProjectManager.start()
         DatabaseManager.shared.startPostLaunchUserFlow { (success) in
@@ -125,7 +124,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             DispatchQueue.main.async {
                 self.semaphore.signal()
                 self.constructMenu()
-                DatabaseManager.shared.updateProjects(completion: nil)
+                DatabaseManager.shared.updateProjects { _ in
+                    DispatchQueue.main.async {
+                                        CoreDataManager.saveOnMainThread()
+
+                    }
+                }
             }
         }
     }

@@ -56,20 +56,12 @@ final class CoreDataManager {
         return newMoc
     }()
     
-    static func save() {
-        privateMoc.performAndWait {
-            do {
-                try privateMoc.save()
-            }
-            catch let error {                LogUtility.updateLogWithEvent(.coreDataSaveFailed(error.localizedDescription))
-            }
-            do {
-                try moc.save()
-            }
-            catch let error {                LogUtility.updateLogWithEvent(.coreDataSaveFailed(error.localizedDescription))
-            }
+    static func saveOnMainThread() {
+        do {
+            try moc.save()
         }
-        
+        catch let error {                LogUtility.updateLogWithEvent(.coreDataSaveFailed(error.localizedDescription))
+        }
     }
     
     private func createApplicationSupportFolderIfNeeded() {

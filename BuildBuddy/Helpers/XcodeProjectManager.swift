@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class XcodeProjectManager {
     
@@ -15,7 +16,7 @@ class XcodeProjectManager {
     
     static var projectsWithBuilds: [XcodeProject] {
         let projectsWithBuilds = projects.filter() { $0.builds.count > 0 }
-        return projectsWithBuilds.sorted() { $0.builds.count > $1.builds.count }
+        return projectsWithBuilds
     }
     
     static var visibleProjects: [XcodeProject] {
@@ -118,12 +119,18 @@ class XcodeProjectManager {
     }
     
     static func fetchBuilds() {
-        projects.forEach {
-            if $0.logStoreHasBeenUpdated {
-                $0.fetchBuilds()
+        // This should always be called on a background thread
+        let context = CoreDataManager.privateMoc
+        context.performAndWait {
+            if let projects = XcodeProject.existingObjects(withPredicate: nil, sortDescriptors: nil, inContext: context) as? [XcodeProject] {
+                for project in projects {
+                    if project.logStoreHasBeenUpdated {
+                        project.fetchBuilds()
+                    }
+                }
             }
+            context.saveWithTry()
         }
-        CoreDataManager.save()
     }
     
     static func checkAndRemoveDuplicates() {
@@ -148,7 +155,7 @@ class XcodeProjectManager {
         checkAndRemoveDuplicates()
         mergeProjectsIfNecessary()
     }
-
+    
     static func buildTypeAndSuccessTuple(_ buildKey: String, fromFolder folder: String) -> (type: XcodeBuild.BuildType, success: Bool)? {
         let folderURL = URL(fileURLWithPath: folder)
         let activityLogURL = folderURL.appendingPathComponent("\(buildKey).xcactivitylog")
@@ -157,33 +164,46 @@ class XcodeProjectManager {
     }
     
     static func mergeProjectsIfNecessary() {
-        let projectsToCheck = projects
-        let projectNames = projectsToCheck.map() { $0.name }
-        let occurences = projectNames.map() { ($0, 1) }
-        let dict = Dictionary(occurences, uniquingKeysWith: +)
-        let moreThanOne = dict.filter() { $0.value > 1 }
         
-        let filtered = projectsToCheck.filter() { project in
-            for (key, _) in moreThanOne {
-                if key == project.name && project.builds.count > 0 {
-                    return true
+        let context = CoreDataManager.privateMoc
+        
+        context.perform {
+            let projectsToCheck: [XcodeProject] = projects.compactMap() {
+                if let project = context.object(with: $0.objectID) as? XcodeProject {
+                    return project
+                }
+                return nil
+            }
+            
+            let projectNames: [String?] = projectsToCheck.map() { $0.name }
+            let occurences = projectNames.map() { ($0, 1) }
+            let dict = Dictionary(occurences, uniquingKeysWith: +)
+            let moreThanOne = dict.filter() { $0.value > 1 }
+            
+            let filtered = projectsToCheck.filter() { project in
+                for (key, _) in moreThanOne {
+                    if key == project.name && project.builds.count > 0 {
+                        return true
+                    }
+                }
+                return false
+            }
+            var sortedByModificationDate = filtered.sorted() { $0.lastModificationDate < $1.lastModificationDate }
+            if let newest = sortedByModificationDate.last {
+                LogUtility.updateLogWithEvent(.mergingProject(newest.name))
+                while sortedByModificationDate.count > 1 {
+                    let currentOldest = sortedByModificationDate.removeFirst()
+                    for build in currentOldest.builds {
+                        newest.addToXcodeBuilds(build)
+                    }
+                    if let folderName = currentOldest.folderName {
+                        XcodeProject.deleteProjectWithFolderName(folderName)
+                    }
                 }
             }
-            return false
         }
-        var sortedByModificationDate = filtered.sorted() { $0.lastModificationDate < $1.lastModificationDate }
-        if let newest = sortedByModificationDate.last {
-            LogUtility.updateLogWithEvent(.mergingProject(newest.name))
-            while sortedByModificationDate.count > 1 {
-                let currentOldest = sortedByModificationDate.removeFirst()
-                for build in currentOldest.builds {
-                    newest.addToXcodeBuilds(build)
-                }
-                if let folderName = currentOldest.folderName {
-                    XcodeProject.deleteProjectWithFolderName(folderName)
-                }
-            }
-        }
+        
+        
     }
     
     // MARK: - Private Methods
@@ -199,8 +219,8 @@ class XcodeProjectManager {
         
         return enumerator.map() { ($0 as! URL).buildFolder.path }
     }
-
-
+    
+    
     static private var forceUpdate = false
 }
 

@@ -19,6 +19,7 @@
 		BA30DC1C2321174B0017030D /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA30DC1A2321174B0017030D /* User+CoreDataClass.swift */; };
 		BA30DC1D2321174B0017030D /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA30DC1B2321174B0017030D /* User+CoreDataProperties.swift */; };
 		BA35A19B22E5EA01000ABC5E /* NSWindow+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA35A19A22E5EA01000ABC5E /* NSWindow+Extensions.swift */; };
+		BA48A7C6238185C10090FC5E /* NSManagedObjectContext+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA48A7C5238185C10090FC5E /* NSManagedObjectContext+Extensions.swift */; };
 		BA4D96D3230982A0007820EC /* NSAlert+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4D96D2230982A0007820EC /* NSAlert+Extensions.swift */; };
 		BA4E630422DB6B0C00F54E20 /* Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E630322DB6B0C00F54E20 /* Listener.swift */; };
 		BA51957A22D8DB0600947899 /* Gzip in Frameworks */ = {isa = PBXBuildFile; productRef = BA51957922D8DB0600947899 /* Gzip */; };
@@ -106,6 +107,7 @@
 		BA30DC1A2321174B0017030D /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BA30DC1B2321174B0017030D /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BA35A19A22E5EA01000ABC5E /* NSWindow+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWindow+Extensions.swift"; sourceTree = "<group>"; };
+		BA48A7C5238185C10090FC5E /* NSManagedObjectContext+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Extensions.swift"; sourceTree = "<group>"; };
 		BA4D96D2230982A0007820EC /* NSAlert+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAlert+Extensions.swift"; sourceTree = "<group>"; };
 		BA4E630322DB6B0C00F54E20 /* Listener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Listener.swift; sourceTree = "<group>"; };
 		BA5EC74322DE010C009632E3 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 				BA5FAC5923193BC900074668 /* Date+Extensions.swift */,
 				BA9579E42305D3EF00445804 /* NSAppearance+Extensions.swift */,
 				BA2D34A023520E6500E085B7 /* NSManagedObject+Extensions.swift */,
+				BA48A7C5238185C10090FC5E /* NSManagedObjectContext+Extensions.swift */,
 				BAB38AEB232557AE0057F635 /* URLRequest+Extensions.swift */,
 			);
 			path = Extensions;
@@ -515,6 +518,7 @@
 				BAB38AEC232557AE0057F635 /* URLRequest+Extensions.swift in Sources */,
 				BA0A41BC22E35D0100D5C1B0 /* WelcomeManager.swift in Sources */,
 				BA30DC1D2321174B0017030D /* User+CoreDataProperties.swift in Sources */,
+				BA48A7C6238185C10090FC5E /* NSManagedObjectContext+Extensions.swift in Sources */,
 				BACEFC5123101A1A00819815 /* ProjectPreferencesViewController.swift in Sources */,
 				BA8C3FD022DCC5260051BFD5 /* StatsWindowController.swift in Sources */,
 				BA7848B923004361005BD748 /* LogUtility.swift in Sources */,

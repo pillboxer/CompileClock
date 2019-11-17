@@ -30,7 +30,7 @@ public class XcodeProject: NSManagedObject {
             newProject.isVisible = true
             newProject.folderName = folderName
             project = newProject
-            CoreDataManager.save()
+            CoreDataManager.saveOnMainThread()
         }
         return project
     }
@@ -40,12 +40,23 @@ public class XcodeProject: NSManagedObject {
         if let project = existingProjectWithFolderName(folderName) {
             context.delete(project)
         }
-        CoreDataManager.save()
+        CoreDataManager.saveOnMainThread()
     }
     
     static func existingProjectWithFolderName(_ folderName: String, on context: NSManagedObjectContext? = CoreDataManager.moc) -> XcodeProject? {
         let predicate = NSPredicate(format: "folderName == %@", folderName)
         return existingProject(withPredicate: predicate, sortDescriptors: nil, inContext: context)
+    }
+    
+    static func existingProjects(_ context: NSManagedObjectContext = CoreDataManager.moc) -> [XcodeProject]? {
+        return existingObjects(withPredicate: nil, sortDescriptors: nil, inContext: context) as? [XcodeProject]
+    }
+    
+    static func existingProjectsWithBuilds(_ context: NSManagedObjectContext = CoreDataManager.moc) -> [XcodeProject]? {
+        if let existingProjects = existingProjects(context) {
+            return existingProjects.filter() { $0.builds.count > 0 }
+        }
+        return nil
     }
     
     static func existingProject(withPredicate predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, inContext context: NSManagedObjectContext?) -> XcodeProject? {
@@ -99,7 +110,7 @@ public class XcodeProject: NSManagedObject {
             }
             userDefinedName = newValue
             XcodeProjectManager.forceProjectUpdate()
-            CoreDataManager.save()
+            CoreDataManager.saveOnMainThread()
         }
     }
 
@@ -281,6 +292,8 @@ public class XcodeProject: NSManagedObject {
                 return
             }
             
+            print("NEW BUILDS: \(buildsToFetch.count)")
+            
             FetchingMenuItemManager.updateMenuItem(withProjectName: projectForThread.name, projectNumber: projectNumber, numberOfBuilds: buildsToFetch.count)
             
             for (buildKey, build) in buildsToFetch {
@@ -291,6 +304,9 @@ public class XcodeProject: NSManagedObject {
                     projectNumber += 1
                     FetchingMenuItemManager.updateMenuItem(withProjectName: projectForThread.name, projectNumber: projectNumber, numberOfBuilds: buildsToFetch.count)
                     LogUtility.updateLogWithEvent(.newBuild(build.buildDate))
+                }
+                else {
+                    projectForThread.removeFromXcodeBuilds(build)
                 }
             }
             
@@ -377,5 +393,13 @@ public class XcodeProject: NSManagedObject {
             return UserDefaults.showsSuccess(build.wasSuccessful)
         }
     }
+}
+
+extension NSManagedObjectContext {
+    
+    var thread: String {
+        return concurrencyType == .mainQueueConcurrencyType ? "Main" : "Private"
+    }
+    
 }
 

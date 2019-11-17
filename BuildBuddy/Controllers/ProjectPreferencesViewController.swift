@@ -21,7 +21,7 @@ class ProjectPreferencesViewController: NSViewController {
     
     override func viewWillDisappear() {
         super.viewWillDisappear()
-        CoreDataManager.save()
+        CoreDataManager.saveOnMainThread()
     }
     
     private func addProjectCheckboxes() {
