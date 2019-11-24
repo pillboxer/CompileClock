@@ -11,26 +11,6 @@ import Cocoa
 class LogUtility {
     
     // MARK: - Properties
-    enum LogUploadError: Error {
-        case tooManyRequests
-        case logNotFound
-        case urlInvalid
-        case uploadError(String)
-        
-        var description: String {
-            switch self {
-            case .logNotFound:
-                return "Could not find log"
-            case .tooManyRequests:
-                return "Too many requests, please try again later"
-            case .uploadError(let error):
-                return "Something went wrong uploading: \(error)"
-            case .urlInvalid:
-                return "URL was invalid"
-            }
-        }
-    }
-        
     enum LogEvent: Equatable {
         case appLaunched
         case apiResponseError(String)
@@ -58,7 +38,10 @@ class LogUtility {
         
     }
     
-    private static var logController: UploadLogWindowController?
+    static var log: String? {
+        return FileManager.stringFromFile(fetchLog)
+    }
+    
     private static var fetchLog: URL {
         return FileManager.buildBuddyApplicationSupportFolder.appendingPathComponent("fetchLog")
     }
@@ -83,30 +66,6 @@ class LogUtility {
     
     static func openLog() {
         NSWorkspace.shared.open(fetchLog)
-    }
-    
-    static func showUploadLogController() {
-        logController = UploadLogWindowController()
-        logController?.showWindow(nil)
-    }
-    
-    static func uploadLog(withEmail email: String, completion: @escaping (LogUploadError?) -> Void) {
-        guard let log = log else {
-            return
-        }
-        APIManager.shared.uploadLog(log, withEmail: email) { response, error in
-            if let error = error {
-                completion(.uploadError(error.localizedDescription))
-            }
-            else if let response = response {
-                UserDefaults.lastLogUploadDate = Date(timeIntervalSince1970: response.data.lastRequestTime)
-                completion(nil)
-            }
-        }
-    }
-    
-    static var log: String? {
-        return FileManager.stringFromFile(fetchLog)
     }
     
     // MARK: - Private Methods
@@ -157,7 +116,4 @@ class LogUtility {
             return "---------------Fetch Complete----------------"
         }
     }
-    
-
-    
 }

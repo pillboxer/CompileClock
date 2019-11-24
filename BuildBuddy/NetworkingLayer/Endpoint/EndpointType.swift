@@ -15,7 +15,7 @@ enum APIVersion: String {
 enum APIResource: String {
     case users
     case projects
-    case uploadlog
+    case help
 }
 
 /// Contains all the information needed to configure an EndPoint

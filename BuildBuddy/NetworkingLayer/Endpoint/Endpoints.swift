@@ -213,30 +213,31 @@ extension ProjectsEndpoint {
 
 }
 
-// MARK: - LOG
+// MARK: - HELP
 
-enum LogEndpoint: EndpointType {
-    case upload(_ request: LogRequest)
+enum HelpEndpoint: EndpointType {
+    case upload(_ request: HelpRequest)
 }
 
-struct LogRequest: Encodable {
-    let logText: String
+struct HelpRequest: Encodable {
+    let logText: String?
+    let messageText: String
     let email: String
     let userid: String 
 }
 
-struct LogResponse: APIResponse {
+struct HelpResponse: APIResponse {
     let statusCode: Int
     let success: Bool
     let errorMessage: String?
-    let data: LogResponsePayload
+    let data: HelpResponsePayload?
     
-    struct LogResponsePayload: Decodable {
+    struct HelpResponsePayload: Decodable {
         let lastRequestTime: Double
     }
 }
 
-extension LogEndpoint {
+extension HelpEndpoint {
     
     var method: HTTPMethod {
         switch self {
@@ -246,7 +247,7 @@ extension LogEndpoint {
     }
     
     var resource: APIResource {
-        return .uploadlog
+        return .help
     }
     
     var task: HTTPTask {

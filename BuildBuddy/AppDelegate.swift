@@ -36,6 +36,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     // MARK: - Menu Items
     let preferences = NSMenuItem(title: "Preferences", action: #selector(openPreferences), keyEquivalent: "")
+    let help = NSMenuItem(title: "Help", action: #selector(openHelp), keyEquivalent: "")
     let stats = NSMenuItem(title: "Stats", action: #selector(openStats), keyEquivalent: "")
     let nothingToShow = NSMenuItem(title: "Nothing To Show", action: nil, keyEquivalent: "")
     let quit: NSMenuItem = {
@@ -44,7 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return quit
     }()
     lazy var launchingMenuItems: [NSMenuItem] = {
-        return [preferences, NSMenuItem.separator(), quit]
+        return [preferences, NSMenuItem.separator(), help, NSMenuItem.separator(), quit]
     }()
     
     
@@ -97,7 +98,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             LogUtility.updateLogWithEvent(.derivedDataIsValid(false))
             item.image = NSImage(named: "failure")
             item.image?.size = NSSize(width: 18, height: 18)
-            menu.items = [item, quit]
+            menu.items = [item, help, quit]
             return
         }
         // If the projects have been updated, or we have changed stuff in preferences, we should update.
@@ -126,8 +127,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 self.constructMenu()
                 DatabaseManager.shared.updateProjects { _ in
                     DispatchQueue.main.async {
-                                        CoreDataManager.saveOnMainThread()
-
+                        CoreDataManager.saveOnMainThread()
                     }
                 }
             }
@@ -176,6 +176,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         // Always add preferences and quit
         menu.addItem(preferences)
+        menu.addItem(help)
         menu.addItem(quit)
         
         // Important! This means we have items to show if we don't need to fetch and reconstruct the menu
@@ -222,6 +223,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     @objc func openStats() {
         StatsManager.shared.showStats()
+    }
+    
+    @objc func openHelp() {
+        HelpManager.shared.showHelpController()
     }
     
     @objc private func quitApp() {

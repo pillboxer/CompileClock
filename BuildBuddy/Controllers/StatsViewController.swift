@@ -106,8 +106,8 @@ class StatsViewController: NSViewController {
         fifthLabel.setLoading()
         viewModel.compare { (payload) in
             if let payload = payload {
-                let comparisonData = self.viewModel.comparisonData(payload)
                 DispatchQueue.main.async {
+                    let comparisonData = self.viewModel.comparisonData(payload)
                     self.topLabel.attributedStringValue = comparisonData.comparedAverageTimeString
                     self.secondLabel.attributedStringValue = comparisonData.comparedLongestString
                     self.thirdLabel.attributedStringValue = comparisonData.comparedMostString

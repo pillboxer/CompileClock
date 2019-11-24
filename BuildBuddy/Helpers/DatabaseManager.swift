@@ -31,14 +31,15 @@ class DatabaseManager {
     func updateProjects(completion: ((APIError?) -> Void)?) {
         let context = CoreDataManager.privateMoc
         
-        if isUpdatingProjects
-            || User.existingUser(context) == nil
-            || FetchingMenuItemManager.isFetching {
-            return
-        }
-        isUpdatingProjects = true
-        
         context.perform {
+            
+            if self.isUpdatingProjects
+                || User.existingUser(context) == nil
+                || FetchingMenuItemManager.isFetching {
+                completion?(nil)
+                return
+            }
+            self.isUpdatingProjects = true
             
             guard let projects = XcodeProject.existingProjectsWithBuilds(context) else {
                 return
@@ -52,8 +53,6 @@ class DatabaseManager {
                 completion?(error)
             }
         }
-        
-        
     }
     
     private func clearCache() {

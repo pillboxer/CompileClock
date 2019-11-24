@@ -53,7 +53,7 @@ class AdvancedPreferencesViewController: NSViewController {
         }
         addDisplayTextStackView()
         addResetPreferencesUI()
-        addLogButtons()
+        addLogButton()
     }
     
     private func addLabelAndStackViewForStepperKey(_ key: UserDefaults.DefaultsStepperKey) {
@@ -147,11 +147,10 @@ class AdvancedPreferencesViewController: NSViewController {
     }
     
     
-    private func addLogButtons() {
+    private func addLogButton() {
         let horizontalStackView = NSStackView()
         horizontalStackView.orientation = .horizontal
         addButton(title: "View Log", action: #selector(viewLog), to: horizontalStackView)
-        addButton(title: "Send Log", action: #selector(sendLog), to: horizontalStackView)
         stackView.addArrangedSubview(horizontalStackView)
     }
     
@@ -164,11 +163,8 @@ class AdvancedPreferencesViewController: NSViewController {
     @objc private func viewLog() {
         LogUtility.openLog()
     }
+
     
-    @objc private func sendLog() {
-        LogUtility.showUploadLogController()
-        view.window?.close()
-    }
     @objc private func resetPreferences() {
         closeAlert()
         UserDefaults.setInitialDefaults()

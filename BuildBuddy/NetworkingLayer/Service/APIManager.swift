@@ -79,18 +79,21 @@ struct APIManager {
         }
     }
     
-    func uploadLog(_ log: String, withEmail email: String, completion: @escaping (LogResponse?, APIError?) -> Void) {
+    func sendHelpRequest(withEmail email: String,
+                         message: String,
+                         logText: String?,
+                         completion: @escaping (HelpResponse?, APIError?) -> Void) {
         
         guard let userid = User.existingUser()?.uuid else {
             LogUtility.updateLogWithEvent(.logUploaded(false))
             return
         }
-        let request = LogRequest(logText: log, email: email, userid: userid)
-        let endpoint = LogEndpoint.upload(request)
-        let router = Router<LogEndpoint>()
+        let request = HelpRequest(logText: logText, messageText: message, email: email, userid: userid)
+        let endpoint = HelpEndpoint.upload(request)
+        let router = Router<HelpEndpoint>()
         
-        router.request(endpoint, decoding: LogResponse.self) { (response, error) in
-            completion(response as? LogResponse, error)
+        router.request(endpoint, decoding: HelpResponse.self) { (response, error) in
+            completion(response as? HelpResponse, error)
         }
     }
 }

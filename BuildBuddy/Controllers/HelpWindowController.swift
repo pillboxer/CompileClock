@@ -14,17 +14,23 @@ class HelpWindowController: NSWindowController, NSWindowDelegate {
     @IBOutlet weak var sendButton: NSButton!
     @IBOutlet weak var messageTextView: NSTextField!
     @IBOutlet weak var spinner: NSProgressIndicator!
+    @IBOutlet weak var logAttachedButton: NSButton!
+    @IBOutlet weak var yourMessageLabel: NSTextField!
+    
+    // MARK: - Properties
+    let messageMinimum = 50
+    let helpRequestMinimumSeconds = 3630.0
+    let lastUploadDate = UserDefaults.lastLogUploadDate.timeIntervalSince1970
     
     @IBAction func sendPushed(_ sender: Any) {
         sendButton.isEnabled = false
         spinner.isHidden = false
         spinner.startAnimation(nil)
-        uploadLog()
-    }
-    override var windowNibName: NSNib.Name? {
-        return "HelpWindowController"
+        sendHelpRequest()
     }
     
+    
+    // MARK: - Initialisation
     init() {
         super.init(window: nil)
     }
@@ -33,54 +39,88 @@ class HelpWindowController: NSWindowController, NSWindowDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override var windowNibName: NSNib.Name? {
+        return "HelpWindowController"
+    }
+    
+    // MARK: - Life Cycle
     override func windowDidLoad() {
         super.windowDidLoad()
         emailTextField.delegate = self
         configureUI()
         validateTextField()
-        configureTextView()
+        setButtonTitle()
+    }
+    
+    // MARK: - Private
+    private var shouldAttachLog: Bool {
+        return logAttachedButton.state == .on
     }
     
     private func configureUI() {
+        window?.styleMask.remove(.resizable)
         window?.center()
-        window?.title = "Upload Log"
+        window?.title = "Help"
         sendButton.isEnabled = shouldEnableSendButton
     }
     
-    private var shouldEnableSendButton: Bool {
-        let lastUploadDate = UserDefaults.lastLogUploadDate.timeIntervalSince1970
-        return lastUploadDate == 0 || Date().timeIntervalSince1970 - lastUploadDate > 3600
+    private func setButtonTitle() {
+        let timeSinceUpload = Date().timeIntervalSince1970 - lastUploadDate
+        let time = helpRequestMinimumSeconds - timeSinceUpload
+        let formatted = String.prettyTime(time)
+        sendButton.title = shouldEnableSendButton ? "Send" : formatted
     }
     
-    private func uploadLog() {
-        LogUtility.uploadLog(withEmail: emailTextField.stringValue) { (error) in
+    private var shouldEnableSendButton: Bool {
+        return lastUploadDate == 0
+            || Date().timeIntervalSince1970 - lastUploadDate > helpRequestMinimumSeconds
+    }
+    
+    private func sendHelpRequest() {
+        HelpManager.shared.sendHelpRequest(email: emailTextField.stringValue, message: messageTextView.stringValue, withLog: shouldAttachLog) { error in
+            
             if let error = error {
                 LogUtility.updateLogWithEvent(.logUploaded(false))
                 NSAlert.showSimpleAlert(title: "Error", message: error.description, isError: true, completionHandler: nil)
             }
+                
             else {
                 LogUtility.updateLogWithEvent(.logUploaded(true))
                 NSAlert.showSimpleAlert(title: "Success", message: "Log Uploaded") {
                     self.window?.close()
+                    DispatchQueue.main.async {
+                        self.sendButton.isEnabled = self.shouldEnableSendButton
+                        self.spinner.isHidden = true
+                    }
                 }
-            }
-            DispatchQueue.main.async {
-                self.sendButton.isEnabled = self.shouldEnableSendButton
-                self.spinner.isHidden = true
             }
         }
     }
-
 }
 
-extension HelpWindowController: NSControlTextEditingDelegate, NSTextFieldDelegate {
+extension HelpWindowController:
+NSControlTextEditingDelegate, NSTextFieldDelegate {
     
     func controlTextDidChange(_ obj: Notification) {
         validateTextField()
+        updateYourMessageLabel()
+    }
+    
+    private func updateYourMessageLabel() {
+        if messageTextView.stringValue.count < messageMinimum {
+            yourMessageLabel.stringValue = "Your Message (\(messageMinimum - messageTextView.stringValue.count)):"
+        }
+        else {
+            yourMessageLabel.stringValue = "Your Message:"
+        }
+        
     }
     
     private func validateTextField() {
-        sendButton.isEnabled = !emailTextField.stringValue.isEmpty && emailTextField.stringValue.isValidEmail && shouldEnableSendButton
+        sendButton.isEnabled = !emailTextField.stringValue.isEmpty
+            && emailTextField.stringValue.isValidEmail
+            && shouldEnableSendButton
+            && messageTextView.stringValue.count > messageMinimum
     }
     
 }
