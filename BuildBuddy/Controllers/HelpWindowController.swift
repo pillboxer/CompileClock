@@ -8,21 +8,21 @@
 
 import Cocoa
 
-class UploadLogWindowController: NSWindowController, NSWindowDelegate {
+class HelpWindowController: NSWindowController, NSWindowDelegate {
     
     @IBOutlet weak var emailTextField: NSTextField!
     @IBOutlet weak var sendButton: NSButton!
-    @IBOutlet weak var logTextView: NSTextView!
+    @IBOutlet weak var messageTextView: NSTextField!
     @IBOutlet weak var spinner: NSProgressIndicator!
     
-    @IBAction func sendLogPushed(_ sender: Any) {
+    @IBAction func sendPushed(_ sender: Any) {
         sendButton.isEnabled = false
         spinner.isHidden = false
         spinner.startAnimation(nil)
         uploadLog()
     }
     override var windowNibName: NSNib.Name? {
-        return "UploadLogWindowController"
+        return "HelpWindowController"
     }
     
     init() {
@@ -47,15 +47,9 @@ class UploadLogWindowController: NSWindowController, NSWindowDelegate {
         sendButton.isEnabled = shouldEnableSendButton
     }
     
-    private func configureTextView() {
-        if let log = LogUtility.log {
-            logTextView.string = log
-        }
-    }
-    
     private var shouldEnableSendButton: Bool {
         let lastUploadDate = UserDefaults.lastLogUploadDate.timeIntervalSince1970
-        return lastUploadDate == 0 || Date().timeIntervalSince1970 - lastUploadDate > 60
+        return lastUploadDate == 0 || Date().timeIntervalSince1970 - lastUploadDate > 3600
     }
     
     private func uploadLog() {
@@ -79,7 +73,7 @@ class UploadLogWindowController: NSWindowController, NSWindowDelegate {
 
 }
 
-extension UploadLogWindowController: NSControlTextEditingDelegate, NSTextFieldDelegate {
+extension HelpWindowController: NSControlTextEditingDelegate, NSTextFieldDelegate {
     
     func controlTextDidChange(_ obj: Notification) {
         validateTextField()
