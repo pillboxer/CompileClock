@@ -20,7 +20,7 @@ class HelpWindowController: NSWindowController, NSWindowDelegate {
     // MARK: - Properties
     let messageMinimum = 50
     let helpRequestMinimumSeconds = 3630.0
-    let lastUploadDate = UserDefaults.lastLogUploadDate.timeIntervalSince1970
+    let lastUploadDate = UserDefaults.lastHelpRequestDate.timeIntervalSince1970
     
     @IBAction func sendPushed(_ sender: Any) {
         sendButton.isEnabled = false

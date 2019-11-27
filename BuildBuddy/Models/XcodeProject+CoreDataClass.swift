@@ -35,15 +35,13 @@ public class XcodeProject: NSManagedObject {
         return project
     }
     
-    static func deleteProjectWithFolderName(_ folderName: String) {
-        let context = CoreDataManager.moc
-        if let project = existingProjectWithFolderName(folderName) {
-            context.delete(project)
+    static func deleteProjectWithFolderName(_ folderName: String, context: NSManagedObjectContext? = CoreDataManager.moc) {
+        if let project = existingProjectWithFolderName(folderName, context: context) {
+            context?.delete(project)
         }
-        CoreDataManager.saveOnMainThread()
     }
     
-    static func existingProjectWithFolderName(_ folderName: String, on context: NSManagedObjectContext? = CoreDataManager.moc) -> XcodeProject? {
+    static func existingProjectWithFolderName(_ folderName: String, context: NSManagedObjectContext? = CoreDataManager.moc) -> XcodeProject? {
         let predicate = NSPredicate(format: "folderName == %@", folderName)
         return existingProject(withPredicate: predicate, sortDescriptors: nil, inContext: context)
     }
@@ -285,8 +283,10 @@ public class XcodeProject: NSManagedObject {
         guard let projectForThread = context.object(with: id) as? XcodeProject else {
             return
         }
+        
+        // Get this here because it will have changed on the project by the time we check
+        let mostBuildsInADay = projectForThread.mostBuildsInADay
         context.performAndWait {
-            
             var projectNumber = 1
             guard let buildsToFetch = newBuildsFromLogs(logs, forProject: projectForThread, inContext: context) else {
                 return
@@ -310,6 +310,12 @@ public class XcodeProject: NSManagedObject {
                 }
             }
             
+            if let recurrances = mostBuildsInADay?.recurrances {
+                if projectForThread.todaysBuilds.count > recurrances {
+                  NSUserNotification.deliverMostBuildsNotification(project: self)
+                }
+            }
+            
             projectForThread.lastModificationDate = FileManager.lastModificationDateForFile(projectForThread.logStoreManifest).timeIntervalSinceReferenceDate
         }
         
@@ -318,12 +324,18 @@ public class XcodeProject: NSManagedObject {
     
     private func newBuildsFromLogs(_ logs: [String: Any], forProject project: XcodeProject, inContext context: NSManagedObjectContext) -> [String: XcodeBuild]? {
         var buildsToFetch = [String : XcodeBuild]()
+        // Must declare this here as by the time the newBuild is created, longestBuildTime may have changed and dictionaries are not ordered
+        let currentLongest = project.longestBuildTime
         for (buildKey, buildDict) in logs {
             guard let buildDict = buildDict as? [String : Any] else {
                 return nil
             }
             if project.buildDictIsNew(buildDict),
                 let newBuild = XcodeBuild(buildDict, inContext: context) {
+                if let longestBuildTime = currentLongest,
+                    newBuild.totalBuildTime > longestBuildTime {
+                    NSUserNotification.deliverLongestBuildNotification(projectName: name, time: newBuild.totalBuildTime)
+                }
                 buildsToFetch[buildKey] = newBuild
             }
         }

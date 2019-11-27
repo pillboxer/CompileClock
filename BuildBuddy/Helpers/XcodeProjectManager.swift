@@ -197,7 +197,7 @@ class XcodeProjectManager {
                         newest.addToXcodeBuilds(build)
                     }
                     if let folderName = currentOldest.folderName {
-                        XcodeProject.deleteProjectWithFolderName(folderName)
+                        XcodeProject.deleteProjectWithFolderName(folderName, context: context)
                     }
                 }
             }

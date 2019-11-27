@@ -38,15 +38,24 @@ class XcodeProjectMenuItemHelper {
             let item = changeNameItem(forProject: item.project)
             items.append(item)
         }
-        if let item = derivedDataItem(forProject: item.project) {
-            items.append(item)
+        if let derivedDataItem = derivedDataItem(forProject: item.project){
+            items.append(derivedDataItem)
         }
+        items.append(resetItem(forProject: item.project))
         submenu.items = items
 
         return submenu
     }
     
-    static func changeNameItem(forProject project: XcodeProject) -> XcodeProjectMenuItem {
+    static private func resetItem(forProject project: XcodeProject) -> XcodeProjectMenuItem {
+        let item = XcodeProjectMenuItem(project)
+        item.title = "Reset Project..."
+        item.action = #selector(resetProjectData(_:))
+        item.target = self
+        return item
+    }
+    
+    static private func changeNameItem(forProject project: XcodeProject) -> XcodeProjectMenuItem {
         let newItem = XcodeProjectMenuItem(project)
         newItem.title = "Change Name..."
         newItem.action = #selector(showAlternateNamesController(_:))
@@ -54,7 +63,7 @@ class XcodeProjectMenuItemHelper {
         return newItem
     }
     
-    static func derivedDataItem(forProject project: XcodeProject) -> XcodeProjectMenuItem? {
+    static private func derivedDataItem(forProject project: XcodeProject) -> XcodeProjectMenuItem? {
         guard let derivedDataFolderName = project.derivedDataFolderName, FileManager.folderIsValid(derivedDataFolderName) else {
             return nil
         }
@@ -65,7 +74,9 @@ class XcodeProjectMenuItemHelper {
         return item
     }
     
-    @objc static func confirmDerivedDataDeletion(_ sender: XcodeProjectMenuItem) {
+
+    
+    @objc private static func confirmDerivedDataDeletion(_ sender: XcodeProjectMenuItem) {
         let project = sender.project
         let alert = NSAlert()
         alert.informativeText = "Are you sure you want to delete Derived Data for this project?"
@@ -78,7 +89,7 @@ class XcodeProjectMenuItemHelper {
         }
     }
     
-    static func deleteDerivedDataForProject(_ project: XcodeProject) {
+    static private func deleteDerivedDataForProject(_ project: XcodeProject) {
         let folderName = project.derivedDataFolderName ?? ""
         let url = URL(fileURLWithPath: folderName)
         let running = NSWorkspace.shared.runningApplications
@@ -96,8 +107,32 @@ class XcodeProjectMenuItemHelper {
             }
         }
     }
+    
+    @objc static private func resetProjectData(_ sender: XcodeProjectMenuItem) {
+        let project = sender.project
+        let alert = NSAlert()
+        alert.informativeText = "This will delete any existing data Compile Clock has for \(project.name). The latest information for the project will then be fetched from your Derived Data folder.\n\nIf you'd rather just hide the project, you can do so in Preferences."
+        alert.messageText = "Reset data for \(project.name)?"
+        alert.addButton(withTitle: "Reset")
+        alert.addButton(withTitle: "Cancel")
+        let result = alert.runModal()
+        if result == .alertFirstButtonReturn {
+            APIManager.shared.deleteProject(project) { (error) in
+                if let error = error {
+                    NSAlert.showSimpleAlert(title: "Error", message: "Could Not Delete Project On Backend: \(error.localizedDescription)", isError: true, completionHandler: nil)
+                }
+                else {
+                    DispatchQueue.main.async {
+                        CoreDataManager.moc.delete(project)
+                        CoreDataManager.saveOnMainThread()
+                        XcodeProjectManager.forceProjectUpdate()
+                    }
+                }
+            }
+        }
+    }
 
-    @objc static func showBuildListControllerForProject(_ sender: XcodeProjectMenuItem) {
+    @objc static private func showBuildListControllerForProject(_ sender: XcodeProjectMenuItem) {
         NSApp.activate(ignoringOtherApps: true)
         let project = sender.project
         buildListController?.close()

@@ -59,6 +59,7 @@ final class CoreDataManager {
     static func saveOnMainThread() {
         do {
             try moc.save()
+            LogUtility.updateLogWithEvent(.coreDataSaveSucceeded)
         }
         catch let error {                LogUtility.updateLogWithEvent(.coreDataSaveFailed(error.localizedDescription))
         }

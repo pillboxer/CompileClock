@@ -70,6 +70,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
+
     
     // MARK: - Menu Bar Icon
     private func configureStatusItem() {
@@ -136,7 +137,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     private func startFetchLoop() {
         reloadMenuIfNecessary()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 160.0) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 120.0) {
             self.startFetchLoop()
         }
     }

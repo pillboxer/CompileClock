@@ -14,9 +14,10 @@ extension NSManagedObjectContext {
     func saveWithTry() {
         do {
             try save()
+            LogUtility.updateLogWithEvent(.coreDataSaveSucceeded)
         }
         catch let error {
-            print("CORE DATA SAVE ERROR: \(error.localizedDescription)")
+            LogUtility.updateLogWithEvent(.coreDataSaveFailed(error.localizedDescription))
         }
     }
     

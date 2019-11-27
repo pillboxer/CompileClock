@@ -122,6 +122,7 @@ extension UsersEndpoint {
 enum ProjectsEndpoint: EndpointType {
     case add(_ request: ProjectsRequest)
     case compareAverage(_ uuid: String)
+    case delete(_ request: ProjectRequest)
 }
 
 struct ProjectsResponse: APIResponse {
@@ -162,6 +163,7 @@ extension ProjectsEndpoint {
     struct ProjectsRequest: Encodable {
         let projects: [ProjectRequest]
         
+
         static func createProjectRequestFromProjects(_ projects: [XcodeProject], id: String) -> ProjectsRequest {
             let projects = projects.map { project -> ProjectRequest in
                 return ProjectRequest(userid: id,
@@ -180,12 +182,17 @@ extension ProjectsEndpoint {
     struct ProjectRequest: Encodable {
         let userid: String
         let uuid: String?
-        let numberOfBuilds: Int
+        let numberOfBuilds: Int?
         let longestBuildTime: Double?
         let averageBuildTime: Double?
         let workingTimePercentage: Double?
         let averageBuilds: Double?
         let mostBuilds: Int?
+        
+        static func deleteRequestFromProject(_ project: XcodeProject, id: String) -> ProjectRequest {
+            return ProjectRequest(userid: id, uuid: project.uuid, numberOfBuilds: nil, longestBuildTime: nil, averageBuildTime: nil, workingTimePercentage: nil, averageBuilds: nil, mostBuilds: nil)
+        }
+        
     }
     
     var resource: APIResource {
@@ -198,6 +205,8 @@ extension ProjectsEndpoint {
             return .post
         case .compareAverage:
             return .get
+        case .delete:
+            return .delete
         }
     }
     
@@ -208,6 +217,8 @@ extension ProjectsEndpoint {
         case .compareAverage(let uuid):
             let params = ["compareid": uuid]
             return .request(body: nil, urlParameters: params, headers: headers)
+        case .delete(let request):
+            return .request(body: request, urlParameters: nil, headers: headers)
         }
     }
 

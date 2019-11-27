@@ -28,7 +28,7 @@ extension UserDefaults {
     private enum DefaultsDateKey: String, CaseIterable {
         case customStartDate
         case customEndDate
-        case lastLogUploadDate
+        case lastHelpRequestDate
     }
     
     enum DefaultsStepperKey: String, CaseIterable {
@@ -107,12 +107,12 @@ extension UserDefaults {
         return get(.customEndDate)
     }
     
-    static var lastLogUploadDate: Date {
+    static var lastHelpRequestDate: Date {
         get {
-            return get(.lastLogUploadDate)
+            return get(.lastHelpRequestDate)
         }
         set {
-            UserDefaults.standard.set(newValue.timeIntervalSinceReferenceDate, forKey: DefaultsDateKey.lastLogUploadDate.rawValue)
+            UserDefaults.standard.set(newValue.timeIntervalSinceReferenceDate, forKey: DefaultsDateKey.lastHelpRequestDate.rawValue)
         }
     }
     
@@ -189,7 +189,7 @@ extension UserDefaults {
     
     static var derivedDataURL: URL? {
         guard let data = UserDefaults.standard.data(forKey: DefaultsAdvancedKey.derivedDataLocation.rawValue) else {
-            return nil
+            return UserDefaults.standard.url(forKey: DefaultsAdvancedKey.derivedDataLocation.rawValue)
         }
         var notTrue = true
         do {
@@ -206,7 +206,10 @@ extension UserDefaults {
     // MARK: - Setters
     static func saveDerivedDataURL(_ url: URL) {
         guard let bookmark = try? url.bookmarkData(options: [], includingResourceValuesForKeys: nil, relativeTo: nil) else {
-            fatalError()
+            let libraryFolder = FileManager.libraryFolder ?? ""
+            let standardDerivedDataLocation = URL(fileURLWithPath: "\(libraryFolder)/DerivedData/")
+            UserDefaults.standard.setValue(standardDerivedDataLocation.absoluteString, forKey: DefaultsAdvancedKey.derivedDataLocation.rawValue)
+            return
         }
         UserDefaults.standard.set(bookmark, forKey: DefaultsAdvancedKey.derivedDataLocation.rawValue)
     }

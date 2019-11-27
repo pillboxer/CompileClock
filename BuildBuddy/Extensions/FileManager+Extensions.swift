@@ -91,4 +91,11 @@ extension FileManager {
         }
     }
     
+    static var libraryFolder: String? {
+        guard let libraryFolder = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true).first else {
+            return nil
+        }
+        return libraryFolder
+    }
+    
 }

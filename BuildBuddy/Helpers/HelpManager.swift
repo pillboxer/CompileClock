@@ -60,7 +60,7 @@ class HelpManager: NSObject, NSWindowDelegate {
                 
             else if let response = response,
                 let data = response.data {
-                UserDefaults.lastLogUploadDate = Date(timeIntervalSince1970: data.lastRequestTime)
+                UserDefaults.lastHelpRequestDate = Date(timeIntervalSince1970: data.lastRequestTime)
                 completion(nil)
             }
         }

@@ -50,7 +50,7 @@ struct APIManager {
             var threadSafeProjects = [XcodeProject]()
             for name in projectNames {
                 context.performAndWait {
-                    if let project = XcodeProject.existingProjectWithFolderName(name, on: context) {
+                    if let project = XcodeProject.existingProjectWithFolderName(name, context: context) {
                         threadSafeProjects.append(project)
                     }
                     XcodeProject.updateProjectsFromResponse(projects: threadSafeProjects, response: response)
@@ -94,6 +94,19 @@ struct APIManager {
         
         router.request(endpoint, decoding: HelpResponse.self) { (response, error) in
             completion(response as? HelpResponse, error)
+        }
+    }
+    
+    func deleteProject(_ project: XcodeProject, completion: @escaping (APIError?) -> Void) {
+        guard let userid = User.existingUser()?.uuid else {
+            return
+        }
+        let request = ProjectsEndpoint.ProjectRequest.deleteRequestFromProject(project, id: userid)
+        let endpoint = ProjectsEndpoint.delete(request)
+        let router = Router<ProjectsEndpoint>()
+        
+        router.request(endpoint, decoding: ProjectsResponse.self) { (response, error) in
+            completion(error)
         }
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14903" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="18G103" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="User" representedClassName="User" syncable="YES">
         <attribute name="uuid" optional="YES" attributeType="String"/>
     </entity>
@@ -16,6 +16,7 @@
         <attribute name="folderName" optional="YES" attributeType="String"/>
         <attribute name="isVisible" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="lastModificationDate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="lastMostBuildsNotificationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="userDefinedName" optional="YES" attributeType="String"/>
         <attribute name="uuid" optional="YES" attributeType="String"/>
         <relationship name="xcodeBuilds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="XcodeBuild" inverseName="xcodeProject" inverseEntity="XcodeBuild"/>
@@ -23,6 +24,6 @@
     <elements>
         <element name="User" positionX="-63" positionY="54" width="128" height="58"/>
         <element name="XcodeBuild" positionX="-63" positionY="-18" width="128" height="148"/>
-        <element name="XcodeProject" positionX="-54" positionY="27" width="128" height="133"/>
+        <element name="XcodeProject" positionX="-54" positionY="27" width="128" height="148"/>
     </elements>
 </model>

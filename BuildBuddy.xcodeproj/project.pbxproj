@@ -84,6 +84,7 @@
 		BAEBA9E922EB75FA000A7FE0 /* FetchingMenuItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEBA9E822EB75FA000A7FE0 /* FetchingMenuItemManager.swift */; };
 		BAEBBB3A231701530043A0B0 /* HelpWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAEBBB39231701530043A0B0 /* HelpWindowController.xib */; };
 		BAEBBB3C231701C30043A0B0 /* HelpWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEBBB3B231701C30043A0B0 /* HelpWindowController.swift */; };
+		BAF85FB7238C0A1F001CE547 /* NSUserNotification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF85FB6238C0A1F001CE547 /* NSUserNotification+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,6 +178,7 @@
 		BAEBA9E822EB75FA000A7FE0 /* FetchingMenuItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingMenuItemManager.swift; sourceTree = "<group>"; };
 		BAEBBB39231701530043A0B0 /* HelpWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HelpWindowController.xib; sourceTree = "<group>"; };
 		BAEBBB3B231701C30043A0B0 /* HelpWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpWindowController.swift; sourceTree = "<group>"; };
+		BAF85FB6238C0A1F001CE547 /* NSUserNotification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSUserNotification+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -345,6 +347,7 @@
 				BA2D34A023520E6500E085B7 /* NSManagedObject+Extensions.swift */,
 				BA48A7C5238185C10090FC5E /* NSManagedObjectContext+Extensions.swift */,
 				BAB38AEB232557AE0057F635 /* URLRequest+Extensions.swift */,
+				BAF85FB6238C0A1F001CE547 /* NSUserNotification+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -531,6 +534,7 @@
 				BABD834F22D8D95E0072A263 /* String+Extensions.swift in Sources */,
 				BAE9EDD422D8E2D600DFFA7D /* XcodeBuild+CoreDataProperties.swift in Sources */,
 				BA87B376233FC65700B5330F /* HTTPTask.swift in Sources */,
+				BAF85FB7238C0A1F001CE547 /* NSUserNotification+Extensions.swift in Sources */,
 				BA9579E52305D3EF00445804 /* NSAppearance+Extensions.swift in Sources */,
 				BA35A19B22E5EA01000ABC5E /* NSWindow+Extensions.swift in Sources */,
 				BABD836322D8D96F0072A263 /* BuildListWindowController.swift in Sources */,

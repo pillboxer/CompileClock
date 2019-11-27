@@ -14,6 +14,7 @@ class LogUtility {
     enum LogEvent: Equatable {
         case appLaunched
         case apiResponseError(String)
+        case userIsNil
         case userSuccessfullyAddedToDatabase
         case databasePostLaunchOperationCompleted(Bool)
         case databaseUpdateSucceeded(String?)
@@ -28,6 +29,7 @@ class LogUtility {
         case lastModificationDateUpdated(String)
         case fetchComplete
         case mergingProject(String)
+        case coreDataSaveSucceeded
         case coreDataSaveFailed(String)
         case alreadyFetching
         case logUploaded(Bool)
@@ -108,12 +110,16 @@ class LogUtility {
             return "Multiple instances of \(projectName) found. Merging"
         case .coreDataSaveFailed(let reason):
             return "Core Data Saved Failed: \(reason)"
+        case .coreDataSaveSucceeded:
+            return "Core Data Save Succeeded"
         case .alreadyFetching:
             return "Attempted Concurrent Fetch Averted"
         case .logUploaded(let bool):
             return "Uploaded Log -> \(bool)"
         case .fetchComplete:
             return "---------------Fetch Complete----------------"
+        case .userIsNil:
+            return "User needs to be created"
         }
     }
 }

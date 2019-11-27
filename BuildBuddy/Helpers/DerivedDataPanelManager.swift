@@ -21,7 +21,7 @@ class DerivedDataPanelManager {
         panel.allowsMultipleSelection = false
         
         // Make sure we can find library folder
-        guard let libraryFolder = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true).first else {
+        guard let libraryFolder = FileManager.libraryFolder else {
             let alert = NSAlert()
             alert.messageText = "Error: Could Not Find Library Folder"
             alert.runModal()
@@ -65,7 +65,6 @@ class DerivedDataPanelManager {
         }
     }
     
-    // MARK : - Private Methods
     static func derivedDataLocationIsValid(withUrl url: URL) -> Bool {
         let fileManager = FileManager.default
         guard let enumerator = fileManager.enumerator(at: url, includingPropertiesForKeys: [.nameKey, .isDirectoryKey], options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants], errorHandler: nil) else {
