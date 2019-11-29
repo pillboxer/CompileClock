@@ -1,0 +1,11 @@
+framework module CocoaFob {
+  umbrella header "CocoaFob.h"
+
+  export *
+  module * { export * }
+}
+
+module CocoaFob.Swift {
+    header "CocoaFob-Swift.h"
+    requires objc
+}

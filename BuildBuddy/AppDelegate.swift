@@ -38,20 +38,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     let preferences = NSMenuItem(title: "Preferences", action: #selector(openPreferences), keyEquivalent: "")
     let help = NSMenuItem(title: "Help", action: #selector(openHelp), keyEquivalent: "")
     let stats = NSMenuItem(title: "Stats", action: #selector(openStats), keyEquivalent: "")
-    let nothingToShow = NSMenuItem(title: "Nothing To Show", action: nil, keyEquivalent: "")
+    let registerApp = NSMenuItem(title: "Register", action: #selector(registerApplication), keyEquivalent: "")
     let quit: NSMenuItem = {
         let quit = NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q")
         quit.keyEquivalentModifierMask = .command
         return quit
     }()
     lazy var launchingMenuItems: [NSMenuItem] = {
-        return [preferences, NSMenuItem.separator(), help, NSMenuItem.separator(), quit]
+        return [preferences, NSMenuItem.separator(), help, NSMenuItem.separator(), registerApp, NSMenuItem.separator(), quit]
     }()
     
     
     // MARK: - Life Cycle
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSApp.appearance = NSAppearance(named: .aqua)
+        let verifier = LicenseKeyVerifier()
+        print(verifier.licenseCodeIsValid("GAWQE-F9ARR-Y4UF9-YR5NA-SUCMS-6R4PL-4SU9N-5WLEW-A9KD5-N9PY2-TE4ST-RW8AS-W98AS-BJSJ5-6VVB2-A", name: "Henry Cooper"))
         beginPostLaunchSequence()
         registerDefaults()
         configureStatusItem()
@@ -166,6 +168,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         if UserDefaults.allPeriodsDisabled {
             menu.items.forEach() { item in
+                // Create the menu item here otherwise you get error of "Menu Item is already in other menu"
+                let nothingToShow = NSMenuItem(title: "Nothing To Show", action: nil, keyEquivalent: "")
                 item.submenu?.items = [nothingToShow]
             }
         }
@@ -175,8 +179,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             menu.addItem(stats)
         }
         
-        // Always add preferences and quit
+        // Always add preferences, help and quit
         menu.addItem(preferences)
+        menu.addItem(registerApp)
         menu.addItem(help)
         menu.addItem(quit)
         
@@ -236,6 +241,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     @objc private func openPanel() {
         DerivedDataPanelManager.showDerivedDataPanel(onInitialLaunch: !UserDefaults.hasLaunchedBefore)
+    }
+    
+    @objc private func registerApplication() {
+        print("Should register")
     }
     
 }

@@ -1,0 +1,8 @@
+build
+*.mode*
+*.pbxuser
+*.perspectivev3
+.idea
+xcuserdata
+*.xccheckout
+*.xcscmblueprint

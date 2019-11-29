@@ -33,6 +33,7 @@ class LogUtility {
         case coreDataSaveFailed(String)
         case alreadyFetching
         case logUploaded(Bool)
+        case couldNotCreateLicenseVerifier
         
         var isProgressEvent: Bool {
             return self != .appLaunched && self != .fetchComplete
@@ -120,6 +121,8 @@ class LogUtility {
             return "---------------Fetch Complete----------------"
         case .userIsNil:
             return "User needs to be created"
+        case .couldNotCreateLicenseVerifier:
+            return "Could not create a License Verifier. Something might be wrong with the public key"
         }
     }
 }
