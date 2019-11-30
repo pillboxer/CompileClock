@@ -13,11 +13,22 @@ class LicenseWindowController: NSWindowController {
     @IBOutlet weak var buyButton: NSButton!
     @IBOutlet var licenseViewController: LicenseViewController!
     
-    static let nibName = "LicenseWindowController"
-    
+    override var windowNibName: NSNib.Name? {
+        return "LicenseWindowController"
+    }
     public convenience init() {
+        self.init(window: nil)
+    }
+    
+    var registrationHandler: HandlesRegistering? {
         
-        self.init(windowNibName: LicenseWindowController.nibName)
+        get {
+            return licenseViewController.eventHandler
+        }
+        set {
+            licenseViewController.eventHandler = newValue
+        }
+        
     }
     
     

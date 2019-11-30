@@ -13,12 +13,12 @@ import CocoaFob
 class LicenseKeyVerifier {
     private static let publicKey = """
     -----BEGIN PUBLIC KEY-----
-    MIHwMIGoBgcqhkjOOAQBMIGcAkEAr53x6K8/dFwp9oGHLbI1x5bw0aeOHQR4wQ5D
-    SYGjsZdTC5F/r9F1PdrlcrWbdYqAt0Fa8l6UFml2uvHoHK++YwIVALCDk1ftAXMQ
-    iaIGhYtbDfdE7qTTAkBwzBF9KoHEs/WVT9Qhvs+v+UwGerafksMZ8y5cUCmDjHIT
-    uqzNlRokyFDbZu8WevKj94uq79JDXbPDMwc8Ax/5A0MAAkAc74exY96mfAGSTyLU
-    mDJyKZjfP1acK8irpX9yDaltNEiDwV3CbHGd+e8EBH0vIzrXUG4f5CSilv6NWMc0
-    IqcP
+    MIHxMIGpBgcqhkjOOAQBMIGdAkEApSsg5qx3OB9JG1VFjJgB7OdkDbflNGpnvrkk
+    DzecqpUISAYWtlhaK8U3B2H90G2a47P7Dl7ZBc3NdHoy+2EL9wIVAJCIQ0QX1/m3
+    4vzLYZA6LZFJ3WB1AkEAjTQuo5jxXmlob/KiQKDnItcltqgljohm4UgZOY9/HX7m
+    ps7tDYUR99S3MDP31ImmOGJ8bsmuoLtsBIZruvMv6QNDAAJAOMUBNkXwsbMh9Ep5
+    7m8oQkdHi4NmzxI3IzZGrabFMXo3qkP96Nj663JADEF1RodJcIIU2xYpqzx08Z4k
+    UYR/jQ==
     -----END PUBLIC KEY-----
     """
 

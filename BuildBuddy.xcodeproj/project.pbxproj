@@ -23,6 +23,9 @@
 		BA48A7C6238185C10090FC5E /* NSManagedObjectContext+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA48A7C5238185C10090FC5E /* NSManagedObjectContext+Extensions.swift */; };
 		BA4D96D3230982A0007820EC /* NSAlert+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4D96D2230982A0007820EC /* NSAlert+Extensions.swift */; };
 		BA4E630422DB6B0C00F54E20 /* Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E630322DB6B0C00F54E20 /* Listener.swift */; };
+		BA4F0F1E23927E18009DB373 /* LicenseChangeBroadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4F0F1D23927E18009DB373 /* LicenseChangeBroadcaster.swift */; };
+		BA4F0F2123927FE2009DB373 /* Licensing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4F0F2023927FE2009DB373 /* Licensing.swift */; };
+		BA4F0F2323928AF1009DB373 /* LicensingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4F0F2223928AF1009DB373 /* LicensingProvider.swift */; };
 		BA51957A22D8DB0600947899 /* Gzip in Frameworks */ = {isa = PBXBuildFile; productRef = BA51957922D8DB0600947899 /* Gzip */; };
 		BA5EC74522DE010C009632E3 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5EC74322DE010C009632E3 /* StatsViewController.swift */; };
 		BA5EC74622DE010C009632E3 /* StatsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA5EC74422DE010C009632E3 /* StatsViewController.xib */; };
@@ -138,6 +141,9 @@
 		BA48A7C5238185C10090FC5E /* NSManagedObjectContext+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Extensions.swift"; sourceTree = "<group>"; };
 		BA4D96D2230982A0007820EC /* NSAlert+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAlert+Extensions.swift"; sourceTree = "<group>"; };
 		BA4E630322DB6B0C00F54E20 /* Listener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Listener.swift; sourceTree = "<group>"; };
+		BA4F0F1D23927E18009DB373 /* LicenseChangeBroadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseChangeBroadcaster.swift; sourceTree = "<group>"; };
+		BA4F0F2023927FE2009DB373 /* Licensing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Licensing.swift; sourceTree = "<group>"; };
+		BA4F0F2223928AF1009DB373 /* LicensingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensingProvider.swift; sourceTree = "<group>"; };
 		BA5EC74322DE010C009632E3 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		BA5EC74422DE010C009632E3 /* StatsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatsViewController.xib; sourceTree = "<group>"; };
 		BA5FAC5923193BC900074668 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
@@ -254,6 +260,9 @@
 				BA9FC1912390223A009A886F /* LicenseWriter.swift */,
 				BA9FC19323902D90009A886F /* LicenseFactory.swift */,
 				BA9FC19523913851009A886F /* RegisterService.swift */,
+				BA4F0F1D23927E18009DB373 /* LicenseChangeBroadcaster.swift */,
+				BA4F0F2023927FE2009DB373 /* Licensing.swift */,
+				BA4F0F2223928AF1009DB373 /* LicensingProvider.swift */,
 			);
 			path = Licensing;
 			sourceTree = "<group>";
@@ -578,6 +587,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA0A41B822E3482C00D5C1B0 /* WelcomeWindowController.swift in Sources */,
+				BA4F0F1E23927E18009DB373 /* LicenseChangeBroadcaster.swift in Sources */,
+				BA4F0F2323928AF1009DB373 /* LicensingProvider.swift in Sources */,
 				BA4D96D3230982A0007820EC /* NSAlert+Extensions.swift in Sources */,
 				BA75DD6E23901E9900A7FF3F /* LicenseProvider.swift in Sources */,
 				BA87B373233FC61700B5330F /* Encoders.swift in Sources */,
@@ -630,6 +641,7 @@
 				BABD836422D8D96F0072A263 /* DatePickerPopoverViewController.swift in Sources */,
 				BA87B37C2340AFBE00B5330F /* NetworkRouter.swift in Sources */,
 				BABD831722D8D91F0072A263 /* BuildBuddy.xcdatamodeld in Sources */,
+				BA4F0F2123927FE2009DB373 /* Licensing.swift in Sources */,
 				BA75DD6923900DF600A7FF3F /* LicenseKeyVerifier.swift in Sources */,
 				BABD834A22D8D9580072A263 /* CoreDataManager.swift in Sources */,
 				BA5EC74522DE010C009632E3 /* StatsViewController.swift in Sources */,

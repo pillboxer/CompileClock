@@ -22,6 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var lastMenuItems = [NSMenuItem]()
     var lastFetchDate = Date()
     let semaphore = DispatchSemaphore(value: 1)
+    let licenseWindowController = LicenseWindowController()
 
     
     private var hasFetchedToday: Bool {
@@ -52,17 +53,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     // MARK: - Life Cycle
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSApp.appearance = NSAppearance(named: .aqua)
-        let verifier = LicenseKeyVerifier()
-        print(verifier.licenseCodeIsValid("GAWQE-F9ARR-Y4UF9-YR5NA-SUCMS-6R4PL-4SU9N-5WLEW-A9KD5-N9PY2-TE4ST-RW8AS-W98AS-BJSJ5-6VVB2-A", name: "Henry Cooper"))
-        beginPostLaunchSequence()
-        registerDefaults()
-        configureStatusItem()
-        menu.delegate = self
-        lastMenuItems = self.launchingMenuItems
-        loadMenu()
-        startFetchLoop()
+        observeLicenseChanges()
+        launchAppOrShowLicensingInformation()
     }
     
+    private func launchAppOrShowLicensingInformation() {
+        let provider = LicensingProvider()
+        let currentLicensing = provider.licensing
+        switch currentLicensing {
+        case .unregistered:
+            registerApplication()
+        default:
+            print("You have a license!")
+        }
+    }
     
     private func beginPostLaunchSequence() {
         LogUtility.updateLogWithEvent(.appLaunched)
@@ -71,8 +75,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             LogUtility.updateLogWithEvent(.databasePostLaunchOperationCompleted(success))
         }
     }
-
-
     
     // MARK: - Menu Bar Icon
     private func configureStatusItem() {
@@ -220,7 +222,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         reloadMenuIfNecessary()
     }
     
-
+    // MARK: - Registration
+    private func lockApp() {
+        
+    }
+    
+    private func unlockApp() {
+        beginPostLaunchSequence()
+        registerDefaults()
+        configureStatusItem()
+        menu.delegate = self
+        lastMenuItems = self.launchingMenuItems
+        loadMenu()
+        startFetchLoop()
+    }
+    
+    private func observeLicenseChanges() {
+        NotificationCenter.default.addObserver(self, selector: #selector(licenseDidChange(_:)), name: Licensing.licenseChangedNotification, object: nil)
+    }
     
     // MARK: - Selectors
     @objc func openPreferences() {
@@ -244,7 +263,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     @objc private func registerApplication() {
-        print("Should register")
+        licenseWindowController.showWindow(self)
+        let registerService = RegisterService()
+        licenseWindowController.registrationHandler = registerService
+    }
+    
+    @objc private func licenseDidChange(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let licensing = Licensing.licensingFromUserInfo(userInfo) else {
+                return
+        }
+        
+        switch licensing {
+        case .unregistered:
+            lockApp()
+        case .registered:
+            NSAlert.showSimpleAlert(title: "Thanks!", message: "Purchase Successful. Enjoy Compile Clock!", completionHandler: nil)
+            unlockApp()
+        }
     }
     
 }
