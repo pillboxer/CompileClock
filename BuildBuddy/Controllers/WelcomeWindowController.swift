@@ -37,6 +37,7 @@ class WelcomeWindowController: NSWindowController {
         case welcome
         case getStarted
     }
+    
     private let state: DisplayState
     override var windowNibName: NSNib.Name? {
         return "WelcomeWindowController"
@@ -46,7 +47,7 @@ class WelcomeWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         window?.styleMask.remove([.resizable])
-        window?.title = "BuildBuddy"
+        window?.title = "Compile Clock"
         window?.center()
         configureUIForState()
     }
@@ -68,10 +69,11 @@ class WelcomeWindowController: NSWindowController {
         
         switch state {
         case .welcome:
-            firstBodyLabel.stringValue = "BuildBuddy helps you keep track of the time you spend compiling your software."
+            firstBodyLabel.stringValue = "Compile Clock helps you keep track of the time you spend compiling your software."
             secondBodyLabel.stringValue = "To get started, confirm the location of your Derived Data folder"
             letsGoButton.isHidden = false
             arrowImageView.isHidden = true
+            
         case .getStarted:
             firstBodyLabel.stringValue = "You're all set up and ready to go."
             secondBodyLabel.stringValue = "Check your builds by selecting the menu bar icon"

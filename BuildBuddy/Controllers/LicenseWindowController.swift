@@ -10,7 +10,6 @@ import Cocoa
 
 class LicenseWindowController: NSWindowController {
     
-    @IBOutlet weak var buyButton: NSButton!
     @IBOutlet var licenseViewController: LicenseViewController!
     
     override var windowNibName: NSNib.Name? {
@@ -18,6 +17,13 @@ class LicenseWindowController: NSWindowController {
     }
     public convenience init() {
         self.init(window: nil)
+    }
+    
+    override func windowDidLoad() {
+        window?.styleMask.remove([.resizable])
+        window?.center()
+        window?.title = "Compile Clock"
+        licenseViewController.validateTextFields()
     }
     
     var registrationHandler: HandlesRegistering? {
@@ -28,7 +34,15 @@ class LicenseWindowController: NSWindowController {
         set {
             licenseViewController.eventHandler = newValue
         }
-        
+    }
+    
+    func displayLicensing(_ licensing: Licensing) {
+        switch licensing {
+        case .unregistered:
+            licenseViewController.displayEmptyTextField()
+        case .registered(let license):
+            licenseViewController.displayLicenseInformation(license)
+        }
     }
     
     

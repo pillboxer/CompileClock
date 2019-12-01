@@ -8,8 +8,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="LicenseWindowController" customModule="BuildBuddy" customModuleProvider="target">
             <connections>
-                <outlet property="buyButton" destination="vcq-iz-RHm" id="fhy-e7-9C2"/>
                 <outlet property="licenseViewController" destination="X05-cs-q7U" id="yd6-34-TkF"/>
+                <outlet property="window" destination="vX5-mE-wHH" id="aeD-EH-yoP"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -18,7 +18,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="163" y="205" width="480" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
             <view key="contentView" id="vfp-Lw-Bze">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -29,6 +29,9 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="buyNowPressed:" target="X05-cs-q7U" id="pvq-fq-PPH"/>
+                        </connections>
                     </button>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="zYm-A5-574">
                         <rect key="frame" x="31" y="153" width="418" height="32"/>
@@ -61,6 +64,9 @@
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <outlet property="delegate" destination="X05-cs-q7U" id="mPr-Ph-JWN"/>
+                        </connections>
                     </textField>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vhQ-12-Q2S">
                         <rect key="frame" x="376" y="13" width="90" height="32"/>
@@ -78,15 +84,21 @@
                             <constraint firstAttribute="height" constant="45" id="HIn-ZT-FWH"/>
                             <constraint firstAttribute="width" constant="45" id="X35-x8-9xi"/>
                         </constraints>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="hammer" id="Lcu-1S-wRQ"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="hammer" id="Lcu-1S-wRQ"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NWX-qI-Fi4">
                         <rect key="frame" x="155" y="113" width="261" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="261" id="txz-fi-Isv"/>
+                        </constraints>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="m4m-oQ-njC">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <outlet property="delegate" destination="X05-cs-q7U" id="Q8K-o9-ZTY"/>
+                        </connections>
                     </textField>
                 </subviews>
                 <constraints>
@@ -99,6 +111,7 @@
                     <constraint firstItem="bvW-8Z-bWO" firstAttribute="top" secondItem="ex4-6I-NvE" secondAttribute="bottom" constant="8" id="VS7-mt-e4L"/>
                     <constraint firstAttribute="trailing" secondItem="NWX-qI-Fi4" secondAttribute="trailing" constant="64" id="aKz-a3-ALr"/>
                     <constraint firstItem="zYm-A5-574" firstAttribute="top" secondItem="hMO-IZ-l80" secondAttribute="bottom" constant="20" id="apu-4b-8Up"/>
+                    <constraint firstItem="NWX-qI-Fi4" firstAttribute="width" secondItem="hpo-vE-IWZ" secondAttribute="width" id="bsC-7f-egh"/>
                     <constraint firstAttribute="bottom" secondItem="hpo-vE-IWZ" secondAttribute="bottom" constant="89" id="e2B-aL-l1D"/>
                     <constraint firstItem="hMO-IZ-l80" firstAttribute="top" secondItem="vfp-Lw-Bze" secondAttribute="top" constant="20" id="gLU-6Y-qud"/>
                     <constraint firstItem="NWX-qI-Fi4" firstAttribute="top" secondItem="zYm-A5-574" secondAttribute="bottom" constant="19" id="lJl-8e-tee"/>
@@ -116,7 +129,9 @@
         </window>
         <customObject id="X05-cs-q7U" customClass="LicenseViewController" customModule="BuildBuddy" customModuleProvider="target">
             <connections>
+                <outlet property="buyButton" destination="vcq-iz-RHm" id="12m-qW-eDJ"/>
                 <outlet property="licenseCodeTextField" destination="hpo-vE-IWZ" id="avy-VZ-1CJ"/>
+                <outlet property="licenseInformationLabel" destination="zYm-A5-574" id="LXN-Fc-Uh4"/>
                 <outlet property="licenseeTextField" destination="NWX-qI-Fi4" id="XLk-gg-mes"/>
                 <outlet property="registerButton" destination="vhQ-12-Q2S" id="tcd-zz-tMF"/>
             </connections>

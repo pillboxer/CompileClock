@@ -22,7 +22,7 @@ class LicenseKeyVerifier {
     -----END PUBLIC KEY-----
     """
 
-    private static let appName = "CompileClock"
+    private static let appName = "compile-clock"
     let appName: String
     
     convenience init() {
@@ -38,7 +38,14 @@ class LicenseKeyVerifier {
             LogUtility.updateLogWithEvent(.couldNotCreateLicenseVerifier)
             return false
         }
-        return verifier.verify(code, forName: name)
+        let registrationStringWithNameAsTyped = "\(appName),\(name)"
+        let registrationStringLowerCased = "\(appName),\(name.lowercased())"
+        let registrationStringCapitalised = "\(appName),\(name.capitalized)"
+        let registrationStringUpperCased = "\(appName),\(name.uppercased())"
+        return verifier.verify(code, forName: registrationStringWithNameAsTyped) ||
+                verifier.verify(code, forName: registrationStringLowerCased) ||
+                verifier.verify(code, forName: registrationStringCapitalised) ||
+                verifier.verify(code, forName: registrationStringUpperCased)
     }
 }
 

@@ -23,6 +23,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var lastFetchDate = Date()
     let semaphore = DispatchSemaphore(value: 1)
     let licenseWindowController = LicenseWindowController()
+    let licensingProvider = LicensingProvider()
+    
+    private var currentLicensing: Licensing {
+        return licensingProvider.licensing
+    }
 
     
     private var hasFetchedToday: Bool {
@@ -39,14 +44,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     let preferences = NSMenuItem(title: "Preferences", action: #selector(openPreferences), keyEquivalent: "")
     let help = NSMenuItem(title: "Help", action: #selector(openHelp), keyEquivalent: "")
     let stats = NSMenuItem(title: "Stats", action: #selector(openStats), keyEquivalent: "")
-    let registerApp = NSMenuItem(title: "Register", action: #selector(registerApplication), keyEquivalent: "")
+    let licensingInformation = NSMenuItem(title: "License", action: #selector(registerApplication), keyEquivalent: "")
     let quit: NSMenuItem = {
         let quit = NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q")
         quit.keyEquivalentModifierMask = .command
         return quit
     }()
     lazy var launchingMenuItems: [NSMenuItem] = {
-        return [preferences, NSMenuItem.separator(), help, NSMenuItem.separator(), registerApp, NSMenuItem.separator(), quit]
+        return [preferences, NSMenuItem.separator(), help, NSMenuItem.separator(), licensingInformation, NSMenuItem.separator(), quit]
     }()
     
     
@@ -58,13 +63,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     private func launchAppOrShowLicensingInformation() {
-        let provider = LicensingProvider()
-        let currentLicensing = provider.licensing
         switch currentLicensing {
         case .unregistered:
             registerApplication()
-        default:
-            print("You have a license!")
+        case .registered:
+            unlockApp()
         }
     }
     
@@ -103,7 +106,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             LogUtility.updateLogWithEvent(.derivedDataIsValid(false))
             item.image = NSImage(named: "failure")
             item.image?.size = NSSize(width: 18, height: 18)
-            menu.items = [item, help, quit]
+            menu.items = [item, help, licensingInformation, quit]
             return
         }
         // If the projects have been updated, or we have changed stuff in preferences, we should update.
@@ -183,7 +186,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         // Always add preferences, help and quit
         menu.addItem(preferences)
-        menu.addItem(registerApp)
+        menu.addItem(licensingInformation)
         menu.addItem(help)
         menu.addItem(quit)
         
@@ -224,10 +227,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     // MARK: - Registration
     private func lockApp() {
-        
+        print("No longer registered")
     }
     
     private func unlockApp() {
+        licenseWindowController.close()
         beginPostLaunchSequence()
         registerDefaults()
         configureStatusItem()
@@ -263,9 +267,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     @objc private func registerApplication() {
-        licenseWindowController.showWindow(self)
+        licenseWindowController.showWindow(nil)
         let registerService = RegisterService()
         licenseWindowController.registrationHandler = registerService
+        licenseWindowController.displayLicensing(currentLicensing)
     }
     
     @objc private func licenseDidChange(_ notification: Notification) {
@@ -278,8 +283,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         case .unregistered:
             lockApp()
         case .registered:
-            NSAlert.showSimpleAlert(title: "Thanks!", message: "Purchase Successful. Enjoy Compile Clock!", completionHandler: nil)
-            unlockApp()
+            NSAlert.showSimpleAlert(title: "Thanks!", message: "Purchase Successful. Enjoy Compile Clock!") {
+                self.unlockApp()
+            }
         }
     }
     
