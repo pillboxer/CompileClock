@@ -35,11 +35,7 @@ class BuildBuddyTests: XCTestCase {
 
 class LicenseViewControllerTests: XCTestCase {
     
-    var controller: LicenseViewController! {
-        didSet {
-            print("I have been set")
-        }
-    }
+    var controller: LicenseViewController!
     
     override func setUp() {
         // Load the window controller from its nib ...

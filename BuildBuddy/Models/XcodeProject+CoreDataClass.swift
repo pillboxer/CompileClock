@@ -38,6 +38,7 @@ public class XcodeProject: NSManagedObject {
     static func deleteProjectWithFolderName(_ folderName: String, context: NSManagedObjectContext? = CoreDataManager.moc) {
         if let project = existingProjectWithFolderName(folderName, context: context) {
             context?.delete(project)
+            try? context?.save()
         }
     }
     
@@ -292,7 +293,6 @@ public class XcodeProject: NSManagedObject {
                 return
             }
             
-            print("NEW BUILDS: \(buildsToFetch.count)")
             
             FetchingMenuItemManager.updateMenuItem(withProjectName: projectForThread.name, projectNumber: projectNumber, numberOfBuilds: buildsToFetch.count)
             

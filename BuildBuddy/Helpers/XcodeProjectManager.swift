@@ -164,10 +164,9 @@ class XcodeProjectManager {
     }
     
     static func mergeProjectsIfNecessary() {
-        
         let context = CoreDataManager.privateMoc
         
-        context.perform {
+        context.performAndWait {
             let projectsToCheck: [XcodeProject] = projects.compactMap() {
                 if let project = context.object(with: $0.objectID) as? XcodeProject {
                     return project
@@ -197,6 +196,7 @@ class XcodeProjectManager {
                         newest.addToXcodeBuilds(build)
                     }
                     if let folderName = currentOldest.folderName {
+                        XcodeProjectMenuItemHelper.deleteDerivedDataForProject(currentOldest, forceDelete: true)
                         XcodeProject.deleteProjectWithFolderName(folderName, context: context)
                     }
                 }

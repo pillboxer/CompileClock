@@ -18,7 +18,7 @@ class HelpWindowController: NSWindowController, NSWindowDelegate {
     @IBOutlet weak var yourMessageLabel: NSTextField!
     
     // MARK: - Properties
-    let messageMinimum = 50
+    let messageMinimum = 20
     let helpRequestMinimumSeconds = 3630.0
     let lastUploadDate = UserDefaults.lastHelpRequestDate.timeIntervalSince1970
     
@@ -62,6 +62,7 @@ class HelpWindowController: NSWindowController, NSWindowDelegate {
         window?.center()
         window?.title = "Help"
         sendButton.isEnabled = shouldEnableSendButton
+        updateYourMessageLabel()
     }
     
     private func setButtonTitle() {
@@ -109,9 +110,11 @@ NSControlTextEditingDelegate, NSTextFieldDelegate {
     private func updateYourMessageLabel() {
         if messageTextView.stringValue.count < messageMinimum {
             yourMessageLabel.stringValue = "Your Message (\(messageMinimum - messageTextView.stringValue.count)):"
+            yourMessageLabel.textColor = .red
         }
         else {
             yourMessageLabel.stringValue = "Your Message:"
+            yourMessageLabel.textColor = .black
         }
         
     }

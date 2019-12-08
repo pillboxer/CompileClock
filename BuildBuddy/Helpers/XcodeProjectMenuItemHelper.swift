@@ -89,9 +89,15 @@ class XcodeProjectMenuItemHelper {
         }
     }
     
-    static private func deleteDerivedDataForProject(_ project: XcodeProject) {
+    static func deleteDerivedDataForProject(_ project: XcodeProject, forceDelete: Bool = false) {
         let folderName = project.derivedDataFolderName ?? ""
         let url = URL(fileURLWithPath: folderName)
+        
+        if forceDelete {
+            FileManager.trashFile(url)
+            return
+        }
+        
         let running = NSWorkspace.shared.runningApplications
         let filtered = running.filter() { $0.bundleIdentifier == "com.apple.dt.Xcode" }
         if !filtered.isEmpty {

@@ -40,14 +40,14 @@ extension FileManager {
         }
     }
     
-    static func trashFile(_ file: URL) -> Bool {
+    @discardableResult static func trashFile(_ file: URL) -> Bool {
         let manager = FileManager.default
         do {
             try manager.trashItem(at: file, resultingItemURL: nil)
             return true
         }
         catch let error {
-            print(error.localizedDescription)
+            print("Could not trash file: \(error.localizedDescription)")
             return false
         }
     }

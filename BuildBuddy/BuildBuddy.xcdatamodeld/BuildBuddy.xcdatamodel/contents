@@ -19,7 +19,7 @@
         <attribute name="lastMostBuildsNotificationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="userDefinedName" optional="YES" attributeType="String"/>
         <attribute name="uuid" optional="YES" attributeType="String"/>
-        <relationship name="xcodeBuilds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="XcodeBuild" inverseName="xcodeProject" inverseEntity="XcodeBuild"/>
+        <relationship name="xcodeBuilds" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="XcodeBuild" inverseName="xcodeProject" inverseEntity="XcodeBuild"/>
     </entity>
     <elements>
         <element name="User" positionX="-63" positionY="54" width="128" height="58"/>

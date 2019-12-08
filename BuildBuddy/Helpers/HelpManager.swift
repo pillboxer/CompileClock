@@ -40,10 +40,7 @@ class HelpManager: NSObject, NSWindowDelegate {
     func windowWillClose(_ notification: Notification) {
         helpController = nil
     }
-    
-    func windowDidResignKey(_ notification: Notification) {
-        helpController?.close()
-    }
+
     
     func sendHelpRequest(email: String,
                          message: String,
