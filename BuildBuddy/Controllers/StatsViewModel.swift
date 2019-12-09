@@ -88,7 +88,7 @@ class StatsViewModel {
             attributed.addAttribute(NSAttributedString.Key.foregroundColor, value: NSColor.red, range: NSRange(location: 0, length: text.count))
         }
         else {
-            attributed.addAttribute(NSAttributedString.Key.foregroundColor, value: NSColor.blue, range: NSRange(location: 0, length: text.count))
+            attributed.addAttribute(NSAttributedString.Key.foregroundColor, value: NSColor.systemGreen, range: NSRange(location: 0, length: text.count))
         }
         
         return attributed
@@ -107,12 +107,12 @@ class StatsViewModel {
         return project.averageBuildTime
     }
 
-    func compare(completion: @escaping (ProjectsResponse.ProjectComparisonPayload?) -> Void) {
+    func compare(completion: @escaping (ProjectsResponse.ProjectComparisonPayload?, APIError?) -> Void) {
         if let uuid = project.uuid {
             DatabaseManager.shared.compareProject(uuid, completion: completion)
         }
         else {
-            completion(nil)
+            completion(nil, nil)
         }
     }
     

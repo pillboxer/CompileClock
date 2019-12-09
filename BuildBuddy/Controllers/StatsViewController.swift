@@ -83,7 +83,7 @@ class StatsViewController: NSViewController {
     private func configureImproveAccuracyLabel() {
         let font = NSFont.systemFont(ofSize: 9)
         let superFont = NSFont.systemFont(ofSize: 6)
-        let string = NSMutableAttributedString(string: "*For more accuracy, set the number of days and hours you work in the Advanced tab in Preferences", attributes: [.font:font])
+        let string = NSMutableAttributedString(string: "*For more accuracy, set the number of days and hours you work in the Advanced tab in Preferences", attributes: [.font:font, .foregroundColor:NSColor.black])
         string.setAttributes([.font: superFont, .baselineOffset: 3], range: NSRange(location: 0, length: 1))
         string.setAlignment(.center, range: NSRange(location: 0, length: string.length))
         improveAccuracyLabel.attributedStringValue = string
@@ -103,8 +103,10 @@ class StatsViewController: NSViewController {
     private func configurePeekStateOnLabels() {
         topLabel.setLoading()
         secondLabel.setLoading()
+        thirdLabel.setLoading()
+        fourthLabel.setLoading()
         fifthLabel.setLoading()
-        viewModel.compare { (payload) in
+        viewModel.compare { (payload, error) in
             if let payload = payload {
                 DispatchQueue.main.async {
                     let comparisonData = self.viewModel.comparisonData(payload)
@@ -115,6 +117,18 @@ class StatsViewController: NSViewController {
                     self.fifthLabel.attributedStringValue = comparisonData.comparedPercentageString
                 }
             }
+            else if let error = error {
+                DispatchQueue.main.async {
+                    self.topLabel.clear()
+                    self.secondLabel.clear()
+                    self.thirdLabel.setError()
+                    self.fourthLabel.clear()
+                    self.fifthLabel.clear()
+                    self.improveAccuracyLabel.stringValue = error.localizedDescription
+                    self.improveAccuracyLabel.textColor = .red
+                }
+
+            }
         }
     }
     
@@ -122,7 +136,15 @@ class StatsViewController: NSViewController {
 
 extension NSTextField {
     
+    func clear() {
+        stringValue = ""
+    }
+    
     func setLoading() {
         stringValue = "Loading"
+    }
+    
+    func setError() {
+        stringValue = "Could not retrieve statistics"
     }
 }

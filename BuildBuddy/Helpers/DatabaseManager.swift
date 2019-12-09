@@ -59,23 +59,23 @@ class DatabaseManager {
         payloadCache.removeAll()
     }
     
-    func compareProject(_ uuid: String, completion: @escaping (ProjectsResponse.ProjectComparisonPayload?) -> Void) {
+    func compareProject(_ uuid: String, completion: @escaping (ProjectsResponse.ProjectComparisonPayload?, APIError?) -> Void) {
         if let payload = payloadCache[uuid] {
-            completion(payload)
+            completion(payload, nil)
             return
         }
         
         APIManager.shared.compareProject(uuid: uuid) { (payload, error) in
             if let error = error {
                 LogUtility.updateLogWithEvent(.apiResponseError(error.localizedDescription))
-                completion(nil)
+                completion(nil, error)
             }
             else if let payload = payload {
                 self.payloadCache[uuid] = payload
-                completion(payload)
+                completion(payload, nil)
             }
             else {
-                completion(nil)
+                completion(nil, nil)
             }
         }
     }
