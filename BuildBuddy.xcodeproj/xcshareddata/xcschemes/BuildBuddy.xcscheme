@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BABD830F22D8D91F0072A263"
-               BuildableName = "BuildBuddy.app"
+               BuildableName = "CompileClock.app"
                BlueprintName = "BuildBuddy"
                ReferencedContainer = "container:BuildBuddy.xcodeproj">
             </BuildableReference>
@@ -55,7 +55,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BABD830F22D8D91F0072A263"
-            BuildableName = "BuildBuddy.app"
+            BuildableName = "CompileClock.app"
             BlueprintName = "BuildBuddy"
             ReferencedContainer = "container:BuildBuddy.xcodeproj">
          </BuildableReference>
@@ -89,7 +89,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BABD830F22D8D91F0072A263"
-            BuildableName = "BuildBuddy.app"
+            BuildableName = "CompileClock.app"
             BlueprintName = "BuildBuddy"
             ReferencedContainer = "container:BuildBuddy.xcodeproj">
          </BuildableReference>

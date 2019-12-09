@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Sparkle
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
@@ -50,6 +51,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         quit.keyEquivalentModifierMask = .command
         return quit
     }()
+    let checkForUpdatesItem = NSMenuItem(title: "Check For Updates", action: #selector(checkForUpdates), keyEquivalent: "")
     lazy var launchingMenuItems: [NSMenuItem] = {
         return [preferences, NSMenuItem.separator(), help, NSMenuItem.separator(), licensingInformation, NSMenuItem.separator(), quit]
     }()
@@ -188,6 +190,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.addItem(preferences)
         menu.addItem(licensingInformation)
         menu.addItem(help)
+        menu.addItem(checkForUpdatesItem)
         menu.addItem(quit)
         
         // Important! This means we have items to show if we don't need to fetch and reconstruct the menu
@@ -256,6 +259,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     @objc func openHelp() {
         HelpManager.shared.showHelpController()
+    }
+    
+    @objc func checkForUpdates() {
+        let updater = SUUpdater()
+        updater.checkForUpdates(self)
     }
     
     @objc private func quitApp() {
