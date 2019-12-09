@@ -17,7 +17,7 @@
                BlueprintIdentifier = "BABD830F22D8D91F0072A263"
                BuildableName = "CompileClock.app"
                BlueprintName = "BuildBuddy"
-               ReferencedContainer = "container:BuildBuddy.xcodeproj">
+               ReferencedContainer = "container:CompileClock.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "BABD832222D8D9200072A263"
                BuildableName = "BuildBuddyTests.xctest"
                BlueprintName = "BuildBuddyTests"
-               ReferencedContainer = "container:BuildBuddy.xcodeproj">
+               ReferencedContainer = "container:CompileClock.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,7 +57,7 @@
             BlueprintIdentifier = "BABD830F22D8D91F0072A263"
             BuildableName = "CompileClock.app"
             BlueprintName = "BuildBuddy"
-            ReferencedContainer = "container:BuildBuddy.xcodeproj">
+            ReferencedContainer = "container:CompileClock.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -91,7 +91,7 @@
             BlueprintIdentifier = "BABD830F22D8D91F0072A263"
             BuildableName = "CompileClock.app"
             BlueprintName = "BuildBuddy"
-            ReferencedContainer = "container:BuildBuddy.xcodeproj">
+            ReferencedContainer = "container:CompileClock.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
