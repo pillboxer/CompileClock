@@ -60,9 +60,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         quit.keyEquivalentModifierMask = .command
         return quit
     }()
+    let about = NSMenuItem(title: "About", action: #selector(showAbout), keyEquivalent: "")
     let checkForUpdatesItem = NSMenuItem(title: "Check For Updates", action: #selector(checkForUpdates), keyEquivalent: "")
+    
+    
+    
     lazy var launchingMenuItems: [NSMenuItem] = {
-        return [preferences, NSMenuItem.separator(), help, NSMenuItem.separator(), licensingInformation, NSMenuItem.separator(), quit]
+        return [preferences, NSMenuItem.separator(), help, NSMenuItem.separator(), licensingInformation, NSMenuItem.separator(), about, quit]
     }()
     
     
@@ -116,7 +120,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             LogUtility.updateLogWithEvent(.derivedDataIsValid(false))
             item.image = NSImage(named: "failure")
             item.image?.size = NSSize(width: 18, height: 18)
-            menu.items = [item, help, licensingInformation, quit]
+            menu.items = [item, help, licensingInformation, about, quit]
             return
         }
         // If the projects have been updated, or we have changed stuff in preferences, we should update.
@@ -199,6 +203,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.addItem(licensingInformation)
         menu.addItem(help)
         menu.addItem(checkForUpdatesItem)
+        menu.addItem(about)
         menu.addItem(quit)
         
         // Important! This means we have items to show if we don't need to fetch and reconstruct the menu
@@ -239,7 +244,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     // MARK: - Registration
     private func lockApp() {
         configureStatusItem()
-        menu.items = [licensingInformation, quit]
+        menu.items = [licensingInformation, about, quit]
     }
     
     private func unlockApp() {
@@ -270,6 +275,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         HelpManager.shared.showHelpController()
     }
     
+    @objc func showAbout() {
+        NSApplication.shared.orderFrontStandardAboutPanel(self)
+    }
+    
     @objc func checkForUpdates() {
         let updater = SUUpdater()
         updater.checkForUpdates(self)
@@ -285,6 +294,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     @objc private func registerApplication() {
         lockApp()
+        licenseWindowController.close()
         licenseWindowController.showWindow(nil)
         let registerService = RegisterService()
         licenseWindowController.registrationHandler = registerService
