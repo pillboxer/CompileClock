@@ -1,6 +1,0 @@
-framework module Pods_BuildBuddy {
-  umbrella header "Pods-BuildBuddy-umbrella.h"
-
-  export *
-  module * { export * }
-}

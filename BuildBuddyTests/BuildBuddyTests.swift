@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import BuildBuddy
+@testable import CompileClock
 
 class BuildBuddyTests: XCTestCase {
     
