@@ -40,6 +40,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return XcodeProjectManager.needsUpdating || listener.defaultsChanged || !hasFetchedToday
     }
     
+    private var licensingIsValid: Bool {
+        switch currentLicensing {
+        case .unregistered:
+            return false
+        case .registered:
+            return true
+        }
+    }
+    
     
     // MARK: - Menu Items
     let preferences = NSMenuItem(title: "Preferences", action: #selector(openPreferences), keyEquivalent: "")
@@ -65,12 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     private func launchAppOrShowLicensingInformation() {
-        switch currentLicensing {
-        case .unregistered:
-            registerApplication()
-        case .registered:
-            unlockApp()
-        }
+        licensingIsValid ? unlockApp() : registerApplication()
     }
     
     private func beginPostLaunchSequence() {
@@ -101,6 +105,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     // MARK: - Menu
     private func reloadMenuIfNecessary() {
+        if !licensingIsValid {
+            lockApp()
+            return
+        }
         XcodeProjectManager.retrieveNewProjects()
         // If there's no derivedDataURL, we need to set it. Just show that option and quit
         guard let _ = UserDefaults.derivedDataURL else {
@@ -230,7 +238,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     // MARK: - Registration
     private func lockApp() {
-        print("No longer registered")
+        configureStatusItem()
+        menu.items = [licensingInformation, quit]
     }
     
     private func unlockApp() {
@@ -275,6 +284,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     @objc private func registerApplication() {
+        lockApp()
         licenseWindowController.showWindow(nil)
         let registerService = RegisterService()
         licenseWindowController.registrationHandler = registerService

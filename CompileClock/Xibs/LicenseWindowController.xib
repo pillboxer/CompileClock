@@ -65,7 +65,6 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <action selector="enterPressed:" target="X05-cs-q7U" id="yV8-G5-FO2"/>
                             <outlet property="delegate" destination="X05-cs-q7U" id="mPr-Ph-JWN"/>
                         </connections>
                     </textField>
@@ -98,7 +97,6 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <action selector="enterPressed:" target="X05-cs-q7U" id="KQJ-g9-ICN"/>
                             <outlet property="delegate" destination="X05-cs-q7U" id="Q8K-o9-ZTY"/>
                         </connections>
                     </textField>
