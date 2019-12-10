@@ -22,6 +22,7 @@ class LicenseWindowController: NSWindowController {
     override func windowDidLoad() {
         window?.styleMask.remove([.resizable])
         window?.center()
+        window?.makeKeyAndOrderFront(nil)
         window?.title = "Compile Clock"
         licenseViewController.validateTextFields()
     }

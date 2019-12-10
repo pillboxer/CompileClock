@@ -103,7 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private func reloadMenuIfNecessary() {
         XcodeProjectManager.retrieveNewProjects()
         // If there's no derivedDataURL, we need to set it. Just show that option and quit
-        guard let url = UserDefaults.derivedDataURL, DerivedDataPanelManager.derivedDataLocationIsValid(withUrl: url) else {
+        guard let _ = UserDefaults.derivedDataURL else {
             let item = NSMenuItem(title: "Set Derived Data Location...", action: #selector(openPanel), keyEquivalent: "")
             LogUtility.updateLogWithEvent(.derivedDataIsValid(false))
             item.image = NSImage(named: "failure")

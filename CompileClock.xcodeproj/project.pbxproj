@@ -509,6 +509,7 @@
 				BABD830E22D8D91F0072A263 /* Resources */,
 				BA75DD672390044C00A7FF3F /* Embed Frameworks */,
 				EA279F37CA37A50ED177491C /* [CP] Embed Pods Frameworks */,
+				BA1514D5239FAD1500697FBD /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -640,6 +641,23 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		BA1514D5239FAD1500697FBD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "codesign --verbose --force --deep -o runtime \\\n--sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \\\n\"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Frameworks/Sparkle.framework/Versions/A/Resources/AutoUpdate.app\"\n";
 		};
 		CC3BB028E8914678EE0C272E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -968,6 +986,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = ZUT4ATB28X;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = BuildBuddyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -990,6 +1009,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = ZUT4ATB28X;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = BuildBuddyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

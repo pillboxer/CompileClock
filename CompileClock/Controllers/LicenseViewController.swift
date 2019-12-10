@@ -24,6 +24,9 @@ class LicenseViewController: NSViewController {
     
     // MARK: - Properties
     var eventHandler: HandlesRegistering?
+    private var shouldEnableButton: Bool {
+        return !(licenseeTextField.stringValue.isEmpty || licenseCodeTextField.stringValue.isEmpty)
+    }
     
     @IBAction func registerPressed(_ sender: Any) {
         let name = licenseeTextField.stringValue
@@ -36,6 +39,11 @@ class LicenseViewController: NSViewController {
         NSWorkspace.shared.open(url)
     }
     
+    @IBAction func enterPressed(_ sender: NSTextField) {
+        if shouldEnableButton {
+            registerPressed(self)
+        }
+    }
     
     // MARK: - Public Methods
     
@@ -57,13 +65,14 @@ class LicenseViewController: NSViewController {
 }
 
 extension LicenseViewController: NSTextFieldDelegate {
+
     
     func controlTextDidChange(_ obj: Notification) {
         validateTextFields()
     }
     
     func validateTextFields() {
-        registerButton.isEnabled = !(licenseeTextField.stringValue.isEmpty || licenseCodeTextField.stringValue.isEmpty)
+        registerButton.isEnabled = shouldEnableButton
     }
     
 }

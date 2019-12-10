@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="LicenseWindowController" customModule="BuildBuddy" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="LicenseWindowController" customModule="CompileClock" customModuleProvider="target">
             <connections>
                 <outlet property="licenseViewController" destination="X05-cs-q7U" id="yd6-34-TkF"/>
                 <outlet property="window" destination="vX5-mE-wHH" id="aeD-EH-yoP"/>
@@ -59,12 +59,13 @@
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hpo-vE-IWZ">
                         <rect key="frame" x="155" y="89" width="261" height="21"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="Os6-VI-vi2">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" id="Os6-VI-vi2">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <action selector="enterPressed:" target="X05-cs-q7U" id="yV8-G5-FO2"/>
                             <outlet property="delegate" destination="X05-cs-q7U" id="mPr-Ph-JWN"/>
                         </connections>
                     </textField>
@@ -97,6 +98,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <action selector="enterPressed:" target="X05-cs-q7U" id="KQJ-g9-ICN"/>
                             <outlet property="delegate" destination="X05-cs-q7U" id="Q8K-o9-ZTY"/>
                         </connections>
                     </textField>
@@ -127,7 +129,7 @@
             </view>
             <point key="canvasLocation" x="-171" y="157"/>
         </window>
-        <customObject id="X05-cs-q7U" customClass="LicenseViewController" customModule="BuildBuddy" customModuleProvider="target">
+        <customObject id="X05-cs-q7U" customClass="LicenseViewController" customModule="CompileClock" customModuleProvider="target">
             <connections>
                 <outlet property="buyButton" destination="vcq-iz-RHm" id="12m-qW-eDJ"/>
                 <outlet property="licenseCodeTextField" destination="hpo-vE-IWZ" id="avy-VZ-1CJ"/>

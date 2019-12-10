@@ -45,16 +45,16 @@ class DerivedDataPanelManager {
                 return
             }
             
-            if !derivedDataLocationIsValid(withUrl: url) {
-                let alert = NSAlert()
-                alert.messageText = "It looks like this is not a valid DerivedData location. Please check and try again"
-                alert.alertStyle = .warning
-                // I hate this, but we seem to lose control of the panel once ok is clicked on the modal, so we need to create a new one
-                alert.beginSheetModal(for: panel) { _ in
-                    showDerivedDataPanel(onInitialLaunch: onInitialLaunch)
-                }
-                return
-            }
+//            if !derivedDataLocationIsValid(withUrl: url) {
+//                let alert = NSAlert()
+//                alert.messageText = "It looks like this is not a valid DerivedData location. Please check and try again"
+//                alert.alertStyle = .warning
+//                // I hate this, but we seem to lose control of the panel once ok is clicked on the modal, so we need to create a new one
+//                alert.beginSheetModal(for: panel) { _ in
+//                    showDerivedDataPanel(onInitialLaunch: onInitialLaunch)
+//                }
+//                return
+//            }
             
             UserDefaults.saveDerivedDataURL(url)
             
