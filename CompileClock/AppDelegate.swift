@@ -314,7 +314,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         case .unregistered:
             lockApp()
         case .registered:
-            NSAlert.showSimpleAlert(title: "Thanks!", message: "Purchase Successful. Enjoy Compile Clock!") {
+            NSAlert.showSimpleAlert(title: "Thanks!", message: "Purchase Successful. Enjoy CompileClock!") {
                 self.unlockApp()
             }
         }

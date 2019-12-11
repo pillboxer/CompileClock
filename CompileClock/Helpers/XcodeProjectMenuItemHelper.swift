@@ -117,7 +117,7 @@ class XcodeProjectMenuItemHelper {
     @objc static private func resetProjectData(_ sender: XcodeProjectMenuItem) {
         let project = sender.project
         let alert = NSAlert()
-        alert.informativeText = "This will delete any existing data Compile Clock has for \(project.name). The latest information for the project will then be fetched from your Derived Data folder.\n\nIf you'd rather just hide the project, you can do so in Preferences."
+        alert.informativeText = "This will delete any existing data CompileClock has for \(project.name). The latest information for the project will then be fetched from your Derived Data folder.\n\nIf you'd rather just hide the project, you can do so in Preferences."
         alert.messageText = "Reset data for \(project.name)?"
         alert.addButton(withTitle: "Reset")
         alert.addButton(withTitle: "Cancel")

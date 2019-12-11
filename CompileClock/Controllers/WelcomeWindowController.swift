@@ -47,7 +47,7 @@ class WelcomeWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         window?.styleMask.remove([.resizable])
-        window?.title = "Compile Clock"
+        window?.title = "CompileClock"
         window?.center()
         configureUIForState()
     }

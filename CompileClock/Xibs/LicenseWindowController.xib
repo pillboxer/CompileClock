@@ -35,7 +35,7 @@
                     </button>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="zYm-A5-574">
                         <rect key="frame" x="31" y="153" width="418" height="32"/>
-                        <textFieldCell key="cell" selectable="YES" alignment="center" title="Thanks for downloading Compile Clock. To get started, please enter your name and license code." id="uh2-3L-Nz8">
+                        <textFieldCell key="cell" selectable="YES" alignment="center" title="Thanks for downloading CompileClock. To get started, please enter your name and license code." id="uh2-3L-Nz8">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
