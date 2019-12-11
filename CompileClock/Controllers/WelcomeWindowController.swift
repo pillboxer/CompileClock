@@ -69,8 +69,8 @@ class WelcomeWindowController: NSWindowController {
         
         switch state {
         case .welcome:
-            firstBodyLabel.stringValue = "Compile Clock helps you keep track of the time you spend compiling your software."
-            secondBodyLabel.stringValue = "To get started, confirm the location of your Derived Data folder"
+            firstBodyLabel.stringValue = "CompileClock helps you keep track of the time you spend compiling your software."
+            secondBodyLabel.stringValue = "To get started, click 'Let's Go' and select your 'DerivedData' folder."
             letsGoButton.isHidden = false
             arrowImageView.isHidden = true
             

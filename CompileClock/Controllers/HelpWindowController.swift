@@ -21,6 +21,8 @@ class HelpWindowController: NSWindowController, NSWindowDelegate {
     let messageMinimum = 20
     let helpRequestMinimumSeconds = 3630.0
     let lastUploadDate = UserDefaults.lastHelpRequestDate.timeIntervalSince1970
+    let licenseWindowController = LicenseWindowController()
+
     
     @IBAction func sendPushed(_ sender: Any) {
         sendButton.isEnabled = false
@@ -65,6 +67,13 @@ class HelpWindowController: NSWindowController, NSWindowDelegate {
         updateYourMessageLabel()
     }
     
+    @IBAction func viewLicense(_ sender: Any) {
+        let provider = LicensingProvider()
+        let licensing = provider.licensing
+        licenseWindowController.close()
+        licenseWindowController.showWindow(nil)
+        licenseWindowController.displayLicensing(licensing)
+    }
     private func setButtonTitle() {
         let timeSinceUpload = Date().timeIntervalSince1970 - lastUploadDate
         let time = helpRequestMinimumSeconds - timeSinceUpload

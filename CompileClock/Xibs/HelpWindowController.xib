@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="HelpWindowController" customModule="BuildBuddy" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="HelpWindowController" customModule="CompileClock" customModuleProvider="target">
             <connections>
                 <outlet property="emailTextField" destination="TnU-eP-M2U" id="6qf-yP-LFY"/>
                 <outlet property="logAttachedButton" destination="dET-K4-t1h" id="lTh-N1-9DC"/>
@@ -23,7 +23,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="599" height="359"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
             <value key="minSize" type="size" width="480" height="270"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="599" height="359"/>
@@ -110,14 +110,26 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tS3-bA-u9n">
+                        <rect key="frame" x="14" y="13" width="145" height="32"/>
+                        <buttonCell key="cell" type="push" title="License" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qsh-VH-kQf">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="viewLicense:" target="-2" id="eV2-xL-bBn"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="9CC-oA-LGX" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="34" id="2Sk-Mt-rbW"/>
                     <constraint firstItem="y4c-gi-DQm" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="4wG-R0-nIV"/>
+                    <constraint firstItem="tS3-bA-u9n" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="5hS-CR-kT9"/>
                     <constraint firstItem="dET-K4-t1h" firstAttribute="leading" secondItem="ctB-AC-uq9" secondAttribute="trailing" constant="11" id="7BR-0A-m5a"/>
                     <constraint firstItem="9CC-oA-LGX" firstAttribute="top" secondItem="viU-Tb-zYe" secondAttribute="bottom" constant="47" id="8Z3-dR-A3P"/>
                     <constraint firstItem="q7E-Fp-r6N" firstAttribute="top" secondItem="9CC-oA-LGX" secondAttribute="bottom" constant="14" id="DZO-dj-7uC"/>
                     <constraint firstItem="saU-gT-MKy" firstAttribute="top" secondItem="dET-K4-t1h" secondAttribute="bottom" constant="20" id="Em2-aM-dnY"/>
+                    <constraint firstItem="ctB-AC-uq9" firstAttribute="leading" secondItem="tS3-bA-u9n" secondAttribute="trailing" constant="10" id="FHA-vo-X9S"/>
                     <constraint firstItem="viU-Tb-zYe" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="HAC-wm-r5D"/>
                     <constraint firstItem="bx0-Kh-tcy" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="HLB-4s-Lw9"/>
                     <constraint firstAttribute="trailing" secondItem="saU-gT-MKy" secondAttribute="trailing" constant="20" id="JOZ-68-5Vj"/>
@@ -133,6 +145,7 @@
                     <constraint firstItem="y4c-gi-DQm" firstAttribute="top" secondItem="viU-Tb-zYe" secondAttribute="bottom" constant="8" id="gxq-l2-YQt"/>
                     <constraint firstItem="viU-Tb-zYe" firstAttribute="top" secondItem="bx0-Kh-tcy" secondAttribute="bottom" constant="8" id="jDD-Qx-656"/>
                     <constraint firstAttribute="bottom" secondItem="saU-gT-MKy" secondAttribute="bottom" constant="20" id="noH-sd-4rW"/>
+                    <constraint firstAttribute="bottom" secondItem="tS3-bA-u9n" secondAttribute="bottom" constant="20" id="rtx-ew-Dt9"/>
                     <constraint firstItem="ctB-AC-uq9" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="163" id="xfR-ea-mV9"/>
                 </constraints>
             </view>

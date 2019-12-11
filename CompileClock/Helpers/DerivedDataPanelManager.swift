@@ -59,7 +59,9 @@ class DerivedDataPanelManager {
             UserDefaults.saveDerivedDataURL(url)
             
             if onInitialLaunch {
-                WelcomeManager.shared.showSuccess()
+                NSAlert.showSimpleAlert(title: "DerivedData Location Changed", message: "If your DerivedData location changes in the future, you can update CompileClock in the Advanced tab in Preferences") {
+                    WelcomeManager.shared.showSuccess()
+                }
                 UserDefaults.hasLaunchedBefore = true
             }
         }

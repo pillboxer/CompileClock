@@ -112,7 +112,7 @@ class StatsViewModel {
             DatabaseManager.shared.compareProject(uuid, completion: completion)
         }
         else {
-            completion(nil, nil)
+            completion(nil, .missingIntegralData)
         }
     }
     

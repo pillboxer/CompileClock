@@ -151,6 +151,7 @@ class AdvancedPreferencesViewController: NSViewController {
         let horizontalStackView = NSStackView()
         horizontalStackView.orientation = .horizontal
         addButton(title: "View Log", action: #selector(viewLog), to: horizontalStackView)
+        addButton(title: "DerivedData Location...", action: #selector(changeDerivedDataLocation), to: horizontalStackView)
         stackView.addArrangedSubview(horizontalStackView)
     }
     
@@ -172,6 +173,10 @@ class AdvancedPreferencesViewController: NSViewController {
         let alert = NSAlert()
         alert.messageText = "Successfully Reset Preferences"
         alert.runModal()
+    }
+    
+    @objc private func changeDerivedDataLocation() {
+        DerivedDataPanelManager.showDerivedDataPanel(onInitialLaunch: false)
     }
     
     @objc private func showResetPreferencesConfirmationAlert() {

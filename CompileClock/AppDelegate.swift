@@ -30,7 +30,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return licensingProvider.licensing
     }
 
-    
     private var hasFetchedToday: Bool {
         let date = Date()
         return Calendar.numberOfDaysBetweenDates(date, lastFetchDate) == 0
@@ -49,24 +48,28 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
     
-    
     // MARK: - Menu Items
     let preferences = NSMenuItem(title: "Preferences", action: #selector(openPreferences), keyEquivalent: "")
     let help = NSMenuItem(title: "Help", action: #selector(openHelp), keyEquivalent: "")
     let stats = NSMenuItem(title: "Stats", action: #selector(openStats), keyEquivalent: "")
     let licensingInformation = NSMenuItem(title: "License", action: #selector(registerApplication), keyEquivalent: "")
+    let about = NSMenuItem(title: "About", action: #selector(showAbout), keyEquivalent: "")
+    let checkForUpdatesItem = NSMenuItem(title: "Check For Updates", action: #selector(checkForUpdates), keyEquivalent: "")
+    
     let quit: NSMenuItem = {
         let quit = NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q")
         quit.keyEquivalentModifierMask = .command
         return quit
     }()
-    let about = NSMenuItem(title: "About", action: #selector(showAbout), keyEquivalent: "")
-    let checkForUpdatesItem = NSMenuItem(title: "Check For Updates", action: #selector(checkForUpdates), keyEquivalent: "")
     
     
     
     lazy var launchingMenuItems: [NSMenuItem] = {
-        return [preferences, NSMenuItem.separator(), help, NSMenuItem.separator(), licensingInformation, NSMenuItem.separator(), about, quit]
+        return [preferences, NSMenuItem.separator(), help, NSMenuItem.separator(), about, quit]
+    }()
+    
+    lazy var unregisteredMenuItems: [NSMenuItem] = {
+        return [licensingInformation, about, quit]
     }()
     
     
@@ -120,15 +123,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             LogUtility.updateLogWithEvent(.derivedDataIsValid(false))
             item.image = NSImage(named: "failure")
             item.image?.size = NSSize(width: 18, height: 18)
-            menu.items = [item, help, licensingInformation, about, quit]
+            menu.items = [item, help, about, quit]
             return
         }
+        
         // If the projects have been updated, or we have changed stuff in preferences, we should update.
         // Otherwise, just show the last items we were showing
         guard needsUpdating else {
             menu.items = lastMenuItems
             return
         }
+        
         // we have new builds so load the menu
         LogUtility.updateLogWithEvent(.needsFetch(true))
         loadMenu()
@@ -198,9 +203,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             menu.addItem(stats)
         }
         
-        // Always add preferences, help and quit
         menu.addItem(preferences)
-        menu.addItem(licensingInformation)
         menu.addItem(help)
         menu.addItem(checkForUpdatesItem)
         menu.addItem(about)
@@ -244,7 +247,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     // MARK: - Registration
     private func lockApp() {
         configureStatusItem()
-        menu.items = [licensingInformation, about, quit]
+        menu.items = unregisteredMenuItems
     }
     
     private func unlockApp() {

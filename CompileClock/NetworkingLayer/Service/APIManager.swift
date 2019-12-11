@@ -85,7 +85,7 @@ struct APIManager {
                          completion: @escaping (HelpResponse?, APIError?) -> Void) {
         
         guard let userid = User.existingUser()?.uuid else {
-            LogUtility.updateLogWithEvent(.logUploaded(false))
+            completion(nil, .missingUserID)
             return
         }
         let request = HelpRequest(logText: logText, messageText: message, email: email, userid: userid)
