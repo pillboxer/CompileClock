@@ -96,7 +96,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private func configureStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         let image = NSImage(named: "hammer")
-        image?.size = NSMakeSize(17.0, 17.0)
+        image?.size = NSMakeSize(15.0, 15.0)
         statusItem.button?.image = image
         statusItem.menu = menu
     }
