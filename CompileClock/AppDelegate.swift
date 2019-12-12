@@ -88,6 +88,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         LogUtility.updateLogWithEvent(.appLaunched)
         XcodeProjectManager.start()
         DatabaseManager.shared.startPostLaunchUserFlow { (success) in
+            DispatchQueue.main.async {
+                CoreDataManager.saveOnMainThread()
+            }
             LogUtility.updateLogWithEvent(.databasePostLaunchOperationCompleted(success))
         }
     }

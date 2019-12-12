@@ -26,7 +26,6 @@ class HelpWindowController: NSWindowController, NSWindowDelegate {
     
     @IBAction func sendPushed(_ sender: Any) {
         sendButton.isEnabled = false
-        spinner.isHidden = false
         spinner.startAnimation(nil)
         sendHelpRequest()
     }
@@ -63,6 +62,7 @@ class HelpWindowController: NSWindowController, NSWindowDelegate {
         window?.styleMask.remove(.resizable)
         window?.center()
         window?.title = "Help"
+        spinner.isDisplayedWhenStopped = false
         sendButton.isEnabled = shouldEnableSendButton
         updateYourMessageLabel()
     }
@@ -92,6 +92,8 @@ class HelpWindowController: NSWindowController, NSWindowDelegate {
             if let error = error {
                 LogUtility.updateLogWithEvent(.logUploaded(false))
                 NSAlert.showSimpleAlert(title: "Error", message: error.description, isError: true, completionHandler: nil)
+                self.spinner.stopAnimation(self)
+                self.sendButton.isEnabled = self.shouldEnableSendButton
             }
                 
             else {
@@ -100,7 +102,7 @@ class HelpWindowController: NSWindowController, NSWindowDelegate {
                     self.window?.close()
                     DispatchQueue.main.async {
                         self.sendButton.isEnabled = self.shouldEnableSendButton
-                        self.spinner.isHidden = true
+                        self.spinner.stopAnimation(self)
                     }
                 }
             }
