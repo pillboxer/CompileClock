@@ -13,6 +13,7 @@ class AdvancedPreferencesViewController: NSViewController {
     @IBOutlet weak var stackView: NSStackView!
     
     // MARK: - Properties
+    let loginHelper = LoginItemHelper.shared
     override var nibName: NSNib.Name? {
         return "AdvancedPreferencesViewController"
     }
@@ -53,7 +54,8 @@ class AdvancedPreferencesViewController: NSViewController {
         }
         addDisplayTextStackView()
         addResetPreferencesUI()
-        addLogButton()
+        addLoginCheckBox()
+        addLogAndDerivedDataButtons()
     }
     
     private func addLabelAndStackViewForStepperKey(_ key: UserDefaults.DefaultsStepperKey) {
@@ -147,12 +149,25 @@ class AdvancedPreferencesViewController: NSViewController {
     }
     
     
-    private func addLogButton() {
+    private func addLogAndDerivedDataButtons() {
         let horizontalStackView = NSStackView()
         horizontalStackView.orientation = .horizontal
         addButton(title: "View Log", action: #selector(viewLog), to: horizontalStackView)
         addButton(title: "DerivedData Location...", action: #selector(changeDerivedDataLocation), to: horizontalStackView)
         stackView.addArrangedSubview(horizontalStackView)
+    }
+    
+    private func addLoginCheckBox() {
+        let checkbox = NSButton(checkboxWithTitle: "Open At Login", target: self, action: #selector(addOrRemoveLoginItem(_:)))
+        checkbox.state = loginHelper.appIsInLoginItems ? .on : .off
+        stackView.addArrangedSubview(checkbox)
+        addSeparator()
+    }
+    
+    @objc private func addOrRemoveLoginItem(_ sender: NSButton) {
+        let newState = sender.state
+        newState == .on ? loginHelper.addToLoginItems() : loginHelper.removeFromLoginItems()
+        
     }
     
     private func addButton(title: String, action: Selector?, to stackView: NSStackView) {

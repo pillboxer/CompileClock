@@ -318,7 +318,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             lockApp()
         case .registered:
             NSAlert.showSimpleAlert(title: "Thanks!", message: "Purchase Successful. Enjoy CompileClock!") {
+                self.offerLaunchAtLogin()
+            }
+        }
+    }
+    
+    private func offerLaunchAtLogin() {
+        NSAlert.showSimpleChoiceAlert(title: "Launch At Login", message: "Would you like CompileClock to launch automatically at login?") { (result) in
+            if result == true {
                 self.unlockApp()
+            }
+            else {
+                NSAlert.showSimpleAlert(title: "Launch At Login Disabled", message: "You can change this at any time in preferences") {
+                    self.unlockApp()
+                }
             }
         }
     }

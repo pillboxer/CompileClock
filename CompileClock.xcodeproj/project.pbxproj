@@ -30,6 +30,7 @@
 		BA4F0F2123927FE2009DB373 /* Licensing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4F0F2023927FE2009DB373 /* Licensing.swift */; };
 		BA4F0F2323928AF1009DB373 /* LicensingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4F0F2223928AF1009DB373 /* LicensingProvider.swift */; };
 		BA51957A22D8DB0600947899 /* Gzip in Frameworks */ = {isa = PBXBuildFile; productRef = BA51957922D8DB0600947899 /* Gzip */; };
+		BA524FF823A394BD00369E1D /* LoginItemHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA524FF723A394BD00369E1D /* LoginItemHelper.swift */; };
 		BA5EC74522DE010C009632E3 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5EC74322DE010C009632E3 /* StatsViewController.swift */; };
 		BA5EC74622DE010C009632E3 /* StatsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA5EC74422DE010C009632E3 /* StatsViewController.xib */; };
 		BA5FAC5A23193BC900074668 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FAC5923193BC900074668 /* Date+Extensions.swift */; };
@@ -152,6 +153,7 @@
 		BA4F0F1D23927E18009DB373 /* LicenseChangeBroadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseChangeBroadcaster.swift; sourceTree = "<group>"; };
 		BA4F0F2023927FE2009DB373 /* Licensing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Licensing.swift; sourceTree = "<group>"; };
 		BA4F0F2223928AF1009DB373 /* LicensingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensingProvider.swift; sourceTree = "<group>"; };
+		BA524FF723A394BD00369E1D /* LoginItemHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemHelper.swift; sourceTree = "<group>"; };
 		BA5EC74322DE010C009632E3 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		BA5EC74422DE010C009632E3 /* StatsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatsViewController.xib; sourceTree = "<group>"; };
 		BA5FAC5923193BC900074668 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 				BAA7F9B722FEF59300C37E26 /* StatusItemAnimationManager.swift */,
 				BA94A3FE23213A740075423A /* DatabaseManager.swift */,
 				BAC193E22348FDB9008A4D80 /* Environment.swift */,
+				BA524FF723A394BD00369E1D /* LoginItemHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -769,6 +772,7 @@
 				BAF5957323914BC20053C817 /* LicenseWindowController.swift in Sources */,
 				BA201611232E736300190D46 /* APIManager.swift in Sources */,
 				BA8D506F22E0609A005EE413 /* AdvancedPreferencesViewController.swift in Sources */,
+				BA524FF823A394BD00369E1D /* LoginItemHelper.swift in Sources */,
 				BABD834622D8D94F0072A263 /* XcodeProjectManager.swift in Sources */,
 				BABD834322D8D94F0072A263 /* ActivityLogManager.swift in Sources */,
 				BABD833B22D8D9480072A263 /* XcodeProjectMenuItem.swift in Sources */,

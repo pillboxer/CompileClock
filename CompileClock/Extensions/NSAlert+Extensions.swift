@@ -21,7 +21,21 @@ extension NSAlert {
                 completionHandler?()
             }
         }
-        
+    }
+    
+    static func showSimpleChoiceAlert(title: String, message: String, completion: (Bool) -> Void) {
+        let alert = NSAlert()
+        alert.messageText = title
+        alert.informativeText = message
+        alert.addButton(withTitle: "Yes")
+        alert.addButton(withTitle: "No")
+        let result = alert.runModal()
+        if result == .alertFirstButtonReturn {
+            completion(true)
+        }
+        else {
+            completion(false)
+        }
     }
     
 }
