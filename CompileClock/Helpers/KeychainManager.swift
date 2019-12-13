@@ -25,7 +25,10 @@ class KeychainManager {
     func getData(_ data: KeychainDataType) -> String? {
         let keychain = Keychain(service: "api.compileclock.com")
         return keychain[data.rawValue]
-        
+    }
+    
+    var isMissingAPIKey: Bool {
+        return getData(.apiKey) == nil
     }
     
 }

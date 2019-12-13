@@ -12,7 +12,7 @@ class LoginItemHelper {
     
     static let shared = LoginItemHelper()
     
-    private func doShellScript() -> String {
+    @discardableResult private func doShellScript() -> String? {
         let theLP = "/usr/bin/osascript"
         let theParms = ["-e", "tell application \"System Events\" to get the name of every login item"]
         let task = Process()
@@ -26,7 +26,7 @@ class LoginItemHelper {
         task.waitUntilExit()
         let status = task.terminationStatus
         if (status != 0) {
-            return "Failed, error = " + String(status)
+            return nil
         }
         else {
             return (NSString(data: data, encoding: String.Encoding.utf8.rawValue)! as String)
@@ -41,7 +41,11 @@ class LoginItemHelper {
     }
     
     var appIsInLoginItems: Bool {
-        return doShellScript().contains("CompileClock")
+        return doShellScript()?.contains("CompileClock") ?? false
+    }
+    
+    var hasDeniedPermission: Bool {
+        return doShellScript() == nil
     }
     
     func removeFromLoginItems() {
@@ -50,6 +54,7 @@ class LoginItemHelper {
     }
     
     func addToLoginItems() {
+        doShellScript()
         let bundlePath = Bundle.main.bundlePath
         let preBundlePathString = "tell application \"System Events\" to make login item at end with properties {path:\""
         let postBundlePathString = "\", hidden:false}"

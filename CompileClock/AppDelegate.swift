@@ -326,6 +326,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private func offerLaunchAtLogin() {
         NSAlert.showSimpleChoiceAlert(title: "Launch At Login", message: "Would you like CompileClock to launch automatically at login?") { (result) in
             if result == true {
+                LoginItemHelper.shared.addToLoginItems()
                 self.unlockApp()
             }
             else {

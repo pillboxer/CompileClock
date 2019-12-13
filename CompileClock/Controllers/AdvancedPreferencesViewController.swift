@@ -165,6 +165,11 @@ class AdvancedPreferencesViewController: NSViewController {
     }
     
     @objc private func addOrRemoveLoginItem(_ sender: NSButton) {
+        if loginHelper.hasDeniedPermission {
+            NSAlert.showSimpleAlert(title: "Error", message: "Please enable System Events for CompileClock. You can do this in Users & Groups in System Preferences", isError: true, completionHandler: nil)
+            sender.state = .off
+            return
+        }
         let newState = sender.state
         newState == .on ? loginHelper.addToLoginItems() : loginHelper.removeFromLoginItems()
         
