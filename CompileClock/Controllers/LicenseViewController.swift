@@ -35,7 +35,7 @@ class LicenseViewController: NSViewController {
     }
     
     @IBAction func buyNowPressed(_ sender: Any) {
-        let url = URL(string: "https://compileclock.test.onfastspring.com/compile-clock")!
+        let url = URL(string: "https://compileclock.onfastspring.com/compile-clock")!
         NSWorkspace.shared.open(url)
     }
     

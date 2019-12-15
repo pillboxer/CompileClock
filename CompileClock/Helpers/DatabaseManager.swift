@@ -9,6 +9,7 @@
 import Foundation
 import KeychainAccess
 import CoreData
+
 class DatabaseManager {
     
     static let shared = DatabaseManager()
