@@ -13,7 +13,7 @@ protocol HandlesRegistering {
     func register(name: String, licenseCode: String)
 }
 
-class LicenseViewController: NSViewController {
+class LicenseViewController: NSViewController, NSWindowDelegate {
     
     // MARK: - IBOutlets
     @IBOutlet weak var licenseeTextField: NSTextField!
@@ -37,6 +37,11 @@ class LicenseViewController: NSViewController {
     @IBAction func buyNowPressed(_ sender: Any) {
         let url = URL(string: "https://compileclock.onfastspring.com/compile-clock")!
         NSWorkspace.shared.open(url)
+    }
+    
+    func windowWillClose(_ notification: Notification) {
+        displayEmptyTextField()
+        licenseeTextField.becomeFirstResponder()
     }
     
     // MARK: - Public Methods

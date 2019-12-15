@@ -16,7 +16,7 @@ class ProjectPreferencesViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addProjectCheckboxes()
-        scrollView.backgroundColor = NSColor(calibratedRed: 0, green: 0, blue: 0, alpha: 0.1)
+        scrollView.drawsBackground = false
     }
     
     override func viewWillDisappear() {

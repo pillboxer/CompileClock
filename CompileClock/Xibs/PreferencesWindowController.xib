@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14845" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14845"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindowController" customModule="BuildBuddy" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindowController" customModule="CompileClock" customModuleProvider="target">
             <connections>
                 <outlet property="advancedContainerView" destination="vDu-gK-Nuo" id="8Kf-7w-d6u"/>
                 <outlet property="menuContainerView" destination="gx0-Kn-XzO" id="Huy-Qe-hS5"/>
@@ -20,12 +20,12 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="329" height="437"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
             <view key="contentView" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="329" height="437"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <tabView appearanceType="aqua" initialItem="gZc-25-SOU" translatesAutoresizingMaskIntoConstraints="NO" id="uTq-Kx-osT">
+                    <tabView initialItem="gZc-25-SOU" translatesAutoresizingMaskIntoConstraints="NO" id="uTq-Kx-osT">
                         <rect key="frame" x="9" y="6" width="311" height="421"/>
                         <font key="font" metaFont="system"/>
                         <tabViewItems>

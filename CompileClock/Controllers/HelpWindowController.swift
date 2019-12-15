@@ -125,7 +125,7 @@ NSControlTextEditingDelegate, NSTextFieldDelegate {
         }
         else {
             yourMessageLabel.stringValue = "Your Message:"
-            yourMessageLabel.textColor = .black
+            yourMessageLabel.textColor = .labelColor
         }
         
     }

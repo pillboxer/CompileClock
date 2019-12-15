@@ -24,6 +24,7 @@ class LicenseWindowController: NSWindowController {
         window?.center()
         window?.makeKeyAndOrderFront(nil)
         window?.title = "CompileClock"
+        window?.delegate = licenseViewController
         licenseViewController.validateTextFields()
     }
     
@@ -40,7 +41,8 @@ class LicenseWindowController: NSWindowController {
     func displayLicensing(_ licensing: Licensing) {
         switch licensing {
         case .unregistered:
-            licenseViewController.displayEmptyTextField()
+            // Show whatever the user left on the screen
+            break
         case .registered(let license):
             licenseViewController.displayLicenseInformation(license)
         }

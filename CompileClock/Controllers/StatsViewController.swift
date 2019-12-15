@@ -83,7 +83,7 @@ class StatsViewController: NSViewController {
     private func configureImproveAccuracyLabel() {
         let font = NSFont.systemFont(ofSize: 9)
         let superFont = NSFont.systemFont(ofSize: 6)
-        let string = NSMutableAttributedString(string: "*For more accuracy, set the number of days and hours you work in the Advanced tab in Preferences", attributes: [.font:font, .foregroundColor:NSColor.black])
+        let string = NSMutableAttributedString(string: "*For more accuracy, set the number of days and hours you work in the Advanced tab in Preferences", attributes: [.font:font, .foregroundColor:NSColor.labelColor])
         string.setAttributes([.font: superFont, .baselineOffset: 3], range: NSRange(location: 0, length: 1))
         string.setAlignment(.center, range: NSRange(location: 0, length: string.length))
         improveAccuracyLabel.attributedStringValue = string

@@ -75,7 +75,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     // MARK: - Life Cycle
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        NSApp.appearance = NSAppearance(named: .aqua)
         observeLicenseChanges()
         launchAppOrShowLicensingInformation()
     }
@@ -300,7 +299,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     @objc private func registerApplication() {
         lockApp()
-        licenseWindowController.close()
+        NSApp.activate(ignoringOtherApps: true)
         licenseWindowController.showWindow(nil)
         let registerService = RegisterService()
         licenseWindowController.registrationHandler = registerService
