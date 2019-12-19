@@ -108,11 +108,7 @@ extension UsersEndpoint {
     }
     
     private func createApiKey(_ numberOfProjects: Int) -> String {
-        let numProjectsString = String(numberOfProjects)
-        let calendar = Calendar(identifier: .gregorian)
-        let today = Date()
-        let midnight = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: today) ?? today
-        let apiBaseString = numProjectsString + String(Int(midnight.timeIntervalSince1970))
+        let apiBaseString = String(numberOfProjects * 245)
         return apiBaseString
     }
 }
