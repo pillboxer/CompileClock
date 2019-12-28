@@ -34,6 +34,7 @@ class LogUtility {
         case alreadyFetching
         case logUploaded(Bool)
         case couldNotCreateLicenseVerifier
+        case certificateExpired
         
         var isProgressEvent: Bool {
             return self != .appLaunched && self != .fetchComplete
@@ -123,6 +124,8 @@ class LogUtility {
             return "User needs to be created"
         case .couldNotCreateLicenseVerifier:
             return "Could not create a License Verifier. Something might be wrong with the public key"
+        case .certificateExpired:
+            return "Looks like the certficate has expired"
         }
     }
 }

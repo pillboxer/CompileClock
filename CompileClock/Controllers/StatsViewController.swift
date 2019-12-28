@@ -51,6 +51,11 @@ class StatsViewController: NSViewController {
     // MARK: - Exposed Methods
     func loadWithProject(_ project: XcodeProject) {
         viewModel.project = project
+        viewModel.compare { (_, error) in
+            DispatchQueue.main.async {
+                self.peekButton.isHidden = (error != nil)
+            }
+        }
         reloadUI()
     }
     

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="StatsViewController" customModule="BuildBuddy" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="StatsViewController" customModule="CompileClock" customModuleProvider="target">
             <connections>
                 <outlet property="fifthLabel" destination="WKv-o8-Hs6" id="9yD-AS-zxJ"/>
                 <outlet property="fifthLabelTitle" destination="vcc-jK-wIL" id="3Mh-77-oBq"/>
@@ -183,13 +183,13 @@
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MYi-qZ-7Sc">
-                    <rect key="frame" x="197" y="16" width="25" height="18"/>
+                    <rect key="frame" x="161" y="9" width="96" height="29"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="25" id="F7D-pG-otY"/>
+                        <constraint firstAttribute="width" constant="84" id="F7D-pG-otY"/>
                         <constraint firstAttribute="height" constant="18" id="dIf-eq-q6Y"/>
                     </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSQuickLookTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Odw-WV-QzK">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                    <buttonCell key="cell" type="push" title="Compare" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Odw-WV-QzK">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
@@ -216,7 +216,4 @@
             <point key="canvasLocation" x="108" y="154"/>
         </customView>
     </objects>
-    <resources>
-        <image name="NSQuickLookTemplate" width="19" height="12"/>
-    </resources>
 </document>

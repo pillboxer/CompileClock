@@ -11,6 +11,7 @@ import Foundation
 class Router<EndPoint: EndpointType>: NSObject, NetworkRouter, URLSessionDelegate {
     
     private var task: URLSessionTask?
+    let backupKey = "MIIBCgKCAQEAu3SHLWu2wd5utKyvZ78BxHXL+6j5NhRl4B+AEL47uvKe1Z2kP8QYDvgBaIYWpvheq79Vufb06hadmYMvD5cXcSro8A9iu+q5NLq1oMUpLrde6A9sRJ0hV1/lkXtYdooYcJX9+qQ3CXr77Cu6YLNflxQrWdHLdfn3L2mUU6m2ykCllMEqSqOOsDNwCUprodshXLs4xmUZMAaOuiQs1di4KjOHCrrLSK9KLnYeHkAfxdsbBUlMImccw+lwbqNGEZEidSyLi0UgNd1+gnup6nJHlOgokZlSLlCk6t76e5ZyRjL2TNC0d7SWvBOITQ0JIK3ZC8g7qs+HTiQWA5jdMH8lFwIDAQAB"
     
     func request<Response: APIResponse>(_ route: EndPoint, decoding response: Response.Type, completion: @escaping NetworkRouterCompletion) {
         let session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
@@ -112,6 +113,15 @@ class Router<EndPoint: EndpointType>: NSObject, NetworkRouter, URLSessionDelegat
                         cert1 == cert2 {
                         completionHandler(.useCredential, URLCredential(trust: serverTrust))
                         return
+                    }
+                    else if let pub = (SecTrustCopyPublicKey(serverTrust)),
+                        let exRep = SecKeyCopyExternalRepresentation(pub, nil) {
+                        let data = exRep as Data
+                        if data.base64EncodedString() == backupKey {
+                            LogUtility.updateLogWithEvent(.certificateExpired)
+                            completionHandler(.useCredential, URLCredential(trust: serverTrust))
+                            return
+                        }
                     }
                 }
             }

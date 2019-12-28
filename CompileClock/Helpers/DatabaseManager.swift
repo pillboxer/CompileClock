@@ -85,8 +85,9 @@ class DatabaseManager {
         
         let projectCount = XcodeProjectManager.projectsWithBuilds.count
         let uuid = User.existingUser()?.uuid
+        let name = LicenseProvider().license?.licensee
         
-        APIManager.shared.addOrUpdateUserInDatabase(uuid: uuid, projectCount: projectCount) { (response, error) in
+        APIManager.shared.addOrUpdateUserInDatabase(name: name, uuid: uuid, projectCount: projectCount) { (response, error) in
             if let error = error {
                 completion(error)
                 LogUtility.updateLogWithEvent(.apiResponseError(error.localizedDescription))
