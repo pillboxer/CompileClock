@@ -21,7 +21,7 @@ class DerivedDataPanelManager {
         panel.allowsMultipleSelection = false
         
         // Make sure we can find library folder
-        guard let libraryFolder = FileManager.libraryFolder else {
+        guard let xcodeFolder = FileManager.standardXcodeFolder else {
             let alert = NSAlert()
             alert.messageText = "Error: Could Not Find Library Folder"
             alert.runModal()
@@ -29,7 +29,7 @@ class DerivedDataPanelManager {
         }
         
         // Set the panel to the standard derivedData location
-        let derivedDataLocation = URL(fileURLWithPath: "\(libraryFolder)/Developer/Xcode/")
+        let derivedDataLocation = UserDefaults.derivedDataURL
         panel.directoryURL = derivedDataLocation
         
         panel.begin() { response in

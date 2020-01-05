@@ -29,6 +29,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var currentLicensing: Licensing {
         return licensingProvider.licensing
     }
+    
+    private var isAppStoreDownload: Bool {
+        return licensingProvider.wasDownloadedFromAppStore
+    }
 
     private var hasFetchedToday: Bool {
         let date = Date()
@@ -40,6 +44,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     private var licensingIsValid: Bool {
+        
+        if isAppStoreDownload {
+            return true
+        }
         switch currentLicensing {
         case .unregistered:
             return false
@@ -317,7 +325,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             lockApp()
         case .registered:
             NSAlert.showSimpleAlert(title: "Thanks!", message: "Purchase Successful. Enjoy CompileClock!") {
-                self.offerLaunchAtLogin()
+//                self.offerLaunchAtLogin()
             }
         }
     }

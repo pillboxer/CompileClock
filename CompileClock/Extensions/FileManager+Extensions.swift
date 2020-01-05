@@ -98,4 +98,10 @@ extension FileManager {
         return libraryFolder
     }
     
+    static var standardXcodeFolder: URL? {
+        guard let libraryFolder = libraryFolder else {
+            return nil
+        }
+        return URL(fileURLWithPath: "\(libraryFolder)/Developer/Xcode/")
+    }
 }

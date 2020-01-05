@@ -26,5 +26,9 @@ class LicensingProvider {
         }
         return .registered(license)
     }
+
+    var wasDownloadedFromAppStore: Bool {
+        return Bundle.main.appStoreReceiptURL != nil
+    }
     
 }

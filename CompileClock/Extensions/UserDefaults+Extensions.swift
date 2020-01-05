@@ -189,7 +189,7 @@ extension UserDefaults {
     
     static var derivedDataURL: URL? {
         guard let data = UserDefaults.standard.data(forKey: DefaultsAdvancedKey.derivedDataLocation.rawValue) else {
-            return UserDefaults.standard.url(forKey: DefaultsAdvancedKey.derivedDataLocation.rawValue)
+            return FileManager.standardXcodeFolder 
         }
         var notTrue = true
         do {
