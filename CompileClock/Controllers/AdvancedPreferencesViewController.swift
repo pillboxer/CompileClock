@@ -54,7 +54,7 @@ class AdvancedPreferencesViewController: NSViewController {
         }
         addDisplayTextStackView()
         addResetPreferencesUI()
-        addLoginCheckBox()
+//        addLoginCheckBox()
         addLogAndDerivedDataButtons()
     }
     

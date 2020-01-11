@@ -10,6 +10,7 @@ import Cocoa
 
 class HelpWindowController: NSWindowController, NSWindowDelegate {
     
+    @IBOutlet weak var licenseButton: NSButton!
     @IBOutlet weak var emailTextField: NSTextField!
     @IBOutlet weak var sendButton: NSButton!
     @IBOutlet weak var messageTextView: NSTextField!
@@ -22,6 +23,7 @@ class HelpWindowController: NSWindowController, NSWindowDelegate {
     let helpRequestMinimumSeconds = 3630.0
     let lastUploadDate = UserDefaults.lastHelpRequestDate.timeIntervalSince1970
     let licenseWindowController = LicenseWindowController()
+    let provider = LicensingProvider()
 
     
     @IBAction func sendPushed(_ sender: Any) {
@@ -65,10 +67,12 @@ class HelpWindowController: NSWindowController, NSWindowDelegate {
         spinner.isDisplayedWhenStopped = false
         sendButton.isEnabled = shouldEnableSendButton
         updateYourMessageLabel()
+        if provider.wasDownloadedFromAppStore {
+            licenseButton.isHidden = true
+        }
     }
     
     @IBAction func viewLicense(_ sender: Any) {
-        let provider = LicensingProvider()
         let licensing = provider.licensing
         licenseWindowController.close()
         licenseWindowController.showWindow(nil)
