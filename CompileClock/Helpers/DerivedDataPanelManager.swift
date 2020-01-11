@@ -21,7 +21,7 @@ class DerivedDataPanelManager {
         panel.allowsMultipleSelection = false
         
         // Make sure we can find library folder
-        guard let xcodeFolder = FileManager.standardXcodeFolder else {
+        guard let _ = FileManager.standardXcodeFolder else {
             let alert = NSAlert()
             alert.messageText = "Error: Could Not Find Library Folder"
             alert.runModal()

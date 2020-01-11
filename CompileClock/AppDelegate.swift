@@ -215,7 +215,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         menu.addItem(preferences)
         menu.addItem(help)
-        menu.addItem(checkForUpdatesItem)
+        if !isAppStoreDownload {
+            menu.addItem(checkForUpdatesItem)
+        }
         menu.addItem(about)
         menu.addItem(quit)
         
@@ -325,6 +327,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             lockApp()
         case .registered:
             NSAlert.showSimpleAlert(title: "Thanks!", message: "Purchase Successful. Enjoy CompileClock!") {
+                self.unlockApp()
 //                self.offerLaunchAtLogin()
             }
         }

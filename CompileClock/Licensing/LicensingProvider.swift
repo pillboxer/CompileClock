@@ -28,7 +28,13 @@ class LicensingProvider {
     }
 
     var wasDownloadedFromAppStore: Bool {
-        return Bundle.main.appStoreReceiptURL != nil
+        do {
+            let reachable = try Bundle.main.appStoreReceiptURL?.checkResourceIsReachable() ?? false
+            return reachable
+        }
+        catch {
+            return false
+        }
     }
     
 }
