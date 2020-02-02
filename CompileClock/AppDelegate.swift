@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import Sparkle
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
@@ -45,6 +44,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     private var licensingIsValid: Bool {
         
+        return true
+        
         if isAppStoreDownload {
             return true
         }
@@ -62,7 +63,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     let stats = NSMenuItem(title: "Stats", action: #selector(openStats), keyEquivalent: "")
     let licensingInformation = NSMenuItem(title: "License", action: #selector(registerApplication), keyEquivalent: "")
     let about = NSMenuItem(title: "About", action: #selector(showAbout), keyEquivalent: "")
-    let checkForUpdatesItem = NSMenuItem(title: "Check For Updates", action: #selector(checkForUpdates), keyEquivalent: "")
+//    let checkForUpdatesItem = NSMenuItem(title: "Check For Updates", action: #selector(checkForUpdates), keyEquivalent: "")
     
     let quit: NSMenuItem = {
         let quit = NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q")
@@ -215,9 +216,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         menu.addItem(preferences)
         menu.addItem(help)
-        if !isAppStoreDownload {
-            menu.addItem(checkForUpdatesItem)
-        }
+//        if !isAppStoreDownload {
+//            menu.addItem(checkForUpdatesItem)
+//        }
         menu.addItem(about)
         menu.addItem(quit)
         
@@ -294,10 +295,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         NSApplication.shared.orderFrontStandardAboutPanel(self)
     }
     
-    @objc func checkForUpdates() {
-        let updater = SUUpdater()
-        updater.checkForUpdates(self)
-    }
+//    @objc func checkForUpdates() {
+//        let updater = SUUpdater()
+//        updater.checkForUpdates(self)
+//    }
     
     @objc private func quitApp() {
         NSApp.terminate(nil)
