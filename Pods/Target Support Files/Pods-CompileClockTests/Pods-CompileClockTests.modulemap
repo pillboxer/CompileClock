@@ -1,6 +1,0 @@
-framework module Pods_CompileClockTests {
-  umbrella header "Pods-CompileClockTests-umbrella.h"
-
-  export *
-  module * { export * }
-}
