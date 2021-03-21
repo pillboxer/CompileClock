@@ -32,8 +32,6 @@
 		BA5FAC5A23193BC900074668 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FAC5923193BC900074668 /* Date+Extensions.swift */; };
 		BA6D6B0A23B74C3B00A774EB /* compileclock.com.der in Resources */ = {isa = PBXBuildFile; fileRef = BA6D6B0923B74C3B00A774EB /* compileclock.com.der */; };
 		BA743AFD22DA1D18009A6748 /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA743AFC22DA1D18009A6748 /* FileManager+Extensions.swift */; };
-		BA75DD652390044C00A7FF3F /* CocoaFob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA75DD642390044C00A7FF3F /* CocoaFob.framework */; };
-		BA75DD662390044C00A7FF3F /* CocoaFob.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BA75DD642390044C00A7FF3F /* CocoaFob.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BA75DD6923900DF600A7FF3F /* LicenseKeyVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA75DD6823900DF600A7FF3F /* LicenseKeyVerifier.swift */; };
 		BA75DD6C23901DF800A7FF3F /* License.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA75DD6B23901DF800A7FF3F /* License.swift */; };
 		BA75DD6E23901E9900A7FF3F /* LicenseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA75DD6D23901E9900A7FF3F /* LicenseProvider.swift */; };
@@ -111,20 +109,6 @@
 			remoteInfo = BuildBuddy;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		BA75DD672390044C00A7FF3F /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				BA75DD662390044C00A7FF3F /* CocoaFob.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		BA0A41B522E32CEE00D5C1B0 /* WelcomeWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WelcomeWindowController.xib; sourceTree = "<group>"; };
@@ -229,7 +213,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA1E8333236DC4DF00837E9C /* KeychainAccess in Frameworks */,
-				BA75DD652390044C00A7FF3F /* CocoaFob.framework in Frameworks */,
 				BA51957A22D8DB0600947899 /* Gzip in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -490,7 +473,6 @@
 				BABD830C22D8D91F0072A263 /* Sources */,
 				BABD830D22D8D91F0072A263 /* Frameworks */,
 				BABD830E22D8D91F0072A263 /* Resources */,
-				BA75DD672390044C00A7FF3F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -530,7 +512,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = "Henry Cooper";
 				TargetAttributes = {
 					BABD830F22D8D91F0072A263 = {
@@ -734,6 +716,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -744,6 +727,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -794,6 +778,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -804,6 +789,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "";
@@ -826,7 +812,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_ENTITLEMENTS = CompileClock/CompileClock.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6;
@@ -844,6 +832,7 @@
 				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.SixEye.CompileClock;
 				PRODUCT_NAME = CompileClock;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG DEV";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -852,7 +841,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_ENTITLEMENTS = CompileClock/CompileClock.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6;

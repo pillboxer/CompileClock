@@ -17,8 +17,10 @@ class Environment {
     
     static var current: EnivronmentType {
         #if DEV
+        print("I am dev")
         return .dev
         #else
+        print("I am not dev")
         return .prod
         #endif
     }

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CocoaFob
+//import CocoaFob
 
 /// Verifies a license key 
 class LicenseKeyVerifier {
@@ -34,18 +34,19 @@ class LicenseKeyVerifier {
     }
     
     func licenseCodeIsValid(_ code: String, name: String) -> Bool {
-        guard let verifier = LicenseVerifier(publicKeyPEM: LicenseKeyVerifier.publicKey) else {
-            LogUtility.updateLogWithEvent(.couldNotCreateLicenseVerifier)
-            return false
-        }
-        let registrationStringWithNameAsTyped = "\(appName),\(name)"
-        let registrationStringLowerCased = "\(appName),\(name.lowercased())"
-        let registrationStringCapitalised = "\(appName),\(name.capitalized)"
-        let registrationStringUpperCased = "\(appName),\(name.uppercased())"
-        return verifier.verify(code, forName: registrationStringWithNameAsTyped) ||
-                verifier.verify(code, forName: registrationStringLowerCased) ||
-                verifier.verify(code, forName: registrationStringCapitalised) ||
-                verifier.verify(code, forName: registrationStringUpperCased)
+        return true
+//        guard let verifier = LicenseVerifier(publicKeyPEM: LicenseKeyVerifier.publicKey) else {
+//            LogUtility.updateLogWithEvent(.couldNotCreateLicenseVerifier)
+//            return false
+//        }
+//        let registrationStringWithNameAsTyped = "\(appName),\(name)"
+//        let registrationStringLowerCased = "\(appName),\(name.lowercased())"
+//        let registrationStringCapitalised = "\(appName),\(name.capitalized)"
+//        let registrationStringUpperCased = "\(appName),\(name.uppercased())"
+//        return verifier.verify(code, forName: registrationStringWithNameAsTyped) ||
+//                verifier.verify(code, forName: registrationStringLowerCased) ||
+//                verifier.verify(code, forName: registrationStringCapitalised) ||
+//                verifier.verify(code, forName: registrationStringUpperCased)
     }
 }
 

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14845" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14845"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="BuildListWindowController" customModule="BuildBuddy" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="BuildListWindowController" customModule="CompileClock" customModuleProvider="target">
             <connections>
                 <outlet property="tableView" destination="3CN-DO-kqR" id="BCr-G9-hZ8"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
@@ -18,7 +18,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="530" height="359"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1792" height="1120"/>
             <view key="contentView" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="530" height="359"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -36,9 +36,9 @@
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn identifier="DateColumn" width="281" minWidth="40" maxWidth="1000" id="SzO-y1-OCR">
+                                        <tableColumn identifier="DateColumn" width="277" minWidth="40" maxWidth="1000" id="SzO-y1-OCR">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Date">
-                                                <font key="font" metaFont="smallSystem"/>
+                                                <font key="font" metaFont="controlContent" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -50,11 +50,11 @@
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="buildDate"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="DateView" id="Fld-yF-ker">
-                                                    <rect key="frame" x="1" y="1" width="281" height="17"/>
+                                                    <rect key="frame" x="1" y="1" width="277" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ozw-gD-ayD">
-                                                            <rect key="frame" x="0.0" y="0.0" width="281" height="17"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="277" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Qcu-dq-Gc8">
                                                                 <font key="font" metaFont="system"/>
@@ -71,7 +71,7 @@
                                         </tableColumn>
                                         <tableColumn identifier="ElapsedColumn" width="97" minWidth="10" maxWidth="3.4028234663852886e+38" id="0Y5-pp-4ap">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Elapsed">
-                                                <font key="font" metaFont="smallSystem"/>
+                                                <font key="font" metaFont="controlContent" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </tableHeaderCell>
@@ -83,7 +83,7 @@
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="totalBuildTime"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="ElapsedView" id="UBm-hz-97Z">
-                                                    <rect key="frame" x="285" y="1" width="97" height="17"/>
+                                                    <rect key="frame" x="281" y="1" width="97" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2hO-60-pvK">
@@ -104,7 +104,7 @@
                                         </tableColumn>
                                         <tableColumn identifier="TypeColumn" width="46" minWidth="10" maxWidth="60" id="QyF-iG-Sya">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Type">
-                                                <font key="font" metaFont="smallSystem"/>
+                                                <font key="font" metaFont="controlContent" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </tableHeaderCell>
@@ -117,7 +117,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="TypeView" id="VWS-vb-Cvp">
-                                                    <rect key="frame" x="385" y="1" width="46" height="17"/>
+                                                    <rect key="frame" x="381" y="1" width="46" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wpu-As-CBh">
@@ -138,7 +138,7 @@
                                         </tableColumn>
                                         <tableColumn identifier="SuccessColumn" width="52" minWidth="10" maxWidth="60" id="Cgt-0d-lUl">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Success">
-                                                <font key="font" metaFont="smallSystem"/>
+                                                <font key="font" metaFont="controlContent" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </tableHeaderCell>
@@ -150,7 +150,7 @@
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="wasSuccessful"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="SuccessView" id="vCA-UX-lIx">
-                                                    <rect key="frame" x="434" y="1" width="52" height="17"/>
+                                                    <rect key="frame" x="430" y="1" width="52" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YB4-x0-9P9">

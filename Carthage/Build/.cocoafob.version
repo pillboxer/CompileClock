@@ -1,15 +1,26 @@
 {
-  "commitish" : "99873f66da0d5210b51c78d6c191e111b83a82f0",
   "Mac" : [
     {
+      "hash" : "a84edf0cafb29bc51c4dcbb5121b74c178c0d93989cd84e1c568005502723661",
       "name" : "CocoaFob",
-      "hash" : "67d798bd437fb7b7b2646df35baf624695e98a3d4abc974da865effddf7210d3",
-      "swiftToolchainVersion" : "5.1.2 (swiftlang-1100.0.278 clang-1100.0.33.9)"
+      "linking" : "dynamic",
+      "swiftToolchainVersion" : "5.3 (swiftlang-1200.0.29.2 clang-1200.0.30.1)"
     },
     {
+      "hash" : "a84edf0cafb29bc51c4dcbb5121b74c178c0d93989cd84e1c568005502723661",
       "name" : "CocoaFob",
-      "hash" : "67d798bd437fb7b7b2646df35baf624695e98a3d4abc974da865effddf7210d3",
-      "swiftToolchainVersion" : "5.1.2 (swiftlang-1100.0.278 clang-1100.0.33.9)"
+      "linking" : "dynamic",
+      "swiftToolchainVersion" : "5.3 (swiftlang-1200.0.29.2 clang-1200.0.30.1)"
     }
+  ],
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "commitish" : "99873f66da0d5210b51c78d6c191e111b83a82f0",
+  "iOS" : [
+
   ]
 }
